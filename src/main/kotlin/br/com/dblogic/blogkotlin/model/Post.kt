@@ -2,10 +2,8 @@ package br.com.dblogic.blogkotlin.model
 
 import java.time.LocalDateTime
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
-import javax.persistence.GenerationType
 
 @Entity
 @Table(name = "tb_post")
