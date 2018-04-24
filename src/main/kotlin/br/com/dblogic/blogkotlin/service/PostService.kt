@@ -17,6 +17,13 @@ class PostService {
 	}
 	
 	fun save(post: Post) : Post {
+			
+		if(postRepository.count().toInt() == 0) {
+			post.id = 1;
+		} else {
+			post.id = (postRepository.getMaxId() + 1);
+		}
+		
 		return postRepository.save(post);
 	}
 	

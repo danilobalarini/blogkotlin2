@@ -1,8 +1,7 @@
-package br.com.dblogic.blog.controller
+package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.service.PostService
-
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/post")
-class PostController {
+class BlogController {
 	
 	@Autowired
 	lateinit var postService: PostService;

@@ -8,13 +8,9 @@ import javax.persistence.Table
 @Entity
 @Table(name = "tb_post")
 class Post (@Id
-		   	val id: Long = 0L,
+		   	var id: Long = 0L,
 		   	val title: String = "",
 		   	val inclusionDate: LocalDateTime = LocalDateTime.now(),
 		   	val editDate: LocalDateTime = LocalDateTime.now()) {
-	
-/*	    constructor(id: Long, post: Post) : this(id) {
-
-	    } */
-	
+		
 }
