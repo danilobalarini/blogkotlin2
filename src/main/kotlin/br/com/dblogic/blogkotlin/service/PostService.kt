@@ -1,4 +1,4 @@
-package br.com.dblogic.blog.service
+package br.com.dblogic.blogkotlin.service
 
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.repository.PostRepository
