@@ -20,10 +20,11 @@ class BlogkotlinApplication : WebMvcConfigurer {
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/")
 		registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/")
 		registry.addResourceHandler("/javascript/**").addResourceLocations("classpath:/static/javascript/")
+		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/")
 	}
 	
 } 
-	
+
 fun main(args: Array<String>) {
     runApplication<BlogkotlinApplication>(*args)
 }
