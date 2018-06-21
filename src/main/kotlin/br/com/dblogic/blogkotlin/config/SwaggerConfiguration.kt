@@ -15,7 +15,7 @@ class SwaggerConfiguration {
 	@Bean
 	fun swagger(): Docket = Docket(DocumentationType.SWAGGER_2)
 			.select()
-			.apis(RequestHandlerSelectors.basePackage("br.com.dblogic.blogkotlin.controller"))
+			.apis(RequestHandlerSelectors.any())
 			.paths(PathSelectors.any())
 			.build()
 
