@@ -15,7 +15,7 @@ class BlogkotlinApplication : WebMvcConfigurer {
 	
 	override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
 	
-		log.info(" ####### Pelo menos passou por aqui ####### ")
+		log.info(" ####### Entering ResourceHandlers configurations ####### ")
 		
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/")
 		registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/")
