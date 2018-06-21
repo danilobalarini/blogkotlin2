@@ -12,11 +12,11 @@ import springfox.documentation.builders.PathSelectors
 @EnableSwagger2
 class SwaggerConfiguration {
 
-	@Bean
-	fun swagger(): Docket = Docket(DocumentationType.SWAGGER_2)
-			.select()
-			.apis(RequestHandlerSelectors.any())
-			.paths(PathSelectors.any())
-			.build()
+    @Bean
+    open fun api(): Docket = Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build()
 
 }
