@@ -18,7 +18,7 @@ class SwaggerConfiguration {
     @Bean
     fun api(): Docket {
 		
-		log.info(" ####### Entering Swagger configuration #######")
+		log.info("####### Entering Swagger configuration #######")
 		
         return Docket(DocumentationType.SWAGGER_2)
                 .select()

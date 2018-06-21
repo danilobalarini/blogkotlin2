@@ -22,7 +22,7 @@ class BlogkotlinApplication : WebMvcConfigurer {
 		registry.addResourceHandler("/javascript/**").addResourceLocations("classpath:/static/javascript/")
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/")
 		
-		// swagger config
+		// ## swagger config ##
 		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
 	}
 	
