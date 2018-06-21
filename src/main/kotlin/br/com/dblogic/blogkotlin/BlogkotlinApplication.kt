@@ -23,7 +23,7 @@ class BlogkotlinApplication : WebMvcConfigurer {
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/")
 	}
 	
-} 
+}
 
 fun main(args: Array<String>) {
     runApplication<BlogkotlinApplication>(*args)
