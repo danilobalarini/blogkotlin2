@@ -9,12 +9,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
-	<link rel="stylesheet" id="font-awesome-css" th:href="@{css/denali-template.webflow.62e4e3112.css}" type="text/css" media="all">
+	<link rel="stylesheet" id="font-awesome-css" th:href="@{/css/denali-template.webflow.62e4e3112.css}" type="text/css" media="all">
 	<link rel="stylesheet" id="google-font-raleway-css" th:href="@{/css/css}" type="text/css" media="all">
 	
 	<!-- JAVASCRIPT -->
 	<script type="text/javascript" th:src="@{/javascript/webfont.js}"></script>
-	<script type="text/javascript" th:src="@{/javascript/modernizr-2.7.1.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/modernizr-2.8.3-1.js}"></script>
 	
 	<!-- ICO -->
 	<link href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -216,8 +216,10 @@
 					</div>
 					<div class="sidebar-on-mobile">
 						<div class="white-wrapper">
-							<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" src="./Blog Home_files/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
-								srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
+							<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" 
+								 src="./Blog Home_files/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
+								 srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, 
+								 		 http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
 							<p class="site-description">Denali is a simple responsive blog template. Easily add new posts using the Editor or change layout and design using the Designer.</p>
 							<div class="grey-rule"></div>
 							<h2 class="small-heading">Featured Posts:</h2>
@@ -257,9 +259,9 @@
 	</div>
 
 	<!-- JAVASCRIPT -->
-	<script type="text/javascript" th:src="@{/javascript/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/jquery-3.4.1.js}"></script>
 	<script type="text/javascript" th:src="@{/javascript/webflow.5b0765584.js}"></script>
-	<!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+	<!--[if lte IE 9]><script th:src="@{/webjars/Placeholders-3.0.2-1.js}"></script><![endif]-->
 
 </body>
 
