@@ -1,376 +1,266 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--[if lt IE 9]><script src="http://wpexplorer-demos.com/today/wp-content/themes/wpex-today/js/html5.js"></script><![endif]-->
-<title>Mudei o título</title>
 
-<!-- CSS -->
-<link rel="stylesheet" id="font-awesome-css" th:href="@{webjars/font-awesome/4.7.0/css/font-awesome.css}" type="text/css" media="all">
-<link rel="stylesheet" id="google-font-raleway-css" th:href="@{/css/css}" type="text/css" media="all">
-<link rel="stylesheet" id="style-css" th:href="@{/css/style.css}" type="text/css" media="all">
-<link rel="stylesheet" id="wpex-responsive-css" th:href="@{/css/responsive.css}" type="text/css" media="all">
+<head>
 
-<!-- JAVASCRIPT -->
-<script type="text/javascript" th:src="@{/javascript/jquery.js}"></script>
-<!--[if IE 8]><link rel="stylesheet" type="text/css" th:href="@{/css/ie8.css}" media="screen"><![endif]-->
-<style id="fit-vids-style">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Blog Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	.fluid-width-video-wrapper {
-		width: 100%;
-		position: relative;
-		padding: 0;
-	}
+	<!-- CSS -->
+	<link rel="stylesheet" id="font-awesome-css" th:href="@{css/denali-template.webflow.62e4e3112.css}" type="text/css" media="all">
+	<link rel="stylesheet" id="google-font-raleway-css" th:href="@{/css/css}" type="text/css" media="all">
 	
-	.fluid-width-video-wrapper iframe, .fluid-width-video-wrapper object,
-		.fluid-width-video-wrapper embed {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+	<!-- JAVASCRIPT -->
+	<script type="text/javascript" th:src="@{/javascript/webfont.js}"></script>
+	<script type="text/javascript" th:src="@{/javascript/modernizr-2.7.1.js}"></script>
+	
+	<!-- ICO -->
+	<link href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+	
+	<script type="text/javascript">
+		WebFont
+				.load({
+					google : {
+						families : [ "Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic" ]
+					}
+				});
+	</script>
+	
 </head>
-<body class="home blog right-sidebar">
-	<div class="wpex-site-wrap wpex-clr">
-		<div class="wpex-site-header-wrap wpex-clr">
-			<header class="wpex-site-header wpex-container wpex-clr">
-				<div class="wpex-site-branding wpex-clr">
-					<div class="wpex-site-logo wpex-clr">
-						<div class="site-text-logo wpex-clr">
-							<a href="http://wpexplorer-demos.com/today/" title="Today" rel="home"> Today </a>
-						</div>
-					</div>
-					<div class="wpex-site-description wpex-clr">Magazine &amp; Blog Free WordPress Theme</div>
-				</div>
-				<div class="wpex-header-ad wpex-clr">
-					<a href="http://themeforest.net/item/noir-responsive-wordpress-blog-shop-theme/13434670?ref=WPExplorer" target="_blank" rel="nofollow"> <img th:src="@{/images/noir.png}">
-					</a>
-				</div>
-			</header>
-		</div>
-		<nav class="wpex-site-nav-wrap wpex-clr">
-			<div class="wpex-site-nav wpex-container wpex-clr">
-				<div class="wpex-site-nav-inner wpex-clr">
-					<a href="http://wpexplorer-demos.com/today/#mobile-nav" class="wpex-mobile-nav-toggle wpex-off-canvas-menu-btn"> <span class="fa fa-bars wpex-mobile-nav-toggle-icon"></span> <span class="wpex-mobile-nav-toggle-text">Menu</span>
-					</a>
-					<div class="menu-main-container">
-						<ul id="menu-main" class="wpex-dropdown-menu wpex-clr">
-							<li id="menu-item-109" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-109"><a href="http://wpexplorer-demos.com/today/">Home</a></li>
-							<li id="menu-item-98" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-98"><a href="http://wpexplorer-demos.com/today/category/life/">Life</a></li>
-							<li id="menu-item-99" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-99"><a href="http://wpexplorer-demos.com/today/category/photography/">Photography</a></li>
-							<li id="menu-item-100" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-100"><a href="http://wpexplorer-demos.com/today/category/city/">City</a></li>
-							<li id="menu-item-101" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-101"><a href="http://wpexplorer-demos.com/today/category/nature/">Nature</a></li>
-							<li id="menu-item-102" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-102"><a href="http://wpexplorer-demos.com/today/category/travel/">Travel</a></li>
-							<li id="menu-item-113" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-113"><a href="http://wpexplorer-demos.com/today/#">Features <span class="fa fa-angle-down wpex-dropdown-arrow-down"></span></a>
-								<ul class="sub-menu">
-									<li id="menu-item-112" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-112"><a href="http://wpexplorer-demos.com/today/typography/">Typography</a></li>
-									<li id="menu-item-110" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-110"><a href="http://wpexplorer-demos.com/today/authors/">Authors</a></li>
-									<li id="menu-item-111" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-111"><a href="http://wpexplorer-demos.com/today/contact/">Contact</a></li>
-								</ul></li>
-							<li id="menu-item-114" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-114"><a href="http://www.wpexplorer.com/today-free-wordpress/">Download</a></li>
-						</ul>
-					</div>
-					<div class="wpex-socialbar wpex-clr">
-						<a href="https://twitter.com/WPExplorer" title="Twitter"> <span class="fa fa-twitter"></span></a> <a href="https://www.facebook.com/WPExplorerThemes/" title="Facebook"><span class="fa fa-facebook"></span></a> <a href="https://plus.google.com/+Wpexplorer/" title="Google Plus"><span class="fa fa-google-plus"></span></a> <a href="https://www.pinterest.com/wpexplorer/" title="Pinterest"><span class="fa fa-pinterest"></span></a> <a href="https://dribbble.com/aj-clarke" title="Dribbble"><span class="fa fa-dribbble"></span></a> <a href="http://feeds.feedburner.com/wpexplorer-feed" title="RSS"><span class="fa fa-rss"></span></a>
-					</div>
-				</div>
-			</div>
-			<nav class="wpex-mobile-nav">
-				<ul class="wpex-mobile-nav-ul wpex-container">
-					<li id="menu-item-109" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-109"><a href="http://wpexplorer-demos.com/today/">Home</a></li>
-					<li id="menu-item-98" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-98"><a href="http://wpexplorer-demos.com/today/category/life/">Life</a></li>
-					<li id="menu-item-99" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-99"><a href="http://wpexplorer-demos.com/today/category/photography/">Photography</a></li>
-					<li id="menu-item-100" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-100"><a href="http://wpexplorer-demos.com/today/category/city/">City</a></li>
-					<li id="menu-item-101" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-101"><a href="http://wpexplorer-demos.com/today/category/nature/">Nature</a></li>
-					<li id="menu-item-102" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-102"><a href="http://wpexplorer-demos.com/today/category/travel/">Travel</a></li>
-					<li id="menu-item-113" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-113"><a href="http://wpexplorer-demos.com/today/#">Features <span class="fa fa-angle-down wpex-dropdown-arrow-down"></span> <span class="wpex-mobile-nav-plus-icon fa fa-plus"></span>
-					</a>
-						<ul class="sub-menu">
-							<li id="menu-item-112" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-112"><a href="http://wpexplorer-demos.com/today/typography/">Typography</a></li>
-							<li id="menu-item-110" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-110"><a href="http://wpexplorer-demos.com/today/authors/">Authors</a></li>
-							<li id="menu-item-111" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-111"><a href="http://wpexplorer-demos.com/today/contact/">Contact</a></li>
-						</ul></li>
-					<li id="menu-item-114" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-114"><a href="http://www.wpexplorer.com/today-free-wordpress/">Download</a></li>
-				</ul>
+
+<body>
+	<div class="navigation-bar w-nav" data-animation="default" data-collapse="medium" data-contain="1" data-duration="400">
+		<div class="w-container">
+			<a class="w-nav-brand w--current" href="http://denali-template.webflow.io/"><div class="site-name">Denali</div></a>
+			<nav class="navigation-menu w-nav-menu" role="navigation">
+				<a class="navigation-link w-nav-link w--current" href="http://denali-template.webflow.io/" style="max-width: 940px;">Home</a><a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/about" style="max-width: 940px;">About</a><a class="navigation-link w-nav-link"
+					href="http://denali-template.webflow.io/contact" style="max-width: 940px;">Contact</a>
 			</nav>
-		</nav>
-		<div class="wpex-site-content wpex-container wpex-clr">
-			<div class="wpex-content-area wpex-clr">
-				<article id="post-97" class="wpex-loop-entry wpex-clr wpex-featured-entry post-97 post type-post status-publish format-standard has-post-thumbnail hentry category-life tag-beautiful tag-creative tag-thoughts">
-					<div class="wpex-loop-entry-inner wpex-clr">
-						<div class="wpex-loop-entry-thumbnail wpex-loop-entry-media wpex-clr">
-							<a href="http://wpexplorer-demos.com/today/an-interview-with-grace-helbig-on-her-new-book/" title="An Interview With Grace Helbig On Her New Book" class="wpex-loop-entry-media-link"> <img width="700" height="350" th:src="@{/images/book1-700x350.jpg}" class="attachment-wpex_entry_featured size-wpex_entry_featured wp-post-image" alt="">
+			<div class="menu-button w-nav-button">
+				<div class="w-icon-nav-menu"></div>
+			</div>
+		</div>
+		<div class="w-nav-overlay" data-wf-ignore=""></div>
+	</div>
+	<div class="content-wrapper">
+		<div class="w-container">
+			<div class="w-row">
+				<div class="w-col w-col-3 w-hidden-small w-hidden-tiny">
+					<div class="white-wrapper">
+						<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" 
+							src="./Blog Home_files/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
+							srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, 
+									http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
+						<p class="site-description">Denali is a simple responsive blog template. Easily add new posts using the Editor or change layout and design using the Designer.</p>
+						<div class="grey-rule"></div>
+						<h2 class="small-heading">Featured Posts:</h2>
+						<div class="feature-posts-list w-dyn-list">
+							<div class="w-dyn-items">
+								<div class="w-dyn-item">
+									<a class="small-post-link" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino">According a funnily until pre-set or arrogant well cheerful</a>
+								</div>
+								<div class="w-dyn-item">
+									<a class="small-post-link" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait">Overlaid the jeepers uselessly much excluding</a>
+								</div>
+							</div>
+						</div>
+						<div class="grey-rule"></div>
+						
+						<div class="social-link-group">						
+							<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
+								<img th:src="@{/images/56cf6e77d3b4fc4579d0a99b_social-03.svg}" width="25">
+							</a>
+							<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
+								<img th:src="@{/images/56cf6e77d3b4fc4579d0a9a9_social-07.svg}" width="25">
+							</a>
+							<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
+								<img th:src="@{/images/56cf6e77d3b4fc4579d0a9bf_social-18.svg}" width="25">
+							</a>
+							<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
+								<img th:src="@{/images/56cf6e77d3b4fc4579d0a9d0_social-09.svg}" width="25">
 							</a>
 						</div>
-						<div class="wpex-loop-entry-content wpex-clr">
-							<div class="wpex-entry-cat wpex-clr wpex-button-typo">
-								<a href="http://wpexplorer-demos.com/today/category/life/" title="Life" class="wpex-term-14 wpex-accent-bg">Life</a>
+						
+						<p class="built-with-webflow">
+							Built with <a class="webflow-link" target="_blank" href-disabled="https://webflow.com" href="https://webflow.com/">Webflow</a>
+						</p>
+					</div>
+				</div>
+				<div class="content-column w-col w-col-9">
+					<div class="w-dyn-list">
+						<div class="w-dyn-items">
+							<div class="w-dyn-item">
+								<div class="post-wrapper">
+									<div class="post-content">
+										<div class="w-row">
+											<div class="w-col w-col-4 w-col-medium-4">
+												<a class="blog-image w-inline-block" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto" style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg&#39;);"></a>
+											</div>
+											<div class="w-col w-col-8 w-col-medium-8">
+												<a class="blog-title-link w-inline-block" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto"><h2 class="blog-title">Wherever far wow thus a squirrel raccoon jeez jaguar this from along</h2></a>
+												<div class="details-wrapper">
+													<div class="post-info">September 8, 2016</div>
+													<div class="post-info">|</div>
+													<a class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
+												</div>
+												<div class="post-summary-wrapper">
+													<p class="post-summary">The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind</p>
+													<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
-							<header class="wpex-loop-entry-header wpex-clr">
-								<h2 class="wpex-loop-entry-title">
-									<a href="http://wpexplorer-demos.com/today/an-interview-with-grace-helbig-on-her-new-book/" title="An Interview With Grace Helbig On Her New Book"> <span class="fa fa-music wpex-music-icon"></span> An Interview With Grace Helbig On Her New Book
-									</a>
-								</h2>
-							</header>
-							<div class="wpex-loop-entry-meta wpex-clr">
-								<ul class="wpex-clr">
-									<li class="wpex-date"><span class="wpex-spacer">·</span>February 22, 2014</li>
-									<li class="wpex-author"><span class="wpex-spacer">·</span> <a href="http://wpexplorer-demos.com/today/author/kyla/" title="Posts by Kyla G." rel="author">Kyla G.</a></li>
-									<li class="wpex-comments"><span class="wpex-spacer">·</span> <a href="http://wpexplorer-demos.com/today/an-interview-with-grace-helbig-on-her-new-book/#comments" class="comments-link">4 Comments</a></li>
-								</ul>
+							<div class="w-dyn-item">
+								<div class="post-wrapper">
+									<div class="post-content">
+										<div class="w-row">
+											<div class="w-col w-col-4 w-col-medium-4">
+												<a class="blog-image w-inline-block" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino"
+													style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f0aaf237f02b70597a4e_photo-1416934625760-d56f5e79f6fe.jpg&#39;);"></a>
+											</div>
+											<div class="w-col w-col-8 w-col-medium-8">
+												<a class="blog-title-link w-inline-block" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino"><h2 class="blog-title">According a funnily until pre-set or arrogant well cheerful</h2></a>
+												<div class="details-wrapper">
+													<div class="post-info">September 8, 2016</div>
+													<div class="post-info">|</div>
+													<a class="post-info when-link" href="http://denali-template.webflow.io/categories/music">Music</a>
+												</div>
+												<div class="post-summary-wrapper">
+													<p class="post-summary">Single shot cultivar beans as chicory caffeine. Medium brewed, milk extra that froth pumpkin spice mocha. Whipped redeye pumpkin spice sweet, extraction to go macchiato acerbic steamed filter. Robusta grounds decaffeinated.</p>
+													<a class="read-more-link" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino">Read more...</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
-							<div class="wpex-loop-entry-excerpt entry wpex-clr">Proin pretium justo lectus, eu eleifend dui ullamcorper sit amet. Cras orci est, pellentesque ac enim eu, sodales gravida turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra,…</div>
-							<div class="wpex-loop-entry-readmore wpex-clr">
-								<a href="http://wpexplorer-demos.com/today/an-interview-with-grace-helbig-on-her-new-book/" title="read more" class="wpex-readmore">read more</a>
+							<div class="w-dyn-item">
+								<div class="post-wrapper">
+									<div class="post-content">
+										<div class="w-row">
+											<div class="w-col w-col-4 w-col-medium-4">
+												<a class="blog-image w-inline-block" href="http://denali-template.webflow.io/posts/coffee-sugar-chicory-seasonal-espresso-barista-americano" style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2b12682addd4d54350f_3f4eb74a.jpg&#39;);"></a>
+											</div>
+											<div class="w-col w-col-8 w-col-medium-8">
+												<a class="blog-title-link w-inline-block" href="http://denali-template.webflow.io/posts/coffee-sugar-chicory-seasonal-espresso-barista-americano"><h2 class="blog-title">Coffee sugar, chicory seasonal espresso barista americano</h2></a>
+												<div class="details-wrapper">
+													<div class="post-info">September 8, 2016</div>
+													<div class="post-info">|</div>
+													<a class="post-info when-link" href="http://denali-template.webflow.io/categories/music">Music</a>
+												</div>
+												<div class="post-summary-wrapper">
+													<p class="post-summary">Arista, percolator, cream, aromatic, fair trade, breve body instant lungo blue mountain cappuccino. Americano aroma mug espresso latte crema milk redeye acerbic. Galão robusta instant, decaffeinated, so fair trade wings.</p>
+													<a class="read-more-link" href="http://denali-template.webflow.io/posts/coffee-sugar-chicory-seasonal-espresso-barista-americano">Read more...</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="w-dyn-item">
+								<div class="post-wrapper">
+									<div class="post-content">
+										<div class="w-row">
+											<div class="w-col w-col-4 w-col-medium-4">
+												<a class="blog-image w-inline-block" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait"
+													style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f09af237f02b70597a48_photo-1416949929422-a1d9c8fe84af.jpg&#39;);"></a>
+											</div>
+											<div class="w-col w-col-8 w-col-medium-8">
+												<a class="blog-title-link w-inline-block" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait"><h2 class="blog-title">Overlaid the jeepers uselessly much excluding</h2></a>
+												<div class="details-wrapper">
+													<div class="post-info">September 8, 2016</div>
+													<div class="post-info">|</div>
+													<a class="post-info when-link" href="http://denali-template.webflow.io/categories/tech">Tech</a>
+												</div>
+												<div class="post-summary-wrapper">
+													<p class="post-summary">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+													<a class="read-more-link" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait">Read more...</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="w-dyn-item">
+								<div class="post-wrapper">
+									<div class="post-content">
+										<div class="w-row">
+											<div class="w-col w-col-4 w-col-medium-4">
+												<a class="blog-image w-inline-block" href="http://denali-template.webflow.io/posts/coffee-variety-macchiato-as-organic-ut-variety-caffeine-americano"
+													style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f0e57b8d53d44d934eff_photo-1443304895043-ef30921332c5.jpg&#39;);"></a>
+											</div>
+											<div class="w-col w-col-8 w-col-medium-8">
+												<a class="blog-title-link w-inline-block" href="http://denali-template.webflow.io/posts/coffee-variety-macchiato-as-organic-ut-variety-caffeine-americano"><h2 class="blog-title">Coffee variety macchiato, as organic ut variety caffeine americano</h2></a>
+												<div class="details-wrapper">
+													<div class="post-info">September 8, 2016</div>
+													<div class="post-info">|</div>
+													<a class="post-info when-link" href="http://denali-template.webflow.io/categories/travel">Travel</a>
+												</div>
+												<div class="post-summary-wrapper">
+													<p class="post-summary">Saucer, crema carajillo, bar, mocha medium, latte cappuccino and espresso acerbic to go. Coffee, irish foam turkish coffee blue mountain seasonal. Turkish grinder medium, plunger pot, coffee viennese crema galão macchiato.</p>
+													<a class="read-more-link" href="http://denali-template.webflow.io/posts/coffee-variety-macchiato-as-organic-ut-variety-caffeine-americano">Read more...</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</article>
-				<main class="wpex-site-main wpex-clr">
-				<div class="wpex-entries wpex-row wpex-clr">
-					<article id="post-79" class="wpex-loop-entry wpex-clr wpex-col wpex-count-1 wpex-col-2 post-79 post type-post status-publish format-standard has-post-thumbnail hentry category-city tag-artistic tag-vintage">
-						<div class="wpex-loop-entry-inner wpex-clr">
-							<div class="wpex-loop-entry-thumbnail wpex-loop-entry-media wpex-clr">
-								<a href="http://wpexplorer-demos.com/today/local-corporate-finance-management-company-expanding/" title="Local Corporate Finance Management Company Expanding" class="wpex-loop-entry-media-link"> <img width="700" height="350" th:src="@{/images/corporate-700x350.jpg}" class="attachment-wpex_entry size-wpex_entry wp-post-image" alt="">
+					<div class="button-wrapper">
+						<a class="button w-button" href="http://denali-template.webflow.io/all-posts">More posts&nbsp;→</a>
+					</div>
+					<div class="sidebar-on-mobile">
+						<div class="white-wrapper">
+							<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" src="./Blog Home_files/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
+								srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
+							<p class="site-description">Denali is a simple responsive blog template. Easily add new posts using the Editor or change layout and design using the Designer.</p>
+							<div class="grey-rule"></div>
+							<h2 class="small-heading">Featured Posts:</h2>
+							<div class="feature-posts-list w-dyn-list">
+								<div class="w-dyn-items">
+									<div class="w-dyn-item">
+										<a class="small-post-link" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino">According a funnily until pre-set or arrogant well cheerful</a>
+									</div>
+									<div class="w-dyn-item">
+										<a class="small-post-link" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait">Overlaid the jeepers uselessly much excluding</a>
+									</div>
+								</div>
+							</div>
+							<div class="grey-rule"></div>
+							<div class="social-link-group">
+								<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
+									<img th:src="@{/images/56cf6e77d3b4fc4579d0a99b_social-03.svg}" width="25">
+								</a>
+								<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
+									<img th:src="@{/images/56cf6e77d3b4fc4579d0a9a9_social-07.svg}" width="25">
+								</a>
+								<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
+									<img th:src="@{/images/56cf6e77d3b4fc4579d0a9bf_social-18.svg}" width="25">
+								</a>
+								<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
+									<img th:src="@{/images/56cf6e77d3b4fc4579d0a9d0_social-09.svg}" width="25">
 								</a>
 							</div>
-							<div class="wpex-loop-entry-content wpex-clr">
-								<div class="wpex-entry-cat wpex-clr wpex-button-typo">
-									<a href="http://wpexplorer-demos.com/today/category/city/" title="City" class="wpex-term-15 wpex-accent-bg">City</a>
-								</div>
-								<header class="wpex-loop-entry-header wpex-clr">
-									<h2 class="wpex-loop-entry-title">
-										<a href="http://wpexplorer-demos.com/today/local-corporate-finance-management-company-expanding/" title="Local Corporate Finance Management Company Expanding">Local Corporate Finance Management Company Expanding </a>
-									</h2>
-								</header>
-								<div class="wpex-loop-entry-meta wpex-clr">
-									<ul class="wpex-clr">
-										<li class="wpex-date"><span class="wpex-spacer">·</span>February 21, 2014</li>
-										<li class="wpex-author"><span class="wpex-spacer">·</span> <a href="http://wpexplorer-demos.com/today/author/demoswpex/" title="Posts by AJ Clarke" rel="author">AJ Clarke</a></li>
-										<li class="wpex-comments"><span class="wpex-spacer">·</span> <a href="http://wpexplorer-demos.com/today/local-corporate-finance-management-company-expanding/#comments" class="comments-link">6 Comments</a></li>
-									</ul>
-								</div>
-								<div class="wpex-loop-entry-excerpt entry wpex-clr">Etiam felis velit, blandit non congue quis, lobortis dapibus urna. Sed lacinia in magna sed tristique. Donec in mi felis. Suspendisse at ante sapien. Etiam tincidunt ornare eros, ut suscipit…</div>
-								<div class="wpex-loop-entry-readmore wpex-clr">
-									<a href="http://wpexplorer-demos.com/today/local-corporate-finance-management-company-expanding/" title="read more" class="wpex-readmore">read more</a>
-								</div>
-							</div>
+							<p class="built-with-webflow">
+								Built with <a class="webflow-link" target="_blank" href-disabled="https://webflow.com" href="https://webflow.com/">Webflow</a>
+							</p>
 						</div>
-					</article>
-					<article id="post-81" class="wpex-loop-entry wpex-clr wpex-col wpex-count-2 wpex-col-2 post-81 post type-post status-publish format-standard has-post-thumbnail hentry category-photography tag-classic tag-modern tag-vintage">
-						<div class="wpex-loop-entry-inner wpex-clr">
-							<div class="wpex-loop-entry-thumbnail wpex-loop-entry-media wpex-clr">
-								<a href="http://wpexplorer-demos.com/today/get-into-nature-and-travel-the-world/" title="Get Into Nature And Travel The World" class="wpex-loop-entry-media-link"><img width="700" height="350" th:src="@{/images/nature1-700x350.jpg}" class="attachment-wpex_entry size-wpex_entry wp-post-image" alt=""> </a>
-							</div>
-							<div class="wpex-loop-entry-content wpex-clr">
-								<div class="wpex-entry-cat wpex-clr wpex-button-typo">
-									<a href="http://wpexplorer-demos.com/today/category/photography/" title="Photography" class="wpex-term-11 wpex-accent-bg">Photography</a>
-								</div>
-								<header class="wpex-loop-entry-header wpex-clr">
-									<h2 class="wpex-loop-entry-title">
-										<a href="http://wpexplorer-demos.com/today/get-into-nature-and-travel-the-world/" title="Get Into Nature And Travel The World"> <span class="fa fa-play-circle wpex-video-icon"></span>Get Into Nature And Travel The World
-										</a>
-									</h2>
-								</header>
-								<div class="wpex-loop-entry-meta wpex-clr">
-									<ul class="wpex-clr">
-										<li class="wpex-date"><span class="wpex-spacer">·</span>February 19, 2014</li>
-										<li class="wpex-author"><span class="wpex-spacer">·</span><a href="http://wpexplorer-demos.com/today/author/demoswpex/" title="Posts by AJ Clarke" rel="author">AJ Clarke</a></li>
-										<li class="wpex-comments"><span class="wpex-spacer">·</span><a href="http://wpexplorer-demos.com/today/get-into-nature-and-travel-the-world/#comments" class="comments-link">6 Comments</a></li>
-									</ul>
-								</div>
-								<div class="wpex-loop-entry-excerpt entry wpex-clr">Vivamus eu dui eget turpis iaculis facilisis vitae id felis. Phasellus feugiat, nisi nec interdum bibendum, enim arcu dapibus sapien, sit amet suscipit ante mauris et arcu. Interdum et malesuada…</div>
-								<div class="wpex-loop-entry-readmore wpex-clr">
-									<a href="http://wpexplorer-demos.com/today/get-into-nature-and-travel-the-world/" title="read more" class="wpex-readmore">read more</a>
-								</div>
-							</div>
-						</div>
-					</article>
-					<article id="post-74" class="wpex-loop-entry wpex-clr wpex-col wpex-count-1 wpex-col-2 post-74 post type-post status-publish format-standard has-post-thumbnail hentry category-city tag-beautiful tag-creative tag-perspective">
-						<div class="wpex-loop-entry-inner wpex-clr">
-							<div class="wpex-loop-entry-thumbnail wpex-loop-entry-media wpex-clr">
-								<a href="http://wpexplorer-demos.com/today/new-gallery-for-local-artists-opens-downtown/" title="New Gallery For Local Artists Opens Downtown" class="wpex-loop-entry-media-link"><img width="700" height="350" th:src="@{/images/art1-700x350.jpg}" class="attachment-wpex_entry size-wpex_entry wp-post-image" alt=""></a>
-							</div>
-							<div class="wpex-loop-entry-content wpex-clr">
-								<div class="wpex-entry-cat wpex-clr wpex-button-typo">
-									<a href="http://wpexplorer-demos.com/today/category/city/" title="City" class="wpex-term-15 wpex-accent-bg">City</a>
-								</div>
-								<header class="wpex-loop-entry-header wpex-clr">
-									<h2 class="wpex-loop-entry-title">
-										<a href="http://wpexplorer-demos.com/today/new-gallery-for-local-artists-opens-downtown/" title="New Gallery For Local Artists Opens Downtown"> New Gallery For Local Artists Opens Downtown </a>
-									</h2>
-								</header>
-								<div class="wpex-loop-entry-meta wpex-clr">
-									<ul class="wpex-clr">
-										<li class="wpex-date"><span class="wpex-spacer">·</span>February 18, 2014</li>
-										<li class="wpex-author"><span class="wpex-spacer">·</span><a href="http://wpexplorer-demos.com/today/author/kyla/" title="Posts by Kyla G." rel="author">Kyla G.</a></li>
-										<li class="wpex-comments"><span class="wpex-spacer">·</span><a href="http://wpexplorer-demos.com/today/new-gallery-for-local-artists-opens-downtown/#comments" class="comments-link">4 Comments</a></li>
-									</ul>
-								</div>
-								<div class="wpex-loop-entry-excerpt entry wpex-clr">Quisque pellentesque fringilla scelerisque. Donec porta urna eu fringilla adipiscing. Nullam id eleifend massa. Curabitur eu blandit sapien. In et nibh ornare, blandit mi vel, imperdiet dui. Aenean ante libero,…</div>
-								<div class="wpex-loop-entry-readmore wpex-clr">
-									<a href="http://wpexplorer-demos.com/today/new-gallery-for-local-artists-opens-downtown/" title="read more" class="wpex-readmore">read more</a>
-								</div>
-							</div>
-						</div>
-					</article>
-					<article id="post-70" class="wpex-loop-entry wpex-clr wpex-col wpex-count-2 wpex-col-2 post-70 post type-post status-publish format-standard has-post-thumbnail hentry category-life tag-classic tag-perspective tag-vintage">
-						<div class="wpex-loop-entry-inner wpex-clr">
-							<div class="wpex-loop-entry-thumbnail wpex-loop-entry-media wpex-clr">
-								<a href="http://wpexplorer-demos.com/today/a-rise-in-religiousprivate-school-enrollment/" title="A Rise In Religious/Private School Enrollment" class="wpex-loop-entry-media-link"><img width="700" height="350" th:src="@{/images/bible-700x350.jpg}" class="attachment-wpex_entry size-wpex_entry wp-post-image" alt=""></a>
-							</div>
-							<div class="wpex-loop-entry-content wpex-clr">
-								<div class="wpex-entry-cat wpex-clr wpex-button-typo">
-									<a href="http://wpexplorer-demos.com/today/category/life/" title="Life" class="wpex-term-14 wpex-accent-bg">Life</a>
-								</div>
-								<header class="wpex-loop-entry-header wpex-clr">
-									<h2 class="wpex-loop-entry-title">
-										<a href="http://wpexplorer-demos.com/today/a-rise-in-religiousprivate-school-enrollment/" title="A Rise In Religious/Private School Enrollment"> A Rise In Religious/Private School Enrollment </a>
-									</h2>
-								</header>
-								<div class="wpex-loop-entry-meta wpex-clr">
-									<ul class="wpex-clr">
-										<li class="wpex-date"><span class="wpex-spacer">·</span>February 14, 2014</li>
-										<li class="wpex-author"><span class="wpex-spacer">·</span><a href="http://wpexplorer-demos.com/today/author/demoswpex/" title="Posts by AJ Clarke" rel="author">AJ Clarke</a></li>
-										<li class="wpex-comments"><span class="wpex-spacer">·</span><a href="http://wpexplorer-demos.com/today/a-rise-in-religiousprivate-school-enrollment/#comments" class="comments-link">5 Comments</a></li>
-									</ul>
-								</div>
-								<div class="wpex-loop-entry-excerpt entry wpex-clr">Proin aliquam quam leo, accumsan accumsan risus volutpat euismod. Duis malesuada porta diam, quis congue arcu sollicitudin vitae. Mauris mi nunc, sagittis blandit tellus ut, laoreet cursus neque. Curabitur tincidunt…</div>
-								<div class="wpex-loop-entry-readmore wpex-clr">
-									<a href="http://wpexplorer-demos.com/today/a-rise-in-religiousprivate-school-enrollment/" title="read more" class="wpex-readmore">read more</a>
-								</div>
-							</div>
-						</div>
-					</article>
+					</div>
 				</div>
-				<div class="wpex-page-numbers wpex-clr">
-					<ul class="page-numbers">
-						<li><span aria-current="page" class="page-numbers current">1</span></li>
-						<li><a class="page-numbers" href="http://wpexplorer-demos.com/today/page/2/">2</a></li>
-						<li><a class="page-numbers" href="http://wpexplorer-demos.com/today/page/3/">3</a></li>
-						<li><a class="page-numbers" href="http://wpexplorer-demos.com/today/page/4/">4</a></li>
-						<li><a class="next page-numbers" href="http://wpexplorer-demos.com/today/page/2/"> 
-							<span class="fa fa-angle-right"></span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</main>
 			</div>
-			<aside class="wpex-sidebar wpex-clr">
-				<div class="wpex-widget-area">
-					<div class="wpex-sidebar-widget widget_search wpex-clr">
-						<form method="get" class="wpex-site-searchform" action="http://wpexplorer-demos.com/today/">
-							<input type="search" class="field" name="s" value="Search…" onfocus="if(this.value==this.defaultValue)this.value=&#39;&#39;;" onblur="if(this.value==&#39;&#39;)this.value=this.defaultValue;">
-							<button type="submit">
-								<span class="fa fa-search"></span>
-							</button>
-						</form>
-					</div>
-					<div class="wpex-sidebar-widget widget_recent_entries wpex-clr">
-						<h4 class="widget-title">Recent Posts</h4>
-						<ul>
-							<li><a href="http://wpexplorer-demos.com/today/an-interview-with-grace-helbig-on-her-new-book/">An Interview With Grace Helbig On Her New Book</a></li>
-							<li><a href="http://wpexplorer-demos.com/today/local-corporate-finance-management-company-expanding/">Local Corporate Finance Management Company Expanding</a></li>
-							<li><a href="http://wpexplorer-demos.com/today/get-into-nature-and-travel-the-world/">Get Into Nature And Travel The World</a></li>
-							<li><a href="http://wpexplorer-demos.com/today/new-gallery-for-local-artists-opens-downtown/">New Gallery For Local Artists Opens Downtown</a></li>
-							<li><a href="http://wpexplorer-demos.com/today/a-rise-in-religiousprivate-school-enrollment/">A Rise In Religious/Private School Enrollment</a></li>
-						</ul>
-					</div>
-					<div class="wpex-sidebar-widget widget_wpex_get_total wpex-clr">
-						<h4 class="widget-title">Advertisement</h4>
-						<a href="http://themeforest.net/item/total-responsive-multipurpose-wordpress-theme/6339019?ref=WPExplorer" title="Get The Total Theme" target="_blank"><img th:src="@{/images/total.png}" alt="Total Theme Banner"></a>
-					</div>
-					<div class="wpex-sidebar-widget widget_categories wpex-clr">
-						<h4 class="widget-title">Categories</h4>
-						<ul>
-							<li class="cat-item cat-item-15"><a href="http://wpexplorer-demos.com/today/category/city/" title="This is the category description, put anything you want here.">City</a></li>
-							<li class="cat-item cat-item-14"><a href="http://wpexplorer-demos.com/today/category/life/" title="This is the category description, put anything you want here.">Life</a></li>
-							<li class="cat-item cat-item-8"><a href="http://wpexplorer-demos.com/today/category/nature/" title="This is the category description, put anything you want here.">Nature</a></li>
-							<li class="cat-item cat-item-11"><a href="http://wpexplorer-demos.com/today/category/photography/" title="This is the category description, put anything you want here.">Photography</a></li>
-							<li class="cat-item cat-item-4"><a href="http://wpexplorer-demos.com/today/category/travel/" title="This is the category description, put anything you want here.">Travel</a></li>
-						</ul>
-					</div>
-					<div class="wpex-sidebar-widget widget_archive wpex-clr">
-						<h4 class="widget-title">Archives</h4>
-						<ul>
-							<li><a href="http://wpexplorer-demos.com/today/2014/02/">February 2014</a></li>
-							<li><a href="http://wpexplorer-demos.com/today/2014/01/">January 2014</a></li>
-							<li><a href="http://wpexplorer-demos.com/today/2013/12/">December 2013</a></li>
-						</ul>
-					</div>
-				</div>
-			</aside>
 		</div>
-		<footer class="wpex-site-footer-wrap wpex-clr">
-			<div class="wpex-site-footer wpex-container wpex-clr">
-				<div class="wpex-footer-widgets wpex-row wpex-clr">
-					<div class="wpex-footer-box wpex-col wpex-clr wpex-col-4">
-						<div class="footer-widget widget_text wpex-clr">
-							<h6 class="widget-title">About Us</h6>
-							<div class="textwidget">Hey, I am just a simple text widget you can put anything you want here. I'm just dummy text so don't worry about me, in fact you can stop reading me right now and focus on how awesome the Today free theme is. Enjoy!</div>
-						</div>
-					</div>
-					<div class="wpex-footer-box wpex-col wpex-clr wpex-col-4">
-						<div class="footer-widget widget_recent_entries wpex-clr">
-							<h6 class="widget-title">Recent Posts</h6>
-							<ul>
-								<li><a href="http://wpexplorer-demos.com/today/an-interview-with-grace-helbig-on-her-new-book/">An Interview With Grace Helbig On Her New Book</a></li>
-								<li><a href="http://wpexplorer-demos.com/today/local-corporate-finance-management-company-expanding/">Local Corporate Finance Management Company Expanding</a></li>
-								<li><a href="http://wpexplorer-demos.com/today/get-into-nature-and-travel-the-world/">Get Into Nature And Travel The World</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="wpex-footer-box wpex-col wpex-clr wpex-col-4">
-						<div class="footer-widget widget_categories wpex-clr">
-							<h6 class="widget-title">Categories</h6>
-							<ul>
-								<li class="cat-item cat-item-15"><a href="http://wpexplorer-demos.com/today/category/city/" title="This is the category description, put anything you want here.">City</a></li>
-								<li class="cat-item cat-item-14"><a href="http://wpexplorer-demos.com/today/category/life/" title="This is the category description, put anything you want here.">Life</a></li>
-								<li class="cat-item cat-item-8"><a href="http://wpexplorer-demos.com/today/category/nature/" title="This is the category description, put anything you want here.">Nature</a></li>
-								<li class="cat-item cat-item-11"><a href="http://wpexplorer-demos.com/today/category/photography/" title="This is the category description, put anything you want here.">Photography</a></li>
-								<li class="cat-item cat-item-4"><a href="http://wpexplorer-demos.com/today/category/travel/" title="This is the category description, put anything you want here.">Travel</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="wpex-footer-box wpex-col wpex-clr wpex-col-4">
-						<div class="footer-widget widget_tag_cloud wpex-clr">
-							<h6 class="widget-title">Tags</h6>
-							<div class="tagcloud">
-								<a href="http://wpexplorer-demos.com/today/tag/adventure/" class="tag-cloud-link tag-link-2 tag-link-position-1" style="font-size: 0.857em;" aria-label="Adventure (3 items)">Adventure</a> 
-								<a href="http://wpexplorer-demos.com/today/tag/artistic/" class="tag-cloud-link tag-link-13 tag-link-position-2" style="font-size: 0.857em;" aria-label="Artistic (5 items)">Artistic</a> 
-								<a href="http://wpexplorer-demos.com/today/tag/beautiful/" class="tag-cloud-link tag-link-6 tag-link-position-3" style="font-size: 0.857em;" aria-label="Beautiful (6 items)">Beautiful</a> 
-								<a href="http://wpexplorer-demos.com/today/tag/classic/" class="tag-cloud-link tag-link-7 tag-link-position-4" style="font-size: 0.857em;" aria-label="Classic (4 items)">Classic</a> 
-								<a href="http://wpexplorer-demos.com/today/tag/creative/" class="tag-cloud-link tag-link-9 tag-link-position-5" style="font-size: 0.857em;" aria-label="Creative (5 items)">Creative</a> 
-								<a href="http://wpexplorer-demos.com/today/tag/modern/" class="tag-cloud-link tag-link-17 tag-link-position-6" style="font-size: 0.857em;" aria-label="Modern (6 items)">Modern</a> 
-								<a href="http://wpexplorer-demos.com/today/tag/perspective/" class="tag-cloud-link tag-link-10 tag-link-position-7" style="font-size: 0.857em;" aria-label="Perspective (4 items)">Perspective</a> 
-								<a href="http://wpexplorer-demos.com/today/tag/thoughts/" class="tag-cloud-link tag-link-12 tag-link-position-8" style="font-size: 0.857em;" aria-label="Thoughts (7 items)">Thoughts</a> 
-								<a href="http://wpexplorer-demos.com/today/tag/vintage/" class="tag-cloud-link tag-link-5 tag-link-position-9" style="font-size: 0.857em;" aria-label="Vintage (6 items)">Vintage</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="wpex-footer-bottom wpex-has-footer-widgets">
-					<div class="footer-copyright wpex-clr">
-						<a href="http://www.wpexplorer.com/today-wordpress-theme/" target="_blank" title="Today WordPress Theme">Today</a> Theme by 
-						<a href="http://themeforest.net/user/wpexplorer?ref=WPExplorer" title="WPExplorer Themes">WPExplorer</a> Powered by 
-						<a href="https://wordpress.org/" title="WordPress" target="_blank">WordPress</a>
-					</div>
-				</div>
-			</div>
-		</footer>
 	</div>
-	<a href="http://wpexplorer-demos.com/today/#" title="Top" class="wpex-site-scroll-top">
-		<span class="fa fa-angle-up"></span>
-	</a>
-	<script type="text/javascript" th:src="@{/javascript/scripts.js}"></script>
-	<script type="text/javascript" th:src="@{/javascript/jquery.fitvids.js}"></script>
-	<script type="text/javascript">
-		/* <![CDATA[ */ var wpexLocalize = {"isRTL":"","mobileMenuOpen":"Menu","mobileMenuClose":"Menu"}; /* ]]> */ 
-	</script>
-	<script type="text/javascript" th:src="@{/javascript/functions.js}"></script>
+
+	<!-- JAVASCRIPT -->
+	<script type="text/javascript" th:src="@{/javascript/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/javascript/webflow.5b0765584.js}"></script>
+	<!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+
 </body>
+
 </html>
