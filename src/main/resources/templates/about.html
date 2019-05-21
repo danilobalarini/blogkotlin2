@@ -8,8 +8,8 @@
 	<title>Blog Home</title>
 
 	<!-- CSS -->
-	<link rel="stylesheet" id="font-awesome-css" th:href="@{/css/denali-template.webflow.62e4e3112.css}" type="text/css" media="all">
-	<link rel="stylesheet" id="google-font-raleway-css" th:href="@{/css/css}" type="text/css" media="all">
+	<link rel="stylesheet" th:href="@{/css/denali-template.webflow.62e4e3112.css}" type="text/css" media="all">
+	<link th:href="@{css/css}" type="text/css" media="all">
 	
 	<!-- JAVASCRIPT -->
 	<script type="text/javascript" th:src="@{/webjars/modernizr/2.8.3/modernizr.min.js}"></script>
@@ -25,25 +25,32 @@
 </head>
 
 <body>
+
+	<!-- HEADER -->
 	<div class="navigation-bar w-nav" data-animation="default" data-collapse="medium" data-contain="1" data-duration="400">
 		<div class="w-container">
-			<a class="w-nav-brand" href="http://denali-template.webflow.io/"><div class="site-name">Denali</div></a>
+			<a class="w-nav-brand w--current" href="http://denali-template.webflow.io/">
+				<div class="site-name">Denali</div>
+			</a>
 			<nav class="navigation-menu w-nav-menu" role="navigation">
-				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/" style="max-width: 940px;">Home</a><a class="navigation-link w-nav-link w--current" href="http://denali-template.webflow.io/about" style="max-width: 940px;">About</a><a class="navigation-link w-nav-link"
-					href="http://denali-template.webflow.io/contact" style="max-width: 940px;">Contact</a>
+				<a class="navigation-link w-nav-link w--current" href="http://denali-template.webflow.io/" style="max-width: 940px;">Home</a>
+				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/about" style="max-width: 940px;">About</a>
+				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/contact" style="max-width: 940px;">Contact</a>
 			</nav>
 			<div class="menu-button w-nav-button">
 				<div class="w-icon-nav-menu"></div>
 			</div>
-		</div>
+		</div>		
 		<div class="w-nav-overlay" data-wf-ignore=""></div>
 	</div>
+	<!-- END HEADER -->
+	
 	<div class="content-wrapper">
 		<div class="w-container">
 			<div class="w-row">
+			
+				<!-- START BIO -->
 				<div class="w-col w-col-3 w-hidden-small w-hidden-tiny">
-					
-					<!-- START BIO -->
 					<div class="white-wrapper">
 						<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" src="./About_files/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
 							srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
@@ -79,9 +86,8 @@
 							Built with <a class="webflow-link" target="_blank" href-disabled="https://webflow.com" href="https://webflow.com/">Webflow</a>
 						</p>
 					</div>
-					<!-- END BIO -->	
-									
 				</div>
+				<!-- END BIO -->
 				
 				<div class="content-column w-col w-col-9">
 					<div class="post-wrapper">
@@ -144,7 +150,6 @@
 	
 	<!-- JAVASCRIPT -->
 	<script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{/javascript/webflow.5b0765584.js}"></script>
 	<!--[if lte IE 9]><script th:src="@{/webjars/Placeholders/3.0.2-1/Placeholders.min.js}"></script><![endif]-->
 
 </body>

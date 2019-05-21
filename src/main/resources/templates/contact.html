@@ -8,8 +8,8 @@
 	<title>Blog Home</title>
 
 	<!-- CSS -->
-	<link rel="stylesheet" id="font-awesome-css" th:href="@{/css/denali-template.webflow.62e4e3112.css}" type="text/css" media="all">
-	<link rel="stylesheet" id="google-font-raleway-css" th:href="@{/css/css}" type="text/css" media="all">
+	<link rel="stylesheet" th:href="@{/css/denali-template.webflow.62e4e3112.css}" type="text/css" media="all">
+	<link th:href="@{css/css}" type="text/css" media="all">
 	
 	<!-- JAVASCRIPT -->
 	<script type="text/javascript" th:src="@{/webjars/modernizr/2.8.3/modernizr.min.js}"></script>
@@ -21,27 +21,37 @@
 	<link rel="manifest" th:href="@{/images/favicon/site.webmanifest}">
 	
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic" />
-		
+	
 </head>
 
 <body>
+
+	<!-- HEADER -->
 	<div class="navigation-bar w-nav" data-animation="default" data-collapse="medium" data-contain="1" data-duration="400">
 		<div class="w-container">
-			<a class="w-nav-brand" href="/"><div class="site-name">Denali</div></a>
+			<a class="w-nav-brand w--current" href="http://denali-template.webflow.io/">
+				<div class="site-name">Denali</div>
+			</a>
 			<nav class="navigation-menu w-nav-menu" role="navigation">
-				<a class="navigation-link w-nav-link" href="/">Home</a><a class="navigation-link w-nav-link" href="/about">About</a><a class="navigation-link w-nav-link" href="/contact">Contact</a>
+				<a class="navigation-link w-nav-link w--current" href="http://denali-template.webflow.io/" style="max-width: 940px;">Home</a>
+				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/about" style="max-width: 940px;">About</a>
+				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/contact" style="max-width: 940px;">Contact</a>
 			</nav>
 			<div class="menu-button w-nav-button">
 				<div class="w-icon-nav-menu"></div>
 			</div>
-		</div>
+		</div>		
+		<div class="w-nav-overlay" data-wf-ignore=""></div>
 	</div>
+	<!-- END HEADER -->
+	
 	<div class="content-wrapper">
 		<div class="w-container">
-			<div class="w-row">
+			
+				<!-- START BIO -->
 				<div class="w-col w-col-3 w-hidden-small w-hidden-tiny">
 					<div class="white-wrapper">
-						<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" src="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
+						<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" src="./About_files/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
 							srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
 						<p class="site-description">Denali is a simple responsive blog template. Easily add new posts using the Editor or change layout and design using the Designer.</p>
 						<div class="grey-rule"></div>
@@ -49,24 +59,35 @@
 						<div class="feature-posts-list w-dyn-list">
 							<div class="w-dyn-items">
 								<div class="w-dyn-item">
-									<a class="small-post-link" href="/posts/half-and-half-variety-milk-viennese-body-cappuccino">According a funnily until pre-set or arrogant well cheerful</a>
+									<a class="small-post-link" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino">According a funnily until pre-set or arrogant well cheerful</a>
 								</div>
 								<div class="w-dyn-item">
-									<a class="small-post-link" href="/posts/steamed-siphon-froth-mazagran-cafe-au-lait">Overlaid the jeepers uselessly much excluding</a>
+									<a class="small-post-link" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait">Overlaid the jeepers uselessly much excluding</a>
 								</div>
 							</div>
 						</div>
 						<div class="grey-rule"></div>
 						<div class="social-link-group">
-							<a class="social-icon-link w-inline-block" href="#"><img src="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56cf6e77d3b4fc4579d0a99b_social-03.svg" width="25"></a><a class="social-icon-link w-inline-block" href="#"><img
-								src="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56cf6e77d3b4fc4579d0a9a9_social-07.svg" width="25"></a><a class="social-icon-link w-inline-block" href="#"><img src="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56cf6e77d3b4fc4579d0a9bf_social-18.svg" width="25"></a><a
-								class="social-icon-link w-inline-block" href="#"><img src="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56cf6e77d3b4fc4579d0a9d0_social-09.svg" width="25"></a>
+							<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+								<img th:src="@{/images/56cf6e77d3b4fc4579d0a99b_social-03.svg}" width="25">
+							</a>
+							<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+								<img th:src="@{/images/56cf6e77d3b4fc4579d0a9a9_social-07.svg}" width="25">
+							</a>
+							<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+								<img th:src="@{/images/56cf6e77d3b4fc4579d0a9bf_social-18.svg}" width="25">
+							</a>
+							<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+								<img th:src="@{/images/56cf6e77d3b4fc4579d0a9d0_social-09.svg}" width="25">
+							</a>
 						</div>
 						<p class="built-with-webflow">
-							Built with <a class="webflow-link" target="_blank" href-disabled="https://webflow.com" href="https://webflow.com">Webflow</a>
+							Built with <a class="webflow-link" target="_blank" href-disabled="https://webflow.com" href="https://webflow.com/">Webflow</a>
 						</p>
 					</div>
 				</div>
+				<!-- END BIO -->
+				
 				<div class="content-column w-col w-col-9">
 					<div class="post-wrapper">
 						<div class="post-content">
@@ -77,7 +98,7 @@
 								<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Etiam porta sem malesuada magna mollis euismod. Etiam porta sem malesuada magna mollis euismod. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
 							</div>
 							
-							<!-- div class="form-wrapper w-form" not managed anymore-->
+							<!-- div class="form-wrapper w-form" not managed anymore -->
 							<div class="form-wrapper">
 								
 								<form data-name="Email Form" id="email-form" name="email-form">
@@ -134,7 +155,6 @@
 	
 	<!-- JAVASCRIPT -->
 	<script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{/javascript/webflow.5b0765584.js}"></script>
 	<!--[if lte IE 9]><script th:src="@{/webjars/Placeholders/3.0.2-1/Placeholders.min.js}"></script><![endif]-->
 	
 </body>
