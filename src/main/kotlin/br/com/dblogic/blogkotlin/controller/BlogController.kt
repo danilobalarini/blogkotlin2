@@ -18,5 +18,15 @@ class BlogController {
 	fun index() : String {
 		return "index"
 	}
+
+	@GetMapping("/about")
+	fun about() : String {
+		return "about"
+	}	
+
+	@GetMapping("/contact")
+	fun contact() : String {
+		return "contact"
+	}	
 		
 }
