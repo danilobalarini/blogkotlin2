@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>Index</title>
+	<title>About</title>
 	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles"> </th:block> /*/-->
 </head>
 
@@ -17,19 +17,9 @@
 				<div th:replace="fragments/general.html :: sidebar"></div>
 				
 				<div class="content-column w-col w-col-9">
-					<div class="post-wrapper">
-						<div class="post-content">
-							<div class="body-copy w-richtext">
-								<h1>About me</h1>
-								<p>The rich text element allows you to create and format headings, paragraphs, blockquotes, images, and video all in one place instead of having to add and format them individually. Just double-click and easily create content.</p>
-								<h2>Something else here</h2>
-								<p>Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id ligula porta felis euismod semper.</p>
-								<p>Vestibulum id ligula porta felis euismod semper. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec id elit non mi porta gravida at eget metus. Donec ullamcorper nulla non metus auctor fringilla.</p>
-							</div>
-							<a class="button w-button" href="http://denali-template.webflow.io/contact">Get in touch</a>
-						</div>
-					</div>
 					
+					<div th:replace="fragments/postcontent.html :: about"></div>
+										
 					<div th:replace="fragments/general.html :: mobile-sidebar"></div>
 					
 				</div>

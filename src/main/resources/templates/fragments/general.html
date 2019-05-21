@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
-	<link rel="stylesheet" th:href="@{css/denali-template.webflow.62e4e3112.css}" type="text/css" media="all">
+	<link rel="stylesheet" th:href="@{css/style.css}" type="text/css" media="all">
 	<link th:href="@{css/css}" type="text/css" media="all">
 	
 	<!-- JAVASCRIPT -->
@@ -42,8 +42,12 @@
 
 	<div th:fragment="sidebar" class="w-col w-col-3 w-hidden-small w-hidden-tiny">
 		<div class="white-wrapper">
-			<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" src="./About_files/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
-				srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
+			
+			<img class="circle-profile" sizes="(max-width: 767px) 100vw, 
+											   (max-width: 991px) 97.296875px, 126px" th:src="@{images/profile.jpg}"
+				srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, 
+						http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
+						
 			<p class="site-description">Denali is a simple responsive blog template. Easily add new posts using the Editor or change layout and design using the Designer.</p>
 			<div class="grey-rule"></div>
 			<h2 class="small-heading">Featured Posts:</h2>
@@ -60,16 +64,16 @@
 			<div class="grey-rule"></div>
 			<div class="social-link-group">
 				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
-					<img th:src="@{images/56cf6e77d3b4fc4579d0a99b_social-03.svg}" width="25">
+					<img th:src="@{images/icon-facebook.svg}" width="25">
 				</a>
 				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
-					<img th:src="@{images/56cf6e77d3b4fc4579d0a9a9_social-07.svg}" width="25">
+					<img th:src="@{images/icon-instagram.svg}" width="25">
 				</a>
 				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
-					<img th:src="@{images/56cf6e77d3b4fc4579d0a9bf_social-18.svg}" width="25">
+					<img th:src="@{images/icon-twitter.svg}" width="25">
 				</a>
 				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
-					<img th:src="@{images/56cf6e77d3b4fc4579d0a9d0_social-09.svg}" width="25">
+					<img th:src="@{images/icon-linkedin.svg}" width="25">
 				</a>
 			</div>
 			<p class="built-with-webflow">
@@ -80,8 +84,12 @@
 	
 	<div th:fragment="mobile-sidebar" class="sidebar-on-mobile">
 		<div class="white-wrapper">
-			<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" src="./About_files/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
-				srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
+			
+			<img class="circle-profile" sizes="(max-width: 767px) 100vw, 
+											   (max-width: 991px) 97.296875px, 126px" th:src="@{images/profile.jpg}"
+				srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, 
+						http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
+						
 			<p class="site-description">Denali is a simple responsive blog template. Easily add new posts using the Editor or change layout and design using the Designer.</p>
 			<div class="grey-rule"></div>
 			<h2 class="small-heading">Featured Posts:</h2>
@@ -97,17 +105,17 @@
 			</div>
 			<div class="grey-rule"></div>
 			<div class="social-link-group">
-				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
-					<img th:src="@{images/56cf6e77d3b4fc4579d0a99b_social-03.svg}" width="25">
+				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+					<img th:src="@{images/icon-facebook.svg}" width="25">
 				</a>
-				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
-					<img th:src="@{images/56cf6e77d3b4fc4579d0a9a9_social-07.svg}" width="25">
+				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+					<img th:src="@{images/icon-instagram.svg}" width="25">
 				</a>
-				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
-					<img th:src="@{images/56cf6e77d3b4fc4579d0a9bf_social-18.svg}" width="25">
+				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+					<img th:src="@{images/icon-twitter.svg}" width="25">
 				</a>
-				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/#">
-					<img th:src="@{images/56cf6e77d3b4fc4579d0a9d0_social-09.svg}" width="25">
+				<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+					<img th:src="@{images/icon-linkedin.svg}" width="25">
 				</a>
 			</div>
 			<p class="built-with-webflow">

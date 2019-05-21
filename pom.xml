@@ -6,11 +6,11 @@
 
 	<groupId>br.com.dblogic</groupId>
 	<artifactId>blogkotlin</artifactId>
-	<version>0.0.14-SNAPSHOT</version>
+	<version>0.0.14.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>blogkotlin</name>
-	<description>Demo project for Spring Boot</description>
+	<description>A Blog project in Kotlin</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
