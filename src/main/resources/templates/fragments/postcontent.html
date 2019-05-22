@@ -1,4 +1,4 @@
-<!DOCTYPE html>favicon
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
@@ -50,7 +50,7 @@
 	</div>
 	
 	<!-- //TODO implementar -->
-	<div th:fragment="item-dynamic(link, backgroundimage, title, date, category)" class="w-dyn-item">
+	<div th:fragment="item-dynamic(link, backgroundimage, title, date, category, summary)" class="w-dyn-item">
 		<div class="post-wrapper">
 			<div class="post-content">
 				<div class="w-row">
@@ -69,8 +69,8 @@
 							<a class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
 						</div>
 						<div class="post-summary-wrapper">
-							<p class="post-summary">The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind</p>
-							<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
+							<p th:class="post-summary">${summary}</p>
+							<a class="read-more-link" th:href="${link}">Read more...</a>
 						</div>
 					</div>
 				</div>
