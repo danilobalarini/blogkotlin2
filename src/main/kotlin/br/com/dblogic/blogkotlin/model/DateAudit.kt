@@ -12,12 +12,12 @@ import javax.persistence.MappedSuperclass
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener :: class)
 @JsonIgnoreProperties(value = arrayOf("createdAt", "updatedAt"), allowGetters = true)
-abstract class DateAudit (	@CreatedDate
-						  	@Column(nullable = false, updatable = false)
-						  	var createdAt: Instant = Instant.now(), 
+abstract class DateAudit (@CreatedDate
+						  @Column(nullable = false, updatable = false)
+						  var createdAt: Instant = Instant.now(), 
 
-					  		@LastModifiedDate
-					  		@Column(nullable = false)
-						  	var updatedAt: Instant = Instant.now()) {
+					  	  @LastModifiedDate
+					  	  @Column(nullable = false)
+						  var updatedAt: Instant = Instant.now()) {
 	
 }

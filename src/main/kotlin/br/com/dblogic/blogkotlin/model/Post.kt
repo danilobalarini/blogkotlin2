@@ -10,14 +10,14 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "tb_post")
-class Post (@Id
-		    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-			@GenericGenerator(name = "native", strategy = "native")
-		   	var id: Long = 0L,
+data class Post (@Id
+		    	 @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+				 @GenericGenerator(name = "native", strategy = "native")
+		   		 var id: Long = 0L,
 			
-			val title: String = "",
+		   		 val title: String = "",
 			
-			@Lob
-			val text: String = "") : DateAudit() {
+		   		 @Lob
+		   		 val text: String = "") : DateAudit() {
 
 }
