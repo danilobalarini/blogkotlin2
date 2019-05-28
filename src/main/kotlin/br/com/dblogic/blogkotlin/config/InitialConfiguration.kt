@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import java.util.concurrent.ThreadLocalRandom
 
 @Configuration
 class InitialConfiguration {
@@ -21,15 +22,21 @@ class InitialConfiguration {
 	fun initDatabase() = CommandLineRunner {
 		
 		val lorem = LoremIpsum.getInstance()
-		
-		logger.info("Preloading: " + postService.save(Post(0, lorem.getTitle(3, 6), lorem.getParagraphs(4, 8))))
-		logger.info("Preloading: " + postService.save(Post(0, lorem.getTitle(4, 7), lorem.getParagraphs(6, 9))))
-		logger.info("Preloading: " + postService.save(Post(0, lorem.getTitle(3, 6), lorem.getParagraphs(4, 8))))
-		logger.info("Preloading: " + postService.save(Post(0, lorem.getTitle(4, 7), lorem.getParagraphs(6, 9))))
-		logger.info("Preloading: " + postService.save(Post(0, lorem.getTitle(3, 6), lorem.getParagraphs(4, 8))))
-		logger.info("Preloading: " + postService.save(Post(0, lorem.getTitle(4, 7), lorem.getParagraphs(6, 9))))
+		var titlemin = 0
+		var titlemax = 0
+		var paragraphmin = 0
+		var paragraphmax = 0
 				
+		for(x in 0 until 10) {
+			titlemin = ThreadLocalRandom.current().nextInt(1, 10)
+			titlemax = ThreadLocalRandom.current().nextInt(titlemin, 12)
+			paragraphmin = ThreadLocalRandom.current().nextInt(3, 12)
+			paragraphmin = ThreadLocalRandom.current().nextInt(paragraphmin, 15)
+			
+			logger.info("Preloading: " + postService.save(Post(0,
+														  lorem.getTitle(titlemin, titlemax),
+														  lorem.getParagraphs(paragraphmin, paragraphmax))))
+		}
 	}
-
 	
 }
