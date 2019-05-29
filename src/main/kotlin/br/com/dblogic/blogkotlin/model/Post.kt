@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.model
 
+import br.com.dblogic.blogkotlin.model.Comment
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -10,20 +11,26 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Lob
+import javax.persistence.OneToMany
 import javax.persistence.Table
-import br.com.dblogic.blogkotlin.repository.DateAuditRepository
+import javax.persistence.CascadeType
 
 @Entity
 @Table(name = "tb_post")
 data class Post (@Id
 		    	 @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 				 @GenericGenerator(name = "native", strategy = "native")
-		   		 val id: Long = 0L,
+		   		 val id: Int = 0,
 
 		   		 var title: String = "",
 
 		   		 @Lob
 		   		 var text: String = "",
+				 
+				 @OneToMany(mappedBy = "post",
+						 	cascade = arrayOf(CascadeType.ALL),
+						 	orphanRemoval = true)
+				 var comments: MutableList<Comment> = mutableListOf<Comment>(),
 
 				 @CreatedDate
 				 @Column(nullable = false, updatable = false)
@@ -36,6 +43,16 @@ data class Post (@Id
 	constructor(title: String, text: String): this() {
 		this.title = title
 		this.text = text
+	}
+	
+	fun addComment(comment: Comment) {
+		comments.add(comment)
+		comment.post = this
+	}
+	
+	fun removeComment(comment: Comment) {
+		comments.remove(comment)
+		comment.post = this
 	}
 
 }

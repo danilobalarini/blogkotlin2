@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 import java.time.Instant
 
 @Repository
-interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
+interface PostRepository : JpaRepository<Post, Int>, JpaSpecificationExecutor<Post> {
 
 	@Query("SELECT MAX(p.id) FROM Post p")
 	fun getMaxId(): Long

@@ -11,17 +11,17 @@ import org.springframework.stereotype.Service
 class PostService {
 	
 	@Autowired
-	lateinit var postRepository: PostRepository;
+	lateinit var postRepository: PostRepository
 	
 	@Autowired
-	lateinit var postSpecification: PostSpecification;
+	lateinit var postSpecification: PostSpecification
 	
 	fun findAll(): List<Post> {
-		return postRepository.findAll();
+		return postRepository.findAll()
 	}
 	
 	fun save(post: Post) : Post {
-		return postRepository.save(post);
+		return postRepository.save(post)
 	}
 	
 	fun frontPage2() : List<Post> {
