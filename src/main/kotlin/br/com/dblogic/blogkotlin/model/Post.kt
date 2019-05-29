@@ -11,6 +11,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Lob
 import javax.persistence.Table
+import br.com.dblogic.blogkotlin.repository.DateAuditRepository
 
 @Entity
 @Table(name = "tb_post")

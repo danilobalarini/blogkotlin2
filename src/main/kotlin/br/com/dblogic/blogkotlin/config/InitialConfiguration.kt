@@ -36,8 +36,8 @@ class InitialConfiguration {
 			Thread.sleep(1_000)
 		}
 		
-		val posts = postService.frontPage()
-		logger.info("Count: " + posts.size)
+		val facade = postService.frontPage()
+		logger.info("Count: " + facade.posts.size)
 		
 		/*for(post in posts) {
 			logger.info(" ### Printing: " + post)

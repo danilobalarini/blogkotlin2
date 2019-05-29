@@ -4,14 +4,22 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.beans.factory.annotation.Autowired
+import br.com.dblogic.blogkotlin.service.PostService
 
 @Controller
 @RequestMapping("", "/blog")
 class BlogController {
 	
+	@Autowired
+	lateinit var postService: PostService
+	
 	@GetMapping("")
-	fun goHome() : String {
-		return "redirect:/index"
+	fun goHome(model: Model) : String {
+		
+		model.addAttribute("facade", postService.frontPage())
+		
+		return "index"
 	}
 	
 	@GetMapping("/index")

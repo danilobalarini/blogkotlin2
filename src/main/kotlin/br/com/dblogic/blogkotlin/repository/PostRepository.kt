@@ -12,10 +12,6 @@ interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<P
 
 	@Query("SELECT MAX(p.id) FROM Post p")
 	fun getMaxId(): Long
-	
-	// fun findTop6OrderedByCreatedAt(instant: Instant): List<Post>
-
-	fun findByCreatedAt(instant: Instant): List<Post>
-	
+		
 	fun findTop6ByOrderByCreatedAtDesc(): List<Post>
 }

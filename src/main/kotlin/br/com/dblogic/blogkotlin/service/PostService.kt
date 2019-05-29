@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.service
 
+import br.com.dblogic.blogkotlin.model.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
@@ -28,11 +29,12 @@ class PostService {
 		return postRepository.findAll(posts)
 	}
 	
-	fun frontPage() : List<Post> {
+	fun frontPage() : FrontPageFacade {
 		
-		var posts = 
+		val posts = postRepository.findTop6ByOrderByCreatedAtDesc()
+		val facade = FrontPageFacade(posts.first(), posts.drop(1))
 		
-		return postRepository.findTop6ByOrderByCreatedAtDesc()
+		return facade
 	}
 	
 }
