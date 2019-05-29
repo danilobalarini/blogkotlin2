@@ -49,34 +49,5 @@
 		</div>
 	</div>
 	
-	<!-- //TODO implementar -->
-	<div th:fragment="item-dynamic(link, backgroundimage, title, date, category, summary)" class="w-dyn-item">
-		<div class="post-wrapper">
-			<div class="post-content">
-				<div class="w-row">
-					<div class="w-col w-col-4 w-col-medium-4">
-						<a class="blog-image w-inline-block" 
-						   th:href="${link}" 
-						   th:style="background-image: url(&#39;${backgroundimage}&#39;);"></a>
-					</div>
-					<div class="w-col w-col-8 w-col-medium-8">
-						<a class="blog-title-link w-inline-block" th:href="${link}">
-							<h2 th:class="blog-title">${title}</h2>
-						</a>
-						<div class="details-wrapper">
-							<div th:class="post-info">${date}</div>
-							<div class="post-info">|</div>
-							<a class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
-						</div>
-						<div class="post-summary-wrapper">
-							<p th:class="post-summary">${summary}</p>
-							<a class="read-more-link" th:href="${link}">Read more...</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
 </body>
 </html>
