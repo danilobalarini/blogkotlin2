@@ -5,11 +5,17 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import java.time.Instant
 
 @Repository
 interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
 
 	@Query("SELECT MAX(p.id) FROM Post p")
 	fun getMaxId(): Long
+	
+	// fun findTop6OrderedByCreatedAt(instant: Instant): List<Post>
 
+	fun findByCreatedAt(instant: Instant): List<Post>
+	
+	fun findTop6ByOrderByCreatedAtDesc(): List<Post>
 }

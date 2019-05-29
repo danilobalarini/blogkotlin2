@@ -6,7 +6,7 @@
 
 	<groupId>br.com.dblogic</groupId>
 	<artifactId>blogkotlin</artifactId>
-	<version>0.0.14.4-SNAPSHOT</version>
+	<version>0.0.14.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>blogkotlin</name>
@@ -80,7 +80,7 @@
 			<version>2.1</version>
 		</dependency>
 		
-<!-- 		<dependency>
+ 		<!-- <dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-devtools</artifactId>
 		</dependency> -->
