@@ -9,9 +9,7 @@ import java.time.Instant
 
 @Repository
 interface PostRepository : JpaRepository<Post, Int>, JpaSpecificationExecutor<Post> {
-
-	@Query("SELECT MAX(p.id) FROM Post p")
-	fun getMaxId(): Long
 		
 	fun findTop6ByOrderByCreatedAtDesc(): List<Post>
+
 }

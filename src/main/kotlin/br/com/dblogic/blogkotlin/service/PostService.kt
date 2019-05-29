@@ -2,6 +2,8 @@ package br.com.dblogic.blogkotlin.service
 
 import br.com.dblogic.blogkotlin.model.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.Post
+import br.com.dblogic.blogkotlin.model.facade.PostCommentCountFacade
+import br.com.dblogic.blogkotlin.repository.CommentRepository
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,6 +14,9 @@ class PostService {
 	
 	@Autowired
 	lateinit var postRepository: PostRepository
+	
+	@Autowired
+	lateinit var commentRepository: CommentRepository
 	
 	@Autowired
 	lateinit var postSpecification: PostSpecification
@@ -32,7 +37,15 @@ class PostService {
 	fun frontPage() : FrontPageFacade {
 		
 		val posts = postRepository.findTop6ByOrderByCreatedAtDesc()
-		val facade = FrontPageFacade(posts.first(), posts.drop(1))
+		val post = PostCommentCountFacade(posts.first(), commentRepository.countByPost(posts.first()))
+		
+		var listPostComments = mutableListOf<PostCommentCountFacade>()
+		
+		for(p in posts.drop(1)) {
+			listPostComments.add(PostCommentCountFacade(p, commentRepository.countByPost(p)))
+		}
+		
+		val facade = FrontPageFacade(post, listPostComments)
 		
 		return facade
 	}
