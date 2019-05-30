@@ -8,7 +8,11 @@
 			<div class="post-content">
 				<h1 th:text="${facade.post.post.title}"></h1>
 				<div class="details-wrapper">
-					<div class="post-info" th:text="${facade.post.post.createdAt}"></div>
+					<div th:with="date=${facade.post.post.createdAt}" 
+						 class="post-info" 
+						 th:text="${#dates.day(date) + ' ' + 
+						 		    #dates.monthName(date) + ' ' + 
+						 		    #dates.year(date)}"></div>
 					<div class="post-info">|</div>
 					<a class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
 				</div>
@@ -30,21 +34,28 @@
 							   href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto" 
 							   style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg&#39;);"></a>
 						</div>
+						
 						<div class="w-col w-col-8 w-col-medium-8">
+							
 							<a class="blog-title-link w-inline-block" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">
 								<h2 th:text="${post.post.title}" class="blog-title"></h2>
 							</a>
+							
 							<div class="details-wrapper">
-								<div class="post-info" th:text="${post.post.createdAt}"></div>
+								<div class="post-info" 
+									 th:with="date=${post.post.createdAt}" 
+									 th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
 								<div class="post-info">|</div>
 								<div class="post-info" th:text=" '(' + ${post.commentCount} + ') Comments'"></div>
 								<div class="post-info">|</div>
-								<a class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
+								<a   class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
 							</div>
+							
 							<div class="post-summary-wrapper">
 								<p class="post-summary" th:text="${#strings.substring(post.post.text,0,130)}"></p>
 								<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
 							</div>
+							
 						</div>
 					</div>
 				</div>
