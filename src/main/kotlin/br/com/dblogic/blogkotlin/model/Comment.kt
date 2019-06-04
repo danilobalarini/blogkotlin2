@@ -31,15 +31,7 @@ data class Comment(@Id
 				   
 				   @ManyToOne(fetch = FetchType.LAZY)
 				   @JoinColumn(name = "post_id")
-				   var post: Post = Post(),
-				   
-   				   @CreatedDate
-				   @Column(nullable = false, updatable = false)
-				   val createdAt: Instant = Instant.now(), 
-
-				   @LastModifiedDate
-				   @Column(nullable = false)
-				   var updatedAt: Instant = Instant.now()) {
+				   var post: Post = Post()) : DateAudit() {
 	
 	constructor(author: String, text: String, post: Post): this() {
 		this.author = author

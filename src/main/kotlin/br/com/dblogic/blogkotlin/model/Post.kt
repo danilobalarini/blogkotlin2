@@ -30,15 +30,7 @@ data class Post (@Id
 				 @OneToMany(mappedBy = "post",
 						 	cascade = arrayOf(CascadeType.ALL),
 						 	orphanRemoval = true)
-				 var comments: MutableList<Comment> = mutableListOf<Comment>(),
-
-				 @CreatedDate
-				 @Column(nullable = false, updatable = false)
-				 val createdAt: Instant = Instant.now(), 
-
-				 @LastModifiedDate
-				 @Column(nullable = false)
-				 var updatedAt: Instant = Instant.now()) {
+				 var comments: MutableList<Comment> = mutableListOf<Comment>()) : DateAudit() {
 
 	constructor(title: String, text: String): this() {
 		this.title = title
