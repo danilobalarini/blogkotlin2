@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Column
 import org.springframework.util.StringUtils
+import javax.persistence.GenerationType
+import javax.persistence.FetchType
+
 
 data class User (@Id
 		    	 @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -16,5 +19,5 @@ data class User (@Id
 				 
 				 val email: String = "",
 				 
-				 val password: String = "") {	
+				 val password: String = "") : DateAudit() {	
 }
