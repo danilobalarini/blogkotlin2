@@ -2,8 +2,10 @@ package br.com.dblogic.blogkotlin.config
 
 import br.com.dblogic.blogkotlin.model.Comment
 import br.com.dblogic.blogkotlin.model.Post
+import br.com.dblogic.blogkotlin.model.User
 import br.com.dblogic.blogkotlin.service.CommentService
 import br.com.dblogic.blogkotlin.service.PostService
+import br.com.dblogic.blogkotlin.service.UserService
 import com.thedeanda.lorem.LoremIpsum
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,27 +24,38 @@ class InitialConfiguration {
 	
 	@Autowired
 	lateinit var commentService: CommentService
+
+	@Autowired
+	lateinit var userService: UserService
 	
 	@Bean
 	fun initDatabase() = CommandLineRunner {
 		
+		val maxPosts = 15
+		val maxUsers = 10
+		val users = createusers(maxUsers)
+			
 		val lorem = LoremIpsum.getInstance()
 		
-		for(x in 0 until 10) {
+		for(x in 0 until maxPosts) {
 			val titlemin = ThreadLocalRandom.current().nextInt(1, 10)
 			val titlemax = ThreadLocalRandom.current().nextInt(titlemin, 12)
 			val paragraphmin = ThreadLocalRandom.current().nextInt(3, 12)
 			val paragraphmax = ThreadLocalRandom.current().nextInt(paragraphmin, 15)
 			
-			var post = postService.save(Post(lorem.getTitle(titlemin, titlemax),
-										lorem.getParagraphs(paragraphmin, paragraphmax)))
+			var post = Post(lorem.getTitle(titlemin, titlemax),
+							lorem.getParagraphs(paragraphmin, paragraphmax))
+					
 			// sleep 1 second
 			Thread.sleep(1_000)
 			
-			for(y in 0 until ThreadLocalRandom.current().nextInt(1, 10)) {
-
+			for(y in 0..ThreadLocalRandom.current().nextInt(0, 15)) {
+				
 				logger.info("--- Creeating Comment ---")
-				post.addComment(Comment(lorem.getTitle(2, 4), lorem.getParagraphs(6, 15), post))
+				val comment = Comment("" + y + ": " + lorem.getTitle(2, 4),
+									  post,
+									  users.get(ThreadLocalRandom.current().nextInt(0, maxUsers)))
+				post.addComment(comment)
 			}
 			
 			postService.save(post)
@@ -51,10 +64,19 @@ class InitialConfiguration {
 		val facade = postService.frontPage()
 		logger.info("Count: " + facade.posts.size)
 		
-		/*for(post in posts) {
-			logger.info(" ### Printing: " + post)
-		}*/
+	}
+	
+	fun createusers(max: Int): List<User> {
 		
+		val lorem = LoremIpsum.getInstance()
+		var listUsers = mutableListOf<User>()
+		
+		for(x in 1..max) {
+			val user = User(x, lorem.getTitle(1, 3))
+			userService.save(user)
+			listUsers.add(user)
+		}
+		return listUsers
 	}
 	
 }

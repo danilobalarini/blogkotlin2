@@ -12,12 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Configuration
 @EnableWebSecurity
 class SecurityConfiguration : WebSecurityConfigurerAdapter()  {
-	
-	@Bean
-	fun passwordEncoder(): PasswordEncoder {
-		return BCryptPasswordEncoder()
-	}
-	
+		
 	override fun configure(http: HttpSecurity) {
 		http.authorizeRequests()
 				.antMatchers("/admin/**").hasRole("ADMIN") 	// se tem role, tem que estar autenticado né
@@ -26,10 +21,9 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter()  {
 				.oauth2Login()
 	}
 	
-	override fun configure(web: WebSecurity) {
-		web.ignoring().antMatchers("/css")
-		web.ignoring().antMatchers("/images")
-		web.ignoring().antMatchers("/templates")
+	@Bean
+	fun passwordEncoder(): PasswordEncoder {
+		return BCryptPasswordEncoder()
 	}
-	
+
 }
