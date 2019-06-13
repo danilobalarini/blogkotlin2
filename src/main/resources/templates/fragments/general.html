@@ -1,16 +1,19 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:fragment="headerfiles">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
-	<link rel="stylesheet" th:href="@{css/style.css}" type="text/css" media="all">
-	<link th:href="@{css/css}" type="text/css" media="all">
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{css/style.css}">
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{css/template.css}">
 	
 	<!-- JAVASCRIPT -->
+	<script type="text/javascript" th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/webjars/modernizr/2.8.3/modernizr.min.js}"></script>
+	<script type="text/javascript" th:src="@{javascript/webflow.js}"></script>
 	
 	<!-- FAVICON -->
 	<link rel="apple-touch-icon" sizes="180x180" th:href="@{images/favicon/apple-touch-icon.png}">
@@ -33,6 +36,7 @@
 				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/about" style="max-width: 940px;">About</a>
 				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/contact" style="max-width: 940px;">Contact</a>
 				<a class="navigation-link w-nav-link" th:href="@{/admin}" style="max-width: 940px;">Admin</a>
+				<!-- a sec:authentication=”name”></a> -->
 			</nav>
 			<div class="menu-button w-nav-button">
 				<div class="w-icon-nav-menu"></div>
@@ -126,7 +130,7 @@
 	</div>
     
     <footer th:fragment="footerfiles">
-		<script type="text/javascript" th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
+		
 		<!--[if lte IE 9]><script th:src="@{webjars/Placeholders/3.0.2-1/Placeholders.min.js}"></script><![endif]-->
     </footer>
     

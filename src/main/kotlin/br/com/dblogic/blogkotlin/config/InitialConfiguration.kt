@@ -45,9 +45,9 @@ class InitialConfiguration {
 			
 			var post = Post(lorem.getTitle(titlemin, titlemax),
 							lorem.getParagraphs(paragraphmin, paragraphmax))
-					
+			
 			// sleep 1 second
-			Thread.sleep(1_000)
+			//Thread.sleep(1_000)
 			
 			for(y in 0..ThreadLocalRandom.current().nextInt(0, 15)) {
 				
@@ -73,8 +73,7 @@ class InitialConfiguration {
 		
 		for(x in 1..max) {
 			val user = User(x, lorem.getTitle(1, 3))
-			userService.save(user)
-			listUsers.add(user)
+			listUsers.add(userService.save(user))
 		}
 		return listUsers
 	}
