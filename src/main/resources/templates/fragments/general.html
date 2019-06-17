@@ -12,7 +12,7 @@
 	
 	<!-- JAVASCRIPT -->
 	<script type="text/javascript" th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{/webjars/modernizr/2.8.3/modernizr.min.js}"></script>
+	<script type="text/javascript" th:src="@{webjars/modernizr/2.8.3/modernizr.min.js}"></script>
 	<script type="text/javascript" th:src="@{javascript/webflow.js}"></script>
 	
 	<!-- FAVICON -->
@@ -49,10 +49,10 @@
 		<div class="white-wrapper">
 			
 			<img class="circle-profile" sizes="(max-width: 767px) 100vw, 
-											   (max-width: 991px) 97.296875px, 126px" th:src="@{images/profile.jpg}"
-				srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, 
-						http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
-						
+											   (max-width: 991px) 97.296875px, 126px" 
+										th:src="@{images/profile.jpg}"
+										th:srcset="@{images/profile500x500.jpg 500w, images/profile700x700.jpg 700w}">
+												   
 			<p class="site-description">Denali is a simple responsive blog template. Easily add new posts using the Editor or change layout and design using the Designer.</p>
 			<div class="grey-rule"></div>
 			<h2 class="small-heading">Featured Posts:</h2>
@@ -91,9 +91,9 @@
 		<div class="white-wrapper">
 			
 			<img class="circle-profile" sizes="(max-width: 767px) 100vw, 
-											   (max-width: 991px) 97.296875px, 126px" th:src="@{images/profile.jpg}"
-				srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, 
-						http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
+											   (max-width: 991px) 97.296875px, 126px" 
+										th:src="@{images/profile.jpg}"
+										th:srcset="@{images/profile500x500.jpg 500w, images/profile700x700.jpg 700w}">
 						
 			<p class="site-description">Denali is a simple responsive blog template. Easily add new posts using the Editor or change layout and design using the Designer.</p>
 			<div class="grey-rule"></div>
@@ -130,8 +130,9 @@
 	</div>
     
     <footer th:fragment="footerfiles">
-		
-		<!--[if lte IE 9]><script th:src="@{webjars/Placeholders/3.0.2-1/Placeholders.min.js}"></script><![endif]-->
+		<!--[if lte IE 9]>
+			<script th:src="@{webjars/Placeholders/3.0.2-1/Placeholders.min.js}"></script>
+		<![endif] -->
     </footer>
     
 </body>
