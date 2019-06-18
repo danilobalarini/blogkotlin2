@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import java.time.Instant
 import java.util.concurrent.ThreadLocalRandom
+import br.com.dblogic.blogkotlin.utils.DateUtils
 
 @Configuration
 class InitialConfiguration {
@@ -28,6 +30,9 @@ class InitialConfiguration {
 	@Autowired
 	lateinit var userService: UserService
 	
+	@Autowired
+	lateinit var dateUtils: DateUtils
+	
 	@Bean
 	fun initDatabase() = CommandLineRunner {
 		
@@ -42,28 +47,32 @@ class InitialConfiguration {
 			val titlemax = ThreadLocalRandom.current().nextInt(titlemin, 12)
 			val paragraphmin = ThreadLocalRandom.current().nextInt(3, 12)
 			val paragraphmax = ThreadLocalRandom.current().nextInt(paragraphmin, 15)
+			val datePost = dateUtils.getRandomDateSince(30)
 			
 			var post = Post(lorem.getTitle(titlemin, titlemax),
-							lorem.getParagraphs(paragraphmin, paragraphmax))
-			
-			// sleep 1 second
-			//Thread.sleep(1_000)
+							lorem.getParagraphs(paragraphmin, paragraphmax),
+							datePost)
+						
+			var plusInstant = dateUtils.plusInstantUntilNow(datePost)
+			logger.info("plusInstant: " + dateUtils.toLocalDate(plusInstant)) 
 			
 			for(y in 0..ThreadLocalRandom.current().nextInt(0, 15)) {
+								
+				logger.info("--- Creating Comment " + y + " --- " +
+							" - instant: " + dateUtils.toLocalDate(plusInstant))
 				
-				logger.info("--- Creeating Comment ---")
 				val comment = Comment("" + y + ": " + lorem.getTitle(2, 4),
 									  post,
-									  users.get(ThreadLocalRandom.current().nextInt(0, maxUsers)))
+									  users.get(ThreadLocalRandom.current().nextInt(0, maxUsers)),
+									  plusInstant)
+				
 				post.addComment(comment)
+				plusInstant = dateUtils.plusInstantUntilNow(plusInstant)
 			}
-			
 			postService.save(post)
 		}
 		
-		val facade = postService.frontPage()
-		logger.info("Count: " + facade.posts.size)
-		
+		logger.info("Comment Count: " + commentService.count())
 	}
 	
 	fun createusers(max: Int): List<User> {

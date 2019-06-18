@@ -1,12 +1,9 @@
 package br.com.dblogic.blogkotlin.model
 
-import br.com.dblogic.blogkotlin.model.User
 import org.hibernate.annotations.GenericGenerator
-import javax.persistence.Column
+import java.time.Instant
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.Lob
@@ -35,6 +32,13 @@ data class Comment(@Id
 		this.text = text
 		this.post = post
 		this.user = user
+	}
+
+	constructor(text: String, post: Post, user: User, createdAt: Instant): this() {
+		this.text = text
+		this.post = post
+		this.user = user
+		this.createdAt = createdAt
 	}
 	
 	fun addComment(text: String, post: Post, user: User) {

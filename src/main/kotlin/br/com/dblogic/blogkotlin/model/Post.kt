@@ -36,6 +36,12 @@ data class Post (@Id
 		this.title = title
 		this.text = text
 	}
+
+	constructor(title: String, text: String, createdAt: Instant): this() {
+		this.title = title
+		this.text = text
+		this.createdAt = createdAt
+	}
 	
 	fun addComment(comment: Comment) {
 		comments.add(comment)

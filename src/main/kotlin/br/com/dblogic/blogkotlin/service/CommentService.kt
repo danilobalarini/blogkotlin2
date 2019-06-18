@@ -11,6 +11,10 @@ class CommentService {
 	@Autowired
 	lateinit var commentRepository: CommentRepository
 	
+	fun count(): Long {
+		return commentRepository.count();
+	}
+	
 	fun findAll(): List<Comment> {
 		return commentRepository.findAll()
 	}
