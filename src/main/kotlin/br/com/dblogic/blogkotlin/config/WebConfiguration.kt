@@ -22,6 +22,7 @@ class WebConfiguration : WebMvcConfigurer {
 		registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/")
 		registry.addResourceHandler("/javascript/**").addResourceLocations("classpath:/static/javascript/")
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/")
+		registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/images/favicon/favicon.ico")
 		
 		// ## swagger config ##
 		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");

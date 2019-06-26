@@ -52,14 +52,13 @@ class InitialConfiguration {
 			var post = Post(lorem.getTitle(titlemin, titlemax),
 							lorem.getParagraphs(paragraphmin, paragraphmax),
 							datePost)
-						
+			
 			var plusInstant = dateUtils.plusInstantUntilNow(datePost)
 			logger.info("plusInstant: " + dateUtils.toLocalDate(plusInstant)) 
 			
 			for(y in 0..ThreadLocalRandom.current().nextInt(0, 15)) {
 								
-				logger.info("--- Creating Comment " + y + " --- " +
-							" - instant: " + dateUtils.toLocalDate(plusInstant))
+				logger.info("Comment " + y + " - instant: " + dateUtils.toLocalDate(plusInstant))
 				
 				val comment = Comment("" + y + ": " + lorem.getTitle(2, 4),
 									  post,

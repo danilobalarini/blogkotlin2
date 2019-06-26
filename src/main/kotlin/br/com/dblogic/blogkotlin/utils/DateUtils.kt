@@ -17,14 +17,15 @@ import java.time.ZonedDateTime
 class DateUtils {
 	
 	private val logger = LoggerFactory.getLogger(DateUtils::class.java)
-	
+			
 	fun toLocalDate(instant: Instant): String {
 
 		val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
 										 .withLocale(Locale.getDefault())
-										 .withZone(ZoneId.systemDefault());
+										 .withZone(ZoneId.systemDefault())
 		
-		return formatter.format(ZonedDateTime.ofInstant(instant, ZoneId.systemDefault()))
+		return formatter.format(ZonedDateTime.ofInstant(instant,
+														ZoneId.systemDefault()))
 	}
 	
 	fun getRandomDateSince(days: Int): Instant {
@@ -32,9 +33,9 @@ class DateUtils {
 		val rand = ThreadLocalRandom.current().nextInt(1, days)
 		val begin = Instant.now().minus(rand.toLong(), ChronoUnit.DAYS)
 		
-		val hours = TimeUnit.HOURS.toMillis(ThreadLocalRandom.current().nextLong(0, 24))
-		val minutes = TimeUnit.MINUTES.toMillis(ThreadLocalRandom.current().nextLong(0, 60))
-		val seconds = TimeUnit.SECONDS.toMillis(ThreadLocalRandom.current().nextLong(0, 60))
+		val hours = TimeUnit.HOURS.toMillis(ThreadLocalRandom.current().nextLong(0, 23))
+		val minutes = TimeUnit.MINUTES.toMillis(ThreadLocalRandom.current().nextLong(0, 59))
+		val seconds = TimeUnit.SECONDS.toMillis(ThreadLocalRandom.current().nextLong(0, 59))
 		
 		return begin.minus(hours, ChronoUnit.MILLIS)
 					.minus(minutes, ChronoUnit.MILLIS)
