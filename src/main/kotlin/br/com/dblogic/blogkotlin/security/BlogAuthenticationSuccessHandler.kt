@@ -12,52 +12,64 @@ import org.slf4j.LoggerFactory
 import org.apache.commons.lang3.StringUtils
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import java.io.IOException
+import javax.servlet.ServletException
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
+import org.springframework.beans.factory.annotation.Autowired
+import javax.servlet.http.HttpSession
 
 @Component
-class BlogAuthenticationSuccessHandler : AuthenticationSuccessHandler {
+class BlogAuthenticationSuccessHandler : SavedRequestAwareAuthenticationSuccessHandler() {
 		
-		@Value("#{'${blog.admin.list}'.split(',')}")
-		val admins : MutableList<String> = mutableListOf<String>()
-		
+		//@Value("#{'${blog.admin.list}'.split(',')}")
+		@Value("\${blog.admin}")
+		val admin: String? = null
+			
 		private val log = LoggerFactory.getLogger(BlogAuthenticationSuccessHandler::class.java)
+			
+		@Throws(ServletException::class, IOException::class)
+		override fun onAuthenticationSuccess(request: HttpServletRequest,
+                              				 response: HttpServletResponse,
+											 authentication: Authentication) {
+ 			
+		if(checkEmail(authentication)) {
+			
+			val adminRole = SimpleGrantedAuthority("ROLE_ADMIN")
+			val oldAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+			val updateAuthorities = mutableListOf<GrantedAuthority>()
+			updateAuthorities.add(adminRole)
+			updateAuthorities.addAll(oldAuthorities)
+			
+			SecurityContextHolder.getContext().setAuthentication(UsernamePasswordAuthenticationToken(authentication.getPrincipal(),
+																									 authentication.getCredentials(),
+																									 updateAuthorities))
+		}
 		
-		override fun onAuthenticationSuccess(request: HttpServletRequest?,
-											 response: HttpServletResponse?,
-											 authentication: Authentication?) {
+		log.info("authentication.getCredentials() : " + authentication.getCredentials())
+		log.info("authentication.getName()		  : " + authentication.getName())
+		log.info("authentication.getPrincipal()   : " + authentication.getPrincipal())
+		log.info("authentication.getDetails() 	  : " + authentication.getDetails())
+		
+		val session = request.getSession()
 			
-			if(checkEmail(authentication)) {
-				
-				val adminRole = SimpleGrantedAuthority("ROLE_ADMIN")
-				val oldAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-				val updateAuthorities = mutableListOf<GrantedAuthority>()
-				updateAuthorities.add(adminRole)
-				updateAuthorities.addAll(oldAuthorities)
-				
-				SecurityContextHolder.getContext().setAuthentication(UsernamePasswordAuthenticationToken(authentication?.getPrincipal(),
-																										 authentication?.getCredentials(),
-																										 updateAuthorities))
-			}
-			
-			log.info("authentication.getCredentials() : " + authentication?.getCredentials())
-			log.info("authentication.getName()		  : " + authentication?.getName())
-			log.info("authentication.getPrincipal()   : " + authentication?.getPrincipal())
-			log.info("authentication.getDetails() 	  : " + authentication?.getDetails())
+		for(attribute in session.getAttributeNames()) {
+			log.info("attribute: " + attribute + " -> " + session.getAttribute(attribute))
+		}
 
+		super.onAuthenticationSuccess(request, response, authentication)
 	}
 	
 	fun checkEmail(authentication: Authentication?) : Boolean {
 		
-		var validEmail = false;
-		
 		if(StringUtils.isNotBlank(authentication?.getPrincipal().toString())) {
 			
 			val email = extractEmailFromPrincipal(authentication?.getPrincipal().toString())
-			
-			if(StringUtils.isNotBlank(email)) {
-				validEmail = true
+						
+			if(StringUtils.equalsIgnoreCase(admin, email)) {
+				return true
 			}
 		}
-		return validEmail
+		return false
 	}
 	
 	fun extractEmailFromPrincipal(principal : String) : String {
