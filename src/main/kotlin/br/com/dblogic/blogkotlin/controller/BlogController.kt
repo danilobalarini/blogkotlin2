@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import br.com.dblogic.blogkotlin.service.PostService
 
 @Controller
-@RequestMapping("", "/blog")
+@RequestMapping("")
 class BlogController {
 	
 	@Autowired
 	lateinit var postService: PostService
 	
-	@GetMapping("")
+	@GetMapping("", "/home", "/index")
 	fun goHome(model: Model) : String {
 		
 		model.addAttribute("facade", postService.frontPage())

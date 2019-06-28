@@ -10,12 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 class AdminController {
 	
 	@GetMapping("")
-	fun admin(model: Model) : String {
-		
-		//model.addAttribute("facade", postService.frontPage())
-		
+	fun admin() : String {
 		return "admin"
 	}
-
 	
 }

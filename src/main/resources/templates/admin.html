@@ -14,10 +14,15 @@
 		<div class="w-container">
 			<div class="w-row">
 							
-				<div class="content-column w-col w-col-9">
-					<h1>Hello Admin</h1>
-				</div>
+				<div th:replace="fragments/general.html :: sidebar"></div>
 				
+				<div class="content-column w-col w-col-9">
+									
+				<h1 th:text="'Hello ' + ${#authentication.name}"></h1>
+					
+				<div th:replace="fragments/general.html :: mobile-sidebar"></div>
+					
+				</div>
 			</div>
 		</div>
 	</div>

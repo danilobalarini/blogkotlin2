@@ -2157,10 +2157,20 @@ figcaption {
 }
 
 .grey-rule {
+	width: 300px;
+	height: 1px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	background-color: #c7c7c7;
+}
+
+.grey-rule-sidebar {
 	width: 90px;
 	height: 1px;
 	margin-top: 15px;
 	margin-bottom: 15px;
+	margin-left: auto;
+	margin-right: auto;
 	background-color: #c7c7c7;
 }
 
