@@ -13,5 +13,15 @@ class AdminController {
 	fun admin() : String {
 		return "admin"
 	}
+
+	@GetMapping("/reports")
+	fun reports() : String {
+		return "admin"
+	}
+
+	@GetMapping("/compose")
+	fun compose() : String {
+		return "compose"
+	}
 	
 }

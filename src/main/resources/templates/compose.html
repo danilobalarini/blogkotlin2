@@ -3,7 +3,7 @@
 
 <head>
 	<title>Admin</title>
-	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles"> </th:block> /*/-->
+	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_level_1"> </th:block> /*/-->
 </head>
 
 <body>
@@ -18,11 +18,11 @@
 				
 				<div class="content-column w-col w-col-9">
 									
-				<div th:replace="fragments/static.html :: about"></div>
-				
-				<h1 th:text="'Hello ' + ${#authentication.name}"></h1>
+					<div th:replace="fragments/static.html :: about"></div>
 					
-				<div th:replace="fragments/general.html :: mobile-sidebar"></div>
+					<h1 th:text="'Hello ' + ${#authentication.name}"></h1>
+						
+					<div th:replace="fragments/general.html :: mobile-sidebar"></div>
 					
 				</div>
 			</div>

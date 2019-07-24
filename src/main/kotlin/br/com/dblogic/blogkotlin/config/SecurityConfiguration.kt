@@ -26,10 +26,4 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter()  {
 				.oauth2Login()
 				.successHandler(blogAuthenticationSuccessHandler)
 	}
-	
-	@Bean
-	fun passwordEncoder(): PasswordEncoder {
-		return BCryptPasswordEncoder()
-	}
-
 }

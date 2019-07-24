@@ -9,9 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.thymeleaf.spring5.view.ThymeleafViewResolver
 
 @Configuration
-@EnableWebMvc
 class WebConfiguration : WebMvcConfigurer {
-		
+	
 	private val log = LoggerFactory.getLogger(WebConfiguration::class.java)
 	
 	override fun addResourceHandlers(registry: ResourceHandlerRegistry) {

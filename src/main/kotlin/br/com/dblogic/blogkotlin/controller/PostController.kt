@@ -3,13 +3,13 @@ package br.com.dblogic.blogkotlin.controller
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.service.PostService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 
-@RestController
+@Controller
 @RequestMapping("/post")
 class PostController {
 	
