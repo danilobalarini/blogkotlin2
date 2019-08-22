@@ -20,10 +20,10 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter()  {
 	
 	override fun configure(http: HttpSecurity) {
 		http.authorizeRequests()
-				.antMatchers("/admin/**").hasRole("ADMIN") 	// se tem role, tem que estar autenticado né
+//				.antMatchers("/admin/**").hasRole("ADMIN") 	// se tem role, tem que estar autenticado né
 				.anyRequest().permitAll() 					// permite o resto das url's
-			.and()
-				.oauth2Login()
-				.successHandler(blogAuthenticationSuccessHandler)
+//			.and()
+//				.oauth2Login()
+//				.successHandler(blogAuthenticationSuccessHandler)
 	}
 }

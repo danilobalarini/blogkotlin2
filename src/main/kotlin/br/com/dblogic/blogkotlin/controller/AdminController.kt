@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/admin")
 class AdminController {
+
+	private val LOGGER = LoggerFactory.getLogger(AdminController::class.java)
 	
 	@GetMapping("")
 	fun admin() : String {
@@ -22,6 +24,11 @@ class AdminController {
 	@GetMapping("/compose")
 	fun compose() : String {
 		return "compose"
+	}
+
+	@PostMapping("/savecompose")
+	fun savecompose() {
+		LOGGER.info("salvou!!!")
 	}
 	
 }

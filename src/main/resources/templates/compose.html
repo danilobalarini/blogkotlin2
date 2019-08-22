@@ -4,6 +4,11 @@
 <head>
 	<title>Admin</title>
 	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_level_1"> </th:block> /*/-->
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 </head>
 
 <body>
@@ -13,13 +18,21 @@
 	<div class="content-wrapper">
 		<div class="w-container">
 			<div class="w-row">
-							
+				<script>
+					$(document).ready(function() {
+						$('#summernote').summernote();
+					});
+				</script>
+				
 				<div th:replace="fragments/general.html :: sidebar"></div>
 				
 				<div class="content-column w-col w-col-9">
-									
+
+					<form method="post" action="">
+							<textarea id="summernote" name="editordata"></textarea>
+					</form>	
+
 					<div th:replace="fragments/static.html :: about"></div>
-					
 					<h1 th:text="'Hello ' + ${#authentication.name}"></h1>
 						
 					<div th:replace="fragments/general.html :: mobile-sidebar"></div>
