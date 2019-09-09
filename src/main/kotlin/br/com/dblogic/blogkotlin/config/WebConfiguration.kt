@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry
+import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver
 
 @Configuration
@@ -15,7 +18,7 @@ class WebConfiguration : WebMvcConfigurer {
 	
 	override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
 	
-		log.info(" ####### Entering ResourceHandlers configurations ####### ")
+		log.info("####### Entering ResourceHandlers configurations #######")
 		
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/")
 		registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/")

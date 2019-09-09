@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:spring="http://www.springframework.org/tags" 
+	  xmlns:form="http://www.springframework.org/tags/form">
 <head>
 	<title>Admin</title>
 	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_level_1"> </th:block> /*/-->
@@ -18,23 +19,20 @@
 	<div class="content-wrapper">
 		<div class="w-container">
 			<div class="w-row">
-				<script>
-					$(document).ready(function() {
-						$('#summernote').summernote();
-					});
-				</script>
 				
 				<div th:replace="fragments/general.html :: sidebar"></div>
 				
 				<div class="content-column w-col w-col-9">
 
-					<form method="post" action="">
-							<textarea id="summernote" name="editordata"></textarea>
-					</form>	
+					<input type="text" id="title" name="txtTitle">
+
+					<div id="summernote" name="article"></div>
+
+					<input type="button" value="Save" id="executeForm" name="btnAction" onclick="postr();">
 
 					<div th:replace="fragments/static.html :: about"></div>
 					<h1 th:text="'Hello ' + ${#authentication.name}"></h1>
-						
+
 					<div th:replace="fragments/general.html :: mobile-sidebar"></div>
 					
 				</div>
@@ -43,6 +41,35 @@
 	</div>
 
 	<div th:replace="fragments/general.html :: footerfiles"></div>
+
+	<script>
+		$(document).ready(function() {
+			$('#summernote').summernote();
+		});
+
+		function postr() {
+
+			// var title = $("#title").val();
+			// var summernote = $('#summernote').summernote('code');
+
+			// var data = {"title":title, 
+			// 			"text":summernote};
+
+			// console.log("data -> " + data);
+
+			$.ajax({
+				type: "POST",
+				url: "/post/create",
+				data: JSON.stringify({
+        				title: $("#title").val(),
+        				text: $('#summernote').summernote('code')
+    			}),
+				contentType: "application/json; charset=utf-8",
+    			dataType: "json"
+			});
+		}
+
+	</script>
 
 </body>
 

@@ -25,5 +25,6 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter()  {
 //			.and()
 //				.oauth2Login()
 //				.successHandler(blogAuthenticationSuccessHandler)
+		http.csrf().disable()
 	}
 }

@@ -26,3 +26,4 @@
 
 ## Microsoft VSCode
 .vscode/*
+.attach_pid*
