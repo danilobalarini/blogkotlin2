@@ -49,14 +49,6 @@
 
 		function postr() {
 
-			// var title = $("#title").val();
-			// var summernote = $('#summernote').summernote('code');
-
-			// var data = {"title":title, 
-			// 			"text":summernote};
-
-			// console.log("data -> " + data);
-
 			$.ajax({
 				type: "POST",
 				url: "/post/create",
@@ -68,7 +60,6 @@
     			dataType: "json"
 			});
 		}
-
 	</script>
 
 </body>
