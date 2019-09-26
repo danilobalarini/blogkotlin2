@@ -76,8 +76,8 @@
 		<div th:replace="fragments/sidebar.html :: content-sidebar"></div>
 	</div>
 	
-	<div 	 th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="mobile-sidebar" class="sidebar-on-mobile">
-		<div th:replace="fragments/sidebar.html :: content-sidebar"></div>
+	<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="mobile-sidebar" class="sidebar-on-mobile">
+		<div th:replace="fragments/sidebar.html :: content-sidebar-admin"></div>
 	</div>
 	
 	<div th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="mobile-sidebar" class="sidebar-on-mobile">
