@@ -3,7 +3,7 @@
 
 <head>
 	<title>Article</title>
-	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles"> </th:block> /*/-->
+	<!--/*/ <th:block th:include="fragments/general2.html :: headerfiles"> </th:block> /*/-->
 </head>
 
 <body>
@@ -23,35 +23,8 @@
 	<div class="content-wrapper">
 		<div class="w-container">
 			<div class="w-row">
-				<div class="w-col w-col-3 w-hidden-small w-hidden-tiny">
-					<div class="white-wrapper">
-						<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" src="./article_files/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
-							srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
-						<p class="site-description">Denali is a simple responsive blog template. Easily add new posts using the Editor or change layout and design using the Designer.</p>
-						<div class="grey-rule"></div>
-						<h2 class="small-heading">Featured Posts:</h2>
-						<div class="feature-posts-list w-dyn-list">
-							<div class="w-dyn-items">
-								<div class="w-dyn-item">
-									<a class="small-post-link" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino">According a funnily until pre-set or arrogant well cheerful</a>
-								</div>
-								<div class="w-dyn-item">
-									<a class="small-post-link" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait">Overlaid the jeepers uselessly much excluding</a>
-								</div>
-							</div>
-						</div>
-						<div class="grey-rule"></div>
-						<div class="social-link-group">
-							<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto#"><img src="./article_files/56cf6e77d3b4fc4579d0a99b_social-03.svg" width="25"></a><a class="social-icon-link w-inline-block"
-								href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto#"><img src="./article_files/56cf6e77d3b4fc4579d0a9a9_social-07.svg" width="25"></a><a class="social-icon-link w-inline-block"
-								href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto#"><img src="./article_files/56cf6e77d3b4fc4579d0a9bf_social-18.svg" width="25"></a><a class="social-icon-link w-inline-block"
-								href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto#"><img src="./article_files/56cf6e77d3b4fc4579d0a9d0_social-09.svg" width="25"></a>
-						</div>
-						<p class="built-with-webflow">
-							Built with <a class="webflow-link" target="_blank" href-disabled="https://webflow.com" href="https://webflow.com/">Webflow</a>
-						</p>
-					</div>
-				</div>
+
+				<div th:replace="fragments/general2.html :: sidebar"></div>
 				
 				<div class="content-column w-col w-col-9">
 					<div class="post-wrapper">
@@ -89,35 +62,9 @@
 					<div class="button-wrapper">
 						<a class="button w-button" href="http://denali-template.webflow.io/all-posts">←&nbsp;All posts</a>
 					</div>
-					<div class="sidebar-on-mobile">
-						<div class="white-wrapper">
-							<img class="circle-profile" sizes="(max-width: 767px) 100vw, (max-width: 991px) 97.296875px, 126px" src="./article_files/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg"
-								srcset="http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead-p-500x500.jpeg 500w, http://uploads.webflow.com/56cf6e77d3b4fc4579d0a954/56e9f064f237f02b70597848_photo-1443180236447-432ea00e6ead.jpg 700w">
-							<p class="site-description">Denali is a simple responsive blog template. Easily add new posts using the Editor or change layout and design using the Designer.</p>
-							<div class="grey-rule"></div>
-							<h2 class="small-heading">Featured Posts:</h2>
-							<div class="feature-posts-list w-dyn-list">
-								<div class="w-dyn-items">
-									<div class="w-dyn-item">
-										<a class="small-post-link" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino">According a funnily until pre-set or arrogant well cheerful</a>
-									</div>
-									<div class="w-dyn-item">
-										<a class="small-post-link" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait">Overlaid the jeepers uselessly much excluding</a>
-									</div>
-								</div>
-							</div>
-							<div class="grey-rule"></div>
-							<div class="social-link-group">
-								<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto#"><img src="./article_files/56cf6e77d3b4fc4579d0a99b_social-03.svg" width="25"></a><a class="social-icon-link w-inline-block"
-									href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto#"><img src="./article_files/56cf6e77d3b4fc4579d0a9a9_social-07.svg" width="25"></a><a class="social-icon-link w-inline-block"
-									href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto#"><img src="./article_files/56cf6e77d3b4fc4579d0a9bf_social-18.svg" width="25"></a><a class="social-icon-link w-inline-block"
-									href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto#"><img src="./article_files/56cf6e77d3b4fc4579d0a9d0_social-09.svg" width="25"></a>
-							</div>
-							<p class="built-with-webflow">
-								Built with <a class="webflow-link" target="_blank" href-disabled="https://webflow.com" href="https://webflow.com/">Webflow</a>
-							</p>
-						</div>
-					</div>
+
+					<div th:replace="fragments/general2.html :: mobile-sidebar"></div>
+
 				</div>
 			</div>
 		</div>

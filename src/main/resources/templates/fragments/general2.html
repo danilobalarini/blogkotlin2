@@ -7,19 +7,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" media="all" th:href="@{css/style.css}">
-	<link rel="stylesheet" type="text/css" media="all" th:href="@{css/template.css}">
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../css/style.css}">
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../css/template.css}">
 	
 	<!-- JAVASCRIPT -->
-	<script type="text/javascript" th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{webjars/modernizr/2.8.3/modernizr.min.js}"></script>
-	<script type="text/javascript" th:src="@{javascript/webflow.js}"></script>
+	<script type="text/javascript" th:src="@{../webjars/jquery/3.4.1/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{../webjars/modernizr/2.8.3/modernizr.min.js}"></script>
+	<script type="text/javascript" th:src="@{../javascript/webflow.js}"></script>
 	
 	<!-- FAVICON -->
-	<link rel="apple-touch-icon" sizes="180x180" th:href="@{images/favicon/apple-touch-icon.png}">
-	<link rel="icon" type="image/png" sizes="32x32" th:href="@{images/favicon/favicon-32x32.png}">
-	<link rel="icon" type="image/png" sizes="16x16" th:href="@{images/favicon/favicon-16x16.png}">
-	<link rel="manifest" th:href="@{images/favicon/site.webmanifest}">
+	<link rel="apple-touch-icon" sizes="180x180" th:href="@{../images/favicon/apple-touch-icon.png}">
+	<link rel="icon" type="image/png" sizes="32x32" th:href="@{../images/favicon/favicon-32x32.png}">
+	<link rel="icon" type="image/png" sizes="16x16" th:href="@{../images/favicon/favicon-16x16.png}">
+	<link rel="manifest" th:href="@{../images/favicon/site.webmanifest}">
 	
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic" />
 </head>
@@ -33,9 +33,9 @@
 	<link rel="stylesheet" type="text/css" media="all" th:href="@{../css/template.css}">
 	
 	<!-- JAVASCRIPT -->
-	<script type="text/javascript" th:src="@{../webjars/jquery/3.4.1/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{../webjars/modernizr/2.8.3/modernizr.min.js}"></script>
-	<script type="text/javascript" th:src="@{../javascript/webflow.js}"></script>
+	<script type="text/javascript" th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{webjars/modernizr/2.8.3/modernizr.min.js}"></script>
+	<script type="text/javascript" th:src="@{javascript/webflow.js}"></script>
 	
 	<!-- FAVICON -->
 	<link rel="apple-touch-icon" sizes="180x180" th:href="@{../images/favicon/apple-touch-icon.png}">
@@ -69,19 +69,19 @@
 
 	<!-- <SIDEBAR> -->
 	<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="sidebar" class="w-col w-col-3 w-hidden-small w-hidden-tiny">
-		<div th:replace="fragments/sidebar.html :: content-sidebar-admin"></div>
+		<div th:replace="fragments/sidebar2.html :: content-sidebar-admin"></div>
 	</div>
 
 	<div th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="sidebar" class="w-col w-col-3 w-hidden-small w-hidden-tiny">
-		<div th:replace="fragments/sidebar.html :: content-sidebar"></div>
+		<div th:replace="fragments/sidebar2.html :: content-sidebar"></div>
 	</div>
 	
 	<div 	 th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="mobile-sidebar" class="sidebar-on-mobile">
-		<div th:replace="fragments/sidebar.html :: content-sidebar"></div>
+		<div th:replace="fragments/sidebar2.html :: content-sidebar"></div>
 	</div>
 	
 	<div th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="mobile-sidebar" class="sidebar-on-mobile">
-		<div th:replace="fragments/sidebar.html :: content-sidebar"></div>
+		<div th:replace="fragments/sidebar2.html :: content-sidebar"></div>
 	</div>
 	<!-- </SIDEBAR> -->
 

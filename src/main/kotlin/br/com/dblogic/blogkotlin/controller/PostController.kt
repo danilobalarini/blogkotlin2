@@ -33,4 +33,9 @@ class PostController {
 		return "compose"
 	}
 
+	@GetMapping("/article")
+	fun simpleArticle() : String {
+		return "article"
+	}
+
 }

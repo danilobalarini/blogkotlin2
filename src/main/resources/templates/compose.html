@@ -14,7 +14,7 @@
 
 <body>
 
-	<div th:replace="fragments/general.html :: header"></div>
+	<div th:replace="fragments/general2.html :: header"></div>
 	
 	<div class="content-wrapper">
 		<div class="w-container">
@@ -27,14 +27,14 @@
 					<input type="text" id="title" name="txtTitle">
 
 					<div id="summernote" name="article"></div>
-
-					<input type="button" value="Save" id="executeForm" name="btnAction" onclick="postr();">
+					<p>
+						<input type="button" value="Save" id="executeForm" name="btnAction" onclick="postr();">
+					</p>
 
 					<div th:replace="fragments/static.html :: about"></div>
 					<h1 th:text="'Hello ' + ${#authentication.name}"></h1>
-
 					<div th:replace="fragments/general.html :: mobile-sidebar"></div>
-					
+
 				</div>
 			</div>
 		</div>
