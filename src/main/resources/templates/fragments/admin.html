@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      
+    <body>
+
+        <div th:fragment="index" class="post-wrapper">
+            <div class="post-content">
+                <div class="body-copy w-richtext">
+                    <br th:each="post: ${posts}" th:text="${post.title}">
+                </div>
+                <a class="button w-button" href="http://denali-template.webflow.io/contact">Get in touch</a>
+            </div>
+        </div>
+
+    </body>
+
+</html>
