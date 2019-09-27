@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	  
-	<div th:fragment="content-sidebar" class="white-wrapper">
+	  <div th:fragment="content-sidebar" class="white-wrapper">
 		
 		<img class="circle-profile" sizes="(max-width: 767px) 100vw, 
 										   (max-width: 991px) 97.296875px, 126px" 
@@ -35,6 +35,46 @@
 			</a>
 			<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
 				<img th:src="@{images/icon-linkedin.svg}" width="25">
+			</a>
+		</div>
+		<p class="built-with-webflow">
+			Built with <a class="webflow-link" target="_blank" href-disabled="https://webflow.com" href="https://webflow.com/">Webflow</a>
+		</p>
+	</div>
+
+	<div th:fragment="content-sidebar_level_1" class="white-wrapper">
+		
+		<img class="circle-profile" sizes="(max-width: 767px) 100vw, 
+										   (max-width: 991px) 97.296875px, 126px" 
+									th:src="@{../images/profile.jpg}"
+									th:srcset="@{../images/profile500x500.jpg 500w, ../images/profile700x700.jpg 700w}">
+											   
+		<p class="site-description">All your base are belong to us.</p>
+		<div class="grey-rule-sidebar"></div>
+		<h2 class="small-heading">Featured Posts:</h2>
+		<div class="feature-posts-list w-dyn-list">
+			<div class="w-dyn-items">
+				<div class="w-dyn-item">
+					<a class="small-post-link" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino">According a funnily until pre-set or arrogant well cheerful</a>
+				</div>
+				<div class="w-dyn-item">
+					<a class="small-post-link" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait">Overlaid the jeepers uselessly much excluding</a>
+				</div>
+			</div>
+		</div>
+		<div class="grey-rule-sidebar"></div>
+		<div class="social-link-group">
+			<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+				<img th:src="@{../images/icon-facebook.svg}" width="25">
+			</a>
+			<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+				<img th:src="@{../images/icon-instagram.svg}" width="25">
+			</a>
+			<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+				<img th:src="@{../images/icon-twitter.svg}" width="25">
+			</a>
+			<a class="social-icon-link w-inline-block" href="http://denali-template.webflow.io/about#">
+				<img th:src="@{../images/icon-linkedin.svg}" width="25">
 			</a>
 		</div>
 		<p class="built-with-webflow">

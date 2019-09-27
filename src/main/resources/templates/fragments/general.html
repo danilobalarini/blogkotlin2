@@ -68,20 +68,20 @@
 	</div>
 
 	<!-- <SIDEBAR> -->
-	<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="sidebar" class="w-col w-col-3 w-hidden-small w-hidden-tiny">
-		<div th:replace="fragments/sidebar.html :: content-sidebar-admin"></div>
+	<div th:fragment="sidebar" class="w-col w-col-3 w-hidden-small w-hidden-tiny">
+		<div th:replace="fragments/sidebar.html :: content-sidebar"></div>
+	</div>
+	
+	<div th:fragment="mobile-sidebar" class="sidebar-on-mobile">
+		<div th:replace="fragments/sidebar.html :: content-sidebar"></div>
 	</div>
 
-	<div th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="sidebar" class="w-col w-col-3 w-hidden-small w-hidden-tiny">
-		<div th:replace="fragments/sidebar.html :: content-sidebar"></div>
+	<div th:fragment="sidebar_level_1" class="w-col w-col-3 w-hidden-small w-hidden-tiny">
+		<div th:replace="fragments/sidebar.html :: content-sidebar_level_1"></div>
 	</div>
 	
-	<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="mobile-sidebar" class="sidebar-on-mobile">
-		<div th:replace="fragments/sidebar.html :: content-sidebar-admin"></div>
-	</div>
-	
-	<div th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:fragment="mobile-sidebar" class="sidebar-on-mobile">
-		<div th:replace="fragments/sidebar.html :: content-sidebar"></div>
+	<div th:fragment="mobile-sidebar_level_1" class="sidebar-on-mobile">
+		<div th:replace="fragments/sidebar.html :: content-sidebar_level_1"></div>
 	</div>
 	<!-- </SIDEBAR> -->
 
