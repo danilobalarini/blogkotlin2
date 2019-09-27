@@ -26,44 +26,15 @@
 
 				<div th:replace="fragments/general2.html :: sidebar"></div>
 				
-				<div class="content-column w-col w-col-9">
-					<div class="post-wrapper">
-						<div class="blog-page-image" style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg&#39;);"></div>
-						<div class="post-content">
-							<h1>Esse é o título principal h1</h1>
-							<div class="details-wrapper">
-								<div class="post-info">September 8, 2016</div>
-								<div class="post-info">|</div>
-								<a class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
-							</div>
-							<div class="grey-rule"></div>
-							<div class="body-copy w-richtext">
-								<p>Texto normal com p.</p>
-								<h2>Sub-título com h2</h2>
-								<ul>
-									<li>Esta lista</li>
-									<li>é unordered</li>
-									<li>feita com ul e li</li>
-								</ul>
-								<h3>Mais um sub-título com h3</h3>
-								<blockquote>um Blockquote da vida</blockquote>
-								<ol>
-									<li>esta lista</li>
-									<li>é uma ordered list</li>
-									<li>feita com ol e li</li>
-									<li>muito boa</li>
-								</ol>
-								<h4>Oh! um sub-título com h4</h4>
-								<h5>Esse sub-título h5 deixa as letras uppercase</h5>
-								<h6>E essa com h6 deixa tudo muito menor... mas não deixa lowercase</h6>
-							</div>
-						</div>
-					</div>
-					<div class="button-wrapper">
-						<a class="button w-button" href="http://denali-template.webflow.io/all-posts">←&nbsp;All posts</a>
-					</div>
+					<div class="content-column w-col w-col-9">
+					
+						<div th:replace="fragments/post.html :: post"></div>
 
-					<div th:replace="fragments/general2.html :: mobile-sidebar"></div>
+						<div class="button-wrapper">
+							<a class="button w-button" href="http://denali-template.webflow.io/all-posts">←&nbsp;All posts</a>
+						</div>
+
+						<div th:replace="fragments/general2.html :: mobile-sidebar"></div>
 
 				</div>
 			</div>
@@ -72,7 +43,6 @@
 	<script src="./article_files/jquery.min.js.download" type="text/javascript"></script>
 	<script src="./article_files/webflow.5b0765584.js.download" type="text/javascript"></script>
 	<!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
-
 
 </body>
 </html>

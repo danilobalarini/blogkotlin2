@@ -9,6 +9,8 @@ import java.time.Instant
 
 @Repository
 interface PostRepository : JpaRepository<Post, Int>, JpaSpecificationExecutor<Post> {
+
+	fun findById(id: Long): Post
 		
 	fun findTop6ByOrderByCreatedAtDesc(): List<Post>
 

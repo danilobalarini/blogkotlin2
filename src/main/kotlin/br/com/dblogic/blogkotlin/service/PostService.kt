@@ -24,6 +24,10 @@ class PostService {
 	fun findAll(): List<Post> {
 		return postRepository.findAll()
 	}
+
+	fun findById(id: Long) : Post {
+		return postRepository.findById(id)
+	}
 	
 	fun save(post: Post) : Post {
 		return postRepository.save(post)

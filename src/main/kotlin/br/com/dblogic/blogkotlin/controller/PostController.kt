@@ -3,6 +3,7 @@ package br.com.dblogic.blogkotlin.controller
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.service.PostService
 import org.slf4j.LoggerFactory
+import org.springframework.ui.Model
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -34,7 +35,12 @@ class PostController {
 	}
 
 	@GetMapping("/article")
-	fun simpleArticle() : String {
+	fun article(model: Model) : String {
+		
+		log.info("article creating ")
+		model.addAttribute("article")
+		log.info("article exiting ")
+
 		return "article"
 	}
 

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      
+    <body>
+        
+        <div th:fragment="post" class="post-wrapper">
+            <div class="blog-page-image" style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg&#39;);"></div>
+            <div class="post-content">
+                <h1 th:text="${article.title}"></h1>
+                <div class="details-wrapper">
+                    <div th:with="date=${facade.post.post.createdAt}" 
+                            class="post-info"
+                            th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
+                    <div class="post-info">|</div>
+                    <div class="post-info" th:text=" '(' + ${facade.post.commentCount} + ') Comments'"></div>
+                    <div class="post-info">|</div>
+                    <a   class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
+                </div>
+                <div class="grey-rule"></div>
+                <div class="body-copy w-richtext">
+                    <div th:text="${#strings.substring(facade.post.post.text, 0, 200)}" class="post-summary-wrapper">
+                        <p class="post-summary" th:text="${#strings.substring(post.post.text, 0, 130)}"></p>
+                        <a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+    </body>
+
+</html>
