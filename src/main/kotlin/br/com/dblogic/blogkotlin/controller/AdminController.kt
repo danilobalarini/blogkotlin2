@@ -6,16 +6,24 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.beans.factory.annotation.Autowired
+import br.com.dblogic.blogkotlin.service.PostService
 
 @Controller
 @RequestMapping("/admin")
 class AdminController {
 
 	private val LOGGER = LoggerFactory.getLogger(AdminController::class.java)
+
+	@Autowired
+	lateinit var postService: PostService
 	
 	@GetMapping("")
-	fun admin() : String {
-		return "admin"
+	fun admin(model: Model) : String {
+
+		model.addAttribute("posts", postService.findAll())
+
+		return "admindex"
 	}
 
 	@GetMapping("/reports")
