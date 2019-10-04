@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.model.Post
+import org.apache.commons.lang3.StringUtils
 
 @Controller
 @RequestMapping("/admin")
@@ -50,7 +51,7 @@ class AdminController {
 		logger.info("post.id: " + post.id)
 
 		model.addAttribute("post", post)
-		model.addAttribute("postHTML", post.text)
+		model.addAttribute("postHTML", "<div>" + StringUtils.replace(post.text, "\n", "<br/>") + "</div>")
 
 		return "compose"
 	}

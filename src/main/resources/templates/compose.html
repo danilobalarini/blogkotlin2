@@ -51,10 +51,10 @@
 
 		$(document).ready(function() {
 			$('#summernote').summernote();
-			// var HTMLstring = '[[${postHTML}]]';
+			var HTMLstring = '[[${postHTML}]]';
 
-			var HTMLstring = '<div><p>Hello, world</p><p>Summernote can insert HTML string</p></div>';
-			$('#summernote').summernote('code', HTMLstring);
+			// var HTMLstring = '<div><p>Hello, world</p><p>Summernote can insert HTML string</p></div>';
+			$('#summernote').summernote('pasteHTML', HTMLstring);
 		});
 
 		function postr() {
