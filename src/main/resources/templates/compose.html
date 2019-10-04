@@ -24,9 +24,9 @@
 		<div class="w-container">
 			<div class="w-row">
 				
-				<div th:replace="fragments/general.html :: sidebar_level_1"></div>
+				<!-- div th:replace="fragments/general.html :: sidebar_level_1"></div -->
 				
-				<div class="content-column w-col w-col-9">
+				<div class="content-column w-col w-col-12">
 
 					<input type="text" id="title" name="txtTitle">
 
@@ -35,9 +35,10 @@
 						<input type="button" value="Save" id="executeForm" name="btnAction" onclick="postr();">
 					</p>
 
-					<div th:replace="fragments/static.html :: about"></div>
-					<h1 th:text="'Hello ' + ${#authentication.name}"></h1>
-					<div th:replace="fragments/general.html :: mobile-sidebar"></div>
+					<div th:replace="fragments/editor.html :: post"></div>
+
+					<!-- h1 th:text="'Hello ' + ${#authentication.name}"></h1 -->
+					<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
 
 				</div>
 			</div>
@@ -64,6 +65,17 @@
     			dataType: "json"
 			});
 		}
+		
+		$('#summernote').summernote({
+			callbacks: {
+				onKeyup: function(e) {
+					setTimeout(function() {
+						$("#result").html($('.description').val());
+					},200);
+				}
+			}
+		});
+
 	</script>
 
 </body>
