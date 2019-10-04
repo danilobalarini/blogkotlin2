@@ -48,8 +48,13 @@
 	<div th:replace="fragments/general.html :: footerfiles"></div>
 
 	<script>
+
 		$(document).ready(function() {
 			$('#summernote').summernote();
+			// var HTMLstring = '[[${postHTML}]]';
+
+			var HTMLstring = '<div><p>Hello, world</p><p>Summernote can insert HTML string</p></div>';
+			$('#summernote').summernote('code', HTMLstring);
 		});
 
 		function postr() {
@@ -65,16 +70,6 @@
     			dataType: "json"
 			});
 		}
-		
-		$('#summernote').summernote({
-			callbacks: {
-				onKeyup: function(e) {
-					setTimeout(function() {
-						$("#result").html($('.description').val());
-					},200);
-				}
-			}
-		});
 
 	</script>
 

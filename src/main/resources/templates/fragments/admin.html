@@ -6,10 +6,18 @@
 
         <div th:fragment="index" class="post-wrapper">
             <div class="post-content">
+                <a class="button w-button" th:href="@{/admin/compose}">Novo</a>
+                <br /><br />
                 <div class="body-copy w-richtext">
-                    <br th:each="post: ${posts}" th:text="${post.title}">
+                    <ul class="striped-list">
+                        <li th:each="post: ${posts}">
+                            <a th:href="@{/admin/deletepost(id=${post.id})}"><img th:src="@{images/delete-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
+                            <a th:href="@{/admin/updatepost(id=${post.id})}"><img th:src="@{images/edit-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
+                            <img th:src="@{images/comments-icon.png}" width="16"><span th:text="'(' + ${#lists.size(post.comments)} + ')'"></span>&nbsp;&nbsp;&nbsp;
+                            <span th:text="${post.title}"></span>
+                        </li>
+                    </ul>
                 </div>
-                <a class="button w-button" href="http://denali-template.webflow.io/contact">Get in touch</a>
             </div>
         </div>
 

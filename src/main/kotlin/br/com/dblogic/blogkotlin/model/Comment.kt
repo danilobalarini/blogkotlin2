@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn
 import javax.persistence.Lob
 import javax.persistence.ManyToOne
 import javax.persistence.Table
+import javax.persistence.GenerationType
+import javax.persistence.FetchType
 
 @Entity
 @Table(name = "tb_comment")
@@ -21,6 +23,7 @@ data class Comment(@Id
 		   		   var text: String = "",
 				   
 				   @ManyToOne(fetch = FetchType.LAZY)
+
 				   @JoinColumn(name = "post_id")
 				   var post: Post = Post(),
 				   
@@ -51,6 +54,10 @@ data class Comment(@Id
 		this.text = text
 		this.post = post
 		this.user = user
+	}
+
+	override fun toString(): String {
+		return super.toString()
 	}
 
 }

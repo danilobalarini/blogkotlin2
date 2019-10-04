@@ -876,20 +876,20 @@ textarea.w-input, textarea.w-select {
 
 .w-widget-twitter-count-shim.w--large .w-widget-twitter-count-inner {
 	font-size: 18px;
-	line-height: 18px
+	line-height: 18px;
 }
 
-.w-widget-twitter-count-shim:not (.w--vertical ){
+.w-widget-twitter-count-shim:not(.w--vertical){
 	margin-left: 5px;
-	margin-right: 8px
+	margin-right: 8px;
 }
 
-.w-widget-twitter-count-shim:not (.w--vertical ).w--large {
+.w-widget-twitter-count-shim:not(.w--vertical).w--large {
 	margin-left: 6px
 }
 
-.w-widget-twitter-count-shim:not (.w--vertical ):before,
-	.w-widget-twitter-count-shim:not (.w--vertical ):after {
+.w-widget-twitter-count-shim:not(.w--vertical):before,
+	.w-widget-twitter-count-shim:not(.w--vertical):after {
 	top: 50%;
 	left: 0;
 	border: solid transparent;
@@ -900,7 +900,7 @@ textarea.w-input, textarea.w-select {
 	pointer-events: none;
 }
 
-.w-widget-twitter-count-shim:not (.w--vertical ):before {
+.w-widget-twitter-count-shim:not(.w--vertical):before {
 	border-color: rgba(117, 134, 150, 0);
 	border-right-color: #5d6c7b;
 	border-width: 4px;
@@ -908,13 +908,13 @@ textarea.w-input, textarea.w-select {
 	margin-top: -4px;
 }
 
-.w-widget-twitter-count-shim:not (.w--vertical ).w--large:before {
+.w-widget-twitter-count-shim:not(.w--vertical).w--large:before {
 	border-width: 5px;
 	margin-left: -10px;
 	margin-top: -5px;
 }
 
-.w-widget-twitter-count-shim:not (.w--vertical ):after {
+.w-widget-twitter-count-shim:not(.w--vertical):after {
 	border-color: rgba(255, 255, 255, 0);
 	border-right-color: white;
 	border-width: 4px;
@@ -922,7 +922,7 @@ textarea.w-input, textarea.w-select {
 	margin-top: -4px;
 }
 
-.w-widget-twitter-count-shim:not (.w--vertical ).w--large:after {
+.w-widget-twitter-count-shim:not(.w--vertical).w--large:after {
 	border-width: 5px;
 	margin-left: -9px;
 	margin-top: -5px;
@@ -2401,6 +2401,25 @@ figcaption {
 
 .content-column {
 	padding-left: 20px;
+}
+
+ul.striped-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.striped-list > li {
+    border-bottom: 1px solid rgb(221,221,221);
+    padding: 2px;
+}
+
+ul.striped-list > li:nth-of-type(odd) {
+    background-color: #e9e9f9 ;
+}
+
+ul.striped-list > li:last-child {
+    border-bottom: none;
 }
 
 .blog-page-image {

@@ -20,7 +20,7 @@ import javax.persistence.CascadeType
 data class Post (@Id
 		    	 @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 				 @GenericGenerator(name = "native", strategy = "native")
-		   		 val id: Int = 0,
+		   		 val id: Long = 0,
 
 		   		 var title: String = "",
 
@@ -51,6 +51,10 @@ data class Post (@Id
 	fun removeComment(comment: Comment) {
 		comments.remove(comment)
 		comment.post = this
+	}
+
+	override fun toString(): String {
+		return super.toString()
 	}
 
 }

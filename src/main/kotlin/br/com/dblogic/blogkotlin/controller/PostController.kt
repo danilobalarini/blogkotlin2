@@ -38,8 +38,7 @@ class PostController {
 	fun article(model: Model) : String {
 		
 		log.info("article creating ")
-		model.addAttribute("article"
-		)
+		model.addAttribute("article")
 		log.info("article exiting ")
 
 		return "article"
