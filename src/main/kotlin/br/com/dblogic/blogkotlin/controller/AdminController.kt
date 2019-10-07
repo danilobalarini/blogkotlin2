@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.model.Post
 import org.apache.commons.lang3.StringUtils
+import org.apache.commons.text.StringEscapeUtils
 
 @Controller
 @RequestMapping("/admin")
@@ -48,10 +49,9 @@ class AdminController {
 	fun findById(@RequestParam("id") id : String, model: Model) : String {
 
 		val post = postService.findById(id.toLong())
-		logger.info("post.id: " + post.id)
 
 		model.addAttribute("post", post)
-		model.addAttribute("postHTML", "<div>" + StringUtils.replace(post.text, "\n", "<br/>") + "</div>")
+		model.addAttribute("postHTML", StringUtils.replace(post.text, "\n", "<br/>"))
 
 		return "compose"
 	}

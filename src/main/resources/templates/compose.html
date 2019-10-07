@@ -3,6 +3,8 @@
 	  xmlns:spring="http://www.springframework.org/tags" 
 	  xmlns:form="http://www.springframework.org/tags/form">
 
+<spring:htmlEscape defaultHtmlEscape="false" />
+
 <head>
 	<title>Admin</title>
 	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_level_1"> </th:block> /*/-->
@@ -40,6 +42,8 @@
 					<!-- h1 th:text="'Hello ' + ${#authentication.name}"></h1 -->
 					<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
 
+					<input type="hidden" id="txtPost" th:utext="${postHTML}">
+
 				</div>
 			</div>
 		</div>
@@ -52,9 +56,10 @@
 		$(document).ready(function() {
 			$('#summernote').summernote();
 			var HTMLstring = '[[${postHTML}]]';
+			console.log('HTMLstring: ' + HTMLstring);
 
-			// var HTMLstring = '<div><p>Hello, world</p><p>Summernote can insert HTML string</p></div>';
-			$('#summernote').summernote('pasteHTML', HTMLstring);
+			//var HTMLstring = '<div><p>Hello, world</p><p>Summernote can insert HTML string</p></div>';
+			$('#summernote').summernote('code', HTMLstring);
 		});
 
 		function postr() {
