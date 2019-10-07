@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.model.Post
 import org.apache.commons.lang3.StringUtils
-import org.apache.commons.text.StringEscapeUtils
 
 @Controller
 @RequestMapping("/admin")
