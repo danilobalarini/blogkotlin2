@@ -34,6 +34,15 @@ class PostController {
 		return "compose"
 	}
 
+	@PostMapping("/update")
+	fun update(@RequestBody post: Post): String {
+		log.info("updating...")
+
+		postService.save(post)
+
+		return "compose"
+	}
+ 
 	@GetMapping("/article")
 	fun article(model: Model) : String {
 		

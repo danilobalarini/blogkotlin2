@@ -3,8 +3,6 @@
 	  xmlns:spring="http://www.springframework.org/tags" 
 	  xmlns:form="http://www.springframework.org/tags/form">
 
-<spring:htmlEscape defaultHtmlEscape="false" />
-
 <head>
 	<title>Admin</title>
 	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_level_1"> </th:block> /*/-->
@@ -30,19 +28,19 @@
 				
 				<div class="content-column w-col w-col-12">
 
-					<input type="text" id="title" name="txtTitle">
+					<input type="hidden" id="id" name="hidpost" th:value="${post.id}">
+					<input type="text" id="title" name="txtTitle" th:value="${post.title}">
 
 					<div id="summernote" name="article"></div>
 					<p>
-						<input type="button" value="Save" id="executeForm" name="btnAction" onclick="postr();">
+						<input type="button" value="Save" id="executeForm" name="btnAction" onclick="updater();">
 					</p>
 
 					<div th:replace="fragments/editor.html :: post"></div>
 
-					<!-- h1 th:text="'Hello ' + ${#authentication.name}"></h1 -->
 					<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
 
-					<input type="hidden" id="txtPost" th:utext="${postHTML}">
+					<span id="spanPost" th:utext="${post.text}">
 
 				</div>
 			</div>
@@ -54,26 +52,31 @@
 	<script>
 
 		$(document).ready(function() {
-			$('#summernote').summernote();
-			var HTMLstring = '[[${postHTML}]]';
-			console.log('HTMLstring: ' + HTMLstring);
-
-			//var HTMLstring = '<div><p>Hello, world</p><p>Summernote can insert HTML string</p></div>';
-			$('#summernote').summernote('code', HTMLstring);
+			summernote();
 		});
 
-		function postr() {
-
+		function summernote() {
+			var HTMLstring = $('#spanPost').html();
+			$('#summernote').summernote('code', HTMLstring);
+			$('#spanPost').remove();
+		}
+		
+		function updater(post) {
+			console.log("id" + $('#id').val());
+			console.log("title" + $('#title').val());
+			console.log("code" + $('#summernote').summernote('code'));
 			$.ajax({
 				type: "POST",
-				url: "/post/create",
+				url: "/post/update",
 				data: JSON.stringify({
-        				title: $("#title").val(),
-        				text: $('#summernote').summernote('code')
-    			}),
+						id:  	$('#id').val(),
+						title: 	$('#title').val(),
+						text: 	$('#summernote').summernote('code')
+				}),
 				contentType: "application/json; charset=utf-8",
-    			dataType: "json"
+				dataType: "json"
 			});
+			console.log("the post has been updated" + post);
 		}
 
 	</script>

@@ -45,24 +45,16 @@ class AdminController {
 	}
 
 	@GetMapping("/updatepost")
-	fun findById(@RequestParam("id") id : String, model: Model) : String {
+	fun updatepost(post : Post, model : Model) : String {
 
-		val post = postService.findById(id.toLong())
-
-		model.addAttribute("post", post)
-		model.addAttribute("postHTML", StringUtils.replace(post.text, "\n", "<br/>"))
+		model.addAttribute("post", postService.save(post))
 
 		return "compose"
 	}
 
-	@PostMapping("/savecompose")
-	fun savecompose() {
-		logger.info("salvou!!!")
-	}
-
-	@GetMapping("/update")
-	fun update(post : Post) : Post {
-		return postService.save(post)
+	@PostMapping("/update")
+	fun update(post : Post, model : Model) {
+		model.addAttribute("post", postService.save(post))
 	}
 	
 }
