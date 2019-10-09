@@ -5,13 +5,14 @@ import br.com.dblogic.blogkotlin.service.PostService
 import org.slf4j.LoggerFactory
 import org.springframework.ui.Model
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam
 
-@Controller
+@RestController
 @RequestMapping("/post")
 class PostController {
 
@@ -22,35 +23,12 @@ class PostController {
 	
 	@GetMapping("/findAll")
 	fun findAll(): List<Post> {
-		return postService.findAll();
+		return postService.findAll()
 	}
 	
-	@PostMapping("/create")
-	fun save(@RequestBody post: Post): String {
-		log.info("creating...")
-
-		postService.save(post)
-
-		return "compose"
-	}
-
-	@PostMapping("/update")
-	fun update(@RequestBody post: Post): String {
-		log.info("updating...")
-
-		postService.save(post)
-
-		return "compose"
-	}
- 
-	@GetMapping("/article")
-	fun article(model: Model) : String {
-		
-		log.info("article creating ")
-		model.addAttribute("article")
-		log.info("article exiting ")
-
-		return "article"
+	@GetMapping("findById")
+	fun findById(@RequestParam id: Long): Post {
+		return findById(id)
 	}
 
 }

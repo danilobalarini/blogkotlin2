@@ -44,10 +44,12 @@ class AdminController {
 		return "compose"
 	}
 
-	@GetMapping("/updatepost")
-	fun updatepost(post : Post, model : Model) : String {
+	@GetMapping("/updatecomposer")
+	fun updatecomposer(id: Long, model : Model) : String {
 
-		model.addAttribute("post", postService.save(post))
+		val post = postService.findById(id)
+		post.text = StringUtils.replace(post.text, "\n", "<br>")
+		model.addAttribute("post", post)
 
 		return "compose"
 	}

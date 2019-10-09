@@ -28,8 +28,8 @@
 				
 				<div class="content-column w-col w-col-12">
 
-					<input type="hidden" id="id" name="hidpost" th:value="${post.id}">
-					<input type="text" id="title" name="txtTitle" th:value="${post.title}">
+					<input type="hidden" id="postid" name="hidpost" th:value="${post.id}">
+					<input type="text" id="posttitle" name="txtTitle" th:value="${post.title}">
 
 					<div id="summernote" name="article"></div>
 					<p>
@@ -52,30 +52,48 @@
 	<script>
 
 		$(document).ready(function() {
-			summernote();
+			$('#summernote').summernote({
+				callbacks: {
+					onInit: function() {
+						console.log("iniciou o summernote");
+						var ptext = $('#spanPost').html();
+						$('#summernote').summernote('code', ptext);
+					}
+				}
+			});
 		});
 
-		function summernote() {
-			var HTMLstring = $('#spanPost').html();
-			$('#summernote').summernote('code', HTMLstring);
-			$('#spanPost').remove();
-		}
+		$(function() {
+			setInterval(function() {
+				console.log("fui e voltei");
+				//localStorage.setItem("summernotedata", $("#summernote").summernote("code"));
+			}, 15000); // every 15 second interval
+		});
 		
-		function updater(post) {
-			console.log("id" + $('#id').val());
-			console.log("title" + $('#title').val());
-			console.log("code" + $('#summernote').summernote('code'));
+		function updater() {
+
+			var postid = $('#postid').val();
+			var posttitle = $('#posttitle').val();
+			var posttext = $('#summernote').summernote('code');
+
+			console.log("id" + postid);
+			console.log("title" + posttitle);
+			console.log("code" + posttext);
+
+			var post = {
+				id : postid,
+				title : posttitle,
+				text : posttext 
+			};
+
 			$.ajax({
 				type: "POST",
 				url: "/post/update",
-				data: JSON.stringify({
-						id:  	$('#id').val(),
-						title: 	$('#title').val(),
-						text: 	$('#summernote').summernote('code')
-				}),
+				data: JSON.stringify(post),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"
 			});
+
 			console.log("the post has been updated" + post);
 		}
 
