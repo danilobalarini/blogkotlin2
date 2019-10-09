@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam
 @RequestMapping("/post")
 class PostController {
 
-	private val log = LoggerFactory.getLogger(PostController::class.java)
+	private val logger = LoggerFactory.getLogger(PostController::class.java)
 	
 	@Autowired
 	lateinit var postService: PostService;
@@ -29,6 +29,14 @@ class PostController {
 	@GetMapping("findById")
 	fun findById(@RequestParam id: Long): Post {
 		return findById(id)
+	}
+
+	@PostMapping("/update")
+	fun save(post: Post): Post {
+		logger.info("post.id: " + post.id)
+		logger.info("post.title: " + post.title)
+		logger.info("post.text: " + post.text)
+		return postService.save(post)
 	}
 
 }
