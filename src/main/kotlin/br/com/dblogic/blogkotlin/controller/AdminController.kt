@@ -32,20 +32,21 @@ class AdminController {
 
 	@GetMapping("/reports")
 	fun reports() : String {
-		return "admin"
+		return "admindex"
 	}
 
 	@GetMapping("/compose")
 	fun compose(model : Model) : String {
 
-		model.addAttribute("post", Post())
+		val post = postService.save(Post())
+		model.addAttribute("post", post)
 		model.addAttribute("postHTML", "")
 
 		return "compose"
 	}
 
-	@GetMapping("/updatecomposer")
-	fun updatecomposer(id: Long, model : Model) : String {
+	@GetMapping("/updatepost")
+	fun updatepost(id: Long, model : Model) : String {
 
 		val post = postService.findById(id)
 		post.text = StringUtils.replace(post.text, "\n", "<br>")
@@ -57,6 +58,13 @@ class AdminController {
 	@PostMapping("/update")
 	fun update(post : Post, model : Model) {
 		model.addAttribute("post", postService.save(post))
+	}
+
+	@GetMapping("/deletepost")
+	fun delete(@RequestParam id: Long, model: Model): String {
+		postService.deleteById(id)
+		model.addAttribute("posts", postService.findAll())
+		return "admindex"
 	}
 	
 }

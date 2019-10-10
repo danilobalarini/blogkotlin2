@@ -26,7 +26,7 @@ class PostController {
 		return postService.findAll()
 	}
 	
-	@GetMapping("findById")
+	@GetMapping("/findById")
 	fun findById(@RequestParam id: Long): Post {
 		return findById(id)
 	}

@@ -36,7 +36,7 @@ class InitialConfiguration {
 	@Bean
 	fun initDatabase() = CommandLineRunner {
 		
-		val maxPosts = 15
+		val maxPosts = 5
 		val maxUsers = 10
 		val users = createusers(maxUsers)
 			

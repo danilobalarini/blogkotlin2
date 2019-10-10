@@ -30,7 +30,7 @@ class BlogController {
 	@GetMapping("/about")
 	fun about() : String {
 		return "about"
-	}	
+	}
 
 	@GetMapping("/contact")
 	fun contact() : String {

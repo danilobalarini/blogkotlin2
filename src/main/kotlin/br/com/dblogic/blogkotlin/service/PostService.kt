@@ -8,6 +8,7 @@ import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.Optional
 
 @Service
 class PostService {
@@ -26,11 +27,18 @@ class PostService {
 	}
 
 	fun findById(id: Long) : Post {
-		return postRepository.findById(id)
+
+		val post = postRepository.findById(id).get()
+		
+		return post
 	}
 	
 	fun save(post: Post) : Post {
 		return postRepository.save(post)
+	}
+
+	fun deleteById(id: Long) {
+		postRepository.deleteById(id)
 	}
 	
 	fun frontPage2() : List<Post> {
