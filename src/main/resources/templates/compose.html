@@ -28,7 +28,7 @@
 				
 				<div class="content-column w-col w-col-12">
 
-					<input type="text" id="postid" name="hidpost" th:value="${post.id}">
+					<input type="hidden" id="postid" name="hidpost" th:value="${post.id}">
 					<input type="text" id="posttitle" name="txtTitle" th:value="${post.title}">
 
 					<div id="summernote" name="article"></div>
@@ -53,6 +53,8 @@
 
 		$(document).ready(function() {
 
+			var autosave_timer = null
+
 			$('#summernote').summernote({
 				callbacks: {
 					onInit: function() {
@@ -61,14 +63,12 @@
 						$('#summernote').summernote('code', ptext);
 						$('#spanPost').remove();
 					},
-					onKeydown: function(e) {
-						console.log("onKeyDown...");
-						var autosave_timer = null
+					onChange: function(e) {
 						clearTimeout(autosave_timer);
 						autosave_timer = setTimeout(function() {
+							console.log("saving information");
 							updater();
-							console.log("saving information")
-						}, 3500);
+						}, 2000);
 					}
 				}
 			});
@@ -98,7 +98,7 @@
 				dataType: "json"
 			});
 
-			console.log("the post has been updated" + post.id);
+			console.log("the post #" + post.id + " has been updated");
 		}
 
 	</script>

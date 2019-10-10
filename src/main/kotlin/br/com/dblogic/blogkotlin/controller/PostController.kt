@@ -32,7 +32,7 @@ class PostController {
 	}
 
 	@PostMapping("/update")
-	fun save(post: Post): Post {
+	fun save(@RequestBody post: Post): Post {
 		logger.info("post.id: " + post.id)
 		logger.info("post.title: " + post.title)
 		logger.info("post.text: " + post.text)
