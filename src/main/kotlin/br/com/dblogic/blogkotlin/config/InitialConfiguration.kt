@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration
 import java.time.Instant
 import java.util.concurrent.ThreadLocalRandom
 import br.com.dblogic.blogkotlin.utils.DateUtils
+import org.springframework.beans.factory.annotation.Value
 
 @Configuration
 class InitialConfiguration {
@@ -32,45 +33,50 @@ class InitialConfiguration {
 	
 	@Autowired
 	lateinit var dateUtils: DateUtils
+
+	@Value("\${spring.jpa.hibernate.ddl-auto}")
+	lateinit var ddlauto: String
 	
 	@Bean
 	fun initDatabase() = CommandLineRunner {
-		
-		val maxPosts = 5
-		val maxUsers = 10
-		val users = createusers(maxUsers)
-			
-		val lorem = LoremIpsum.getInstance()
-		
-		for(x in 0 until maxPosts) {
-			val titlemin = ThreadLocalRandom.current().nextInt(1, 10)
-			val titlemax = ThreadLocalRandom.current().nextInt(titlemin, 12)
-			val paragraphmin = ThreadLocalRandom.current().nextInt(3, 12)
-			val paragraphmax = ThreadLocalRandom.current().nextInt(paragraphmin, 15)
-			val datePost = dateUtils.getRandomDateSince(30)
-			
-			var post = Post(lorem.getTitle(titlemin, titlemax),
-							lorem.getParagraphs(paragraphmin, paragraphmax),
-							datePost)
-			
-			var plusInstant = dateUtils.plusInstantUntilNow(datePost)
-			logger.info("plusInstant: " + dateUtils.toLocalDate(plusInstant)) 
-			
-			for(y in 0..ThreadLocalRandom.current().nextInt(0, 15)) {
-								
-				logger.info("Comment " + y + " - instant: " + dateUtils.toLocalDate(plusInstant))
+
+		if(ddlauto.equals("create")) {
+
+			val maxPosts = 5
+			val maxUsers = 10
+			val users = createusers(maxUsers)
 				
-				val comment = Comment("" + y + ": " + lorem.getTitle(2, 4),
-									  post,
-									  users.get(ThreadLocalRandom.current().nextInt(0, maxUsers)),
-									  plusInstant)
+			val lorem = LoremIpsum.getInstance()
+			
+			for(x in 0 until maxPosts) {
+				val titlemin = ThreadLocalRandom.current().nextInt(1, 10)
+				val titlemax = ThreadLocalRandom.current().nextInt(titlemin, 12)
+				val paragraphmin = ThreadLocalRandom.current().nextInt(3, 12)
+				val paragraphmax = ThreadLocalRandom.current().nextInt(paragraphmin, 15)
+				val datePost = dateUtils.getRandomDateSince(30)
 				
-				post.addComment(comment)
-				plusInstant = dateUtils.plusInstantUntilNow(plusInstant)
+				var post = Post(lorem.getTitle(titlemin, titlemax),
+								lorem.getParagraphs(paragraphmin, paragraphmax),
+								datePost)
+				
+				var plusInstant = dateUtils.plusInstantUntilNow(datePost)
+				logger.info("plusInstant: " + dateUtils.toLocalDate(plusInstant)) 
+				
+				for(y in 0..ThreadLocalRandom.current().nextInt(0, 15)) {
+									
+					logger.info("Comment " + y + " - instant: " + dateUtils.toLocalDate(plusInstant))
+					
+					val comment = Comment("" + y + ": " + lorem.getTitle(2, 4),
+										post,
+										users.get(ThreadLocalRandom.current().nextInt(0, maxUsers)),
+										plusInstant)
+					
+					post.addComment(comment)
+					plusInstant = dateUtils.plusInstantUntilNow(plusInstant)
+				}
+				postService.save(post)
 			}
-			postService.save(post)
 		}
-		
 		logger.info("Comment Count: " + commentService.count())
 	}
 	

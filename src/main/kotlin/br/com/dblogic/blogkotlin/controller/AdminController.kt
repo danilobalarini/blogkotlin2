@@ -49,7 +49,7 @@ class AdminController {
 	fun updatepost(id: Long, model : Model) : String {
 
 		val post = postService.findById(id)
-		post.text = StringUtils.replace(post.text, "\n", "<br>")
+		post.text = StringUtils.replace(post.text, "\n", "<br/>")
 		model.addAttribute("post", post)
 
 		return "compose"
