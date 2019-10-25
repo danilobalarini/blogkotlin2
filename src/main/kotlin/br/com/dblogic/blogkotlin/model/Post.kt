@@ -17,20 +17,22 @@ import javax.persistence.CascadeType
 
 @Entity
 @Table(name = "tb_post")
-data class Post (@Id
-		    	 @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-				 @GenericGenerator(name = "native", strategy = "native")
-		   		 val id: Long = 0,
+data class Post(@Id
+		    	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+				@GenericGenerator(name = "native", strategy = "native")
+		   		val id: Long = 0,
 
-		   		 var title: String = "",
+				var title: String = "",
 
-		   		 @Lob
-		   		 var text: String = "",
+				val coverImage: String = "",
+
+		   		@Lob
+		   		var text: String = "",
 				 
-				 @OneToMany(mappedBy = "post",
-						 	cascade = arrayOf(CascadeType.ALL),
-						 	orphanRemoval = true)
-				 var comments: MutableList<Comment> = mutableListOf<Comment>()) : DateAudit() {
+				@OneToMany(mappedBy = "post",
+						   cascade = arrayOf(CascadeType.ALL),
+						   orphanRemoval = true)
+				var comments: MutableList<Comment> = mutableListOf<Comment>()) : DateAudit() {
 
 	constructor(title: String, text: String): this() {
 		this.title = title

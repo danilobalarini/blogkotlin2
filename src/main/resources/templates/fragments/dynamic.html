@@ -18,8 +18,14 @@
 			</div>
 			<div class="grey-rule"></div>
 			<div class="body-copy w-richtext">
-				<div th:text="${#strings.substring(facade.post.post.text, 0, 200)}" class="post-summary-wrapper">
-					<p class="post-summary" th:text="${#strings.substring(post.post.text, 0, 130)}"></p>
+				<div th:if="${#strings.length(facade.post.post.text) >= 200}" th:text="${#strings.substring(facade.post.post.text, 0, 200)}" class="post-summary-wrapper">
+					<p class="post-summary" th:if="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, 130)}"></p>
+					<p class="post-summary" th:unless="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, #strings.length(post.post.text))}"></p>
+					<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
+				</div>
+				<div th:unless="${#strings.length(facade.post.post.text) >= 200}" th:text="${#strings.substring(facade.post.post.text, 0, #strings.length(facade.post.post.text))}" class="post-summary-wrapper">
+					<p class="post-summary" th:if="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, 130)}"></p>
+					<p class="post-summary" th:unless="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, #strings.length(post.post.text))}"></p>
 					<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
 				</div>
 			</div>
@@ -54,10 +60,10 @@
 						</div>
 						
 						<div class="post-summary-wrapper">
-							<p class="post-summary" th:text="${#strings.substring(post.post.text, 0, 130)}"></p>
+							<p class="post-summary" th:if="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, 130)}"></p>
+							<p class="post-summary" th:unless="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, #strings.length(post.post.text))}"></p>
 							<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
 						</div>
-						
 					</div>
 				</div>
 			</div>

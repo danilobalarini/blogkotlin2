@@ -9,9 +9,12 @@ import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.Optional
+import org.slf4j.LoggerFactory
 
 @Service
 class PostService {
+
+	private val logger = LoggerFactory.getLogger(PostService::class.java)
 	
 	@Autowired
 	lateinit var postRepository: PostRepository
@@ -48,7 +51,7 @@ class PostService {
 	
 	fun frontPage() : FrontPageFacade {
 		
-		val posts = postRepository.findTop6ByOrderByCreatedAtDesc()
+		val posts = cleanHtml(postRepository.findTop6ByOrderByCreatedAtDesc())
 		val post = PostCommentCountFacade(posts.first(), commentRepository.countByPost(posts.first()))
 		
 		var listPostComments = mutableListOf<PostCommentCountFacade>()
@@ -60,6 +63,22 @@ class PostService {
 		val facade = FrontPageFacade(post, listPostComments)
 		
 		return facade
+	}
+
+	private fun cleanHtml(posts: List<Post>) : List<Post> {
+
+		var listPost = mutableListOf<Post>()
+		for(p in posts) {
+			// logger.info("antes: " + p.text)
+			// logger.info("depois: " + p.text.toString().replace("\\<.*?>".toRegex(),""))
+			p.text = p.text.replace("</p><p>", " ")
+			p.text = p.text.replace("<br/>", " ")
+			p.text = p.text.replace("<br>", " ")
+			p.text = p.text.replace("\\<.*?>".toRegex(),"")
+			listPost.add(p)
+		}
+
+		return posts;
 	}
 	
 }

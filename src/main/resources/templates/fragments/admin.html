@@ -11,6 +11,7 @@
                 <div class="body-copy w-richtext">
                     <ul class="striped-list">
                         <li th:each="post: ${posts}">
+                            <span class="span-show-id" th:text="'id: ' + ${post.id}"></span>
                             <a th:href="@{/admin/deletepost(id=${post.id})}"><img th:src="@{../images/delete-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
                             <a th:href="@{/admin/updatepost(id=${post.id})}"><img th:src="@{../images/edit-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
                             <img th:src="@{../images/comments-icon.png}" width="16"><span th:text="'(' + ${#lists.size(post.comments)} + ')'"></span>&nbsp;&nbsp;&nbsp;
