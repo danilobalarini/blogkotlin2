@@ -16,6 +16,7 @@
                             <a th:href="@{/admin/updatepost(id=${post.id})}"><img th:src="@{../images/edit-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
                             <img th:src="@{../images/comments-icon.png}" width="16"><span th:text="'(' + ${#lists.size(post.comments)} + ')'"></span>&nbsp;&nbsp;&nbsp;
                             <span th:text="${post.title}"></span>
+                            <span class="span-show-createdat" th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy | HH:mm:ss')}"></span>
                         </li>
                     </ul>
                 </div>

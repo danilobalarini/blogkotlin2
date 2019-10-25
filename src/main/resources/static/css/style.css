@@ -2428,6 +2428,11 @@ ul.striped-list > li:last-child {
 	font-weight: bold;
 }
 
+.span-show-createdat {
+	position: absolute;
+	right: 40px;   /* must be equal to parent's right padding */
+}
+
 .blog-page-image {
 	height: 290px;
 	border-top-left-radius: 5px;

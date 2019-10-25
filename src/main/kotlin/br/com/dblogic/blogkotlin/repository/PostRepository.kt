@@ -14,7 +14,9 @@ interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<P
 	override fun findById(id: Long): Optional<Post>
 
 	override fun deleteById(id: Long)
-		
-	fun findTop6ByOrderByCreatedAtDesc(): List<Post>
+
+	fun findTop6ByOrderByCreatedAtAsc(): List<Post>
+
+	fun findByOrderByCreatedAtDesc(): List<Post>
 
 }

@@ -30,9 +30,7 @@ class PostService {
 	}
 
 	fun findById(id: Long) : Post {
-
-		val post = postRepository.findById(id).get()
-		
+		val post = postRepository.findById(id).get()	
 		return post
 	}
 	
@@ -51,7 +49,7 @@ class PostService {
 	
 	fun frontPage() : FrontPageFacade {
 		
-		val posts = cleanHtml(postRepository.findTop6ByOrderByCreatedAtDesc())
+		val posts = cleanHtml(postRepository.findByOrderByCreatedAtDesc())
 		val post = PostCommentCountFacade(posts.first(), commentRepository.countByPost(posts.first()))
 		
 		var listPostComments = mutableListOf<PostCommentCountFacade>()
