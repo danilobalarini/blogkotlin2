@@ -26,10 +26,19 @@
 			<div class="w-row">
 				
 				<!-- div th:replace="fragments/general.html :: sidebar_level_1"></div -->
-				
-				<div class="content-column w-col w-col-12">
 
-					<input type="hidden" id="postid" name="hidpost" th:value="${post.id}"><br/><br/>
+				<div class="post-wrapper">
+					<div class="post-content">
+						<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+							<input type="hidden" id="id" name="id" th:value="${post.id}">
+							<input type="file" name="coverImage" id="coverImage" />
+							<a class="button w-button" id="btnCoverImage">Upload Cover Image</a>
+						</form>
+					</div>
+				</div>
+
+				<div class="content-column w-col w-col-12">
+					<input type="hidden" id="postid" name="hidpost" th:value="${post.id}">
 					<input type="text" id="posttitle" name="txtTitle" th:value="${post.title}">
 
 					<div id="summernote" name="article"></div>
@@ -38,11 +47,9 @@
 						<input type="button" value="Return" id="btnReturn" name="btnReturn" onclick="goback();">
 					</p>
 
-					<div th:replace="fragments/editor.html :: post"></div>
-
 					<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
 
-					<span id="spanPost" th:utext="${post.text}">
+					<span id="spanPost" th:utext="${post.text}"></span>
 
 				</div>
 			</div>
@@ -52,6 +59,14 @@
 	<div th:replace="fragments/general.html :: footerfiles"></div>
 
 	<script>
+
+	var files = [];
+		$(document)
+				.on("change",
+					"#coverImage",
+					function(event) {
+						files=event.target.files;
+					})
 
 		$(document).ready(function() {
 
@@ -74,6 +89,39 @@
 					}
 				}
 			});
+
+			$("#btnCoverImage").click(function() {
+				console.log("clicou e é gol");
+
+				var form = $('#fileUploadForm')[0];
+				var formData = new FormData(form);
+
+				for (var value of formData.values()) {
+   					console.log("--> " + value);
+				}
+
+				$.ajax({
+					url: "/post/updateCoverImage",
+					type: "POST",
+					enctype: 'multipart/form-data',
+					data: formData,
+					contentType: false,
+					processData: false,
+					cache: false,
+					success: function () {
+						console.log("deu certo :-D");
+						for (var value of formData.values()) {
+   							console.log("--> " + value);
+						}
+                    },
+                    error : function(jqXHR, textStatus, errorThrown) {
+                     	console.log("jqXHR: " + jqXHR.status);
+                     	console.log("textStatus: " + textStatus);
+                     	console.log("errorThrown: " + errorThrown);
+                    }
+				});
+			});
+
 		});
 		
 		function updater() {
@@ -82,9 +130,9 @@
 			var posttitle = $('#posttitle').val();
 			var posttext = $('#summernote').summernote('code');
 
-			console.log("id: " + postid);
-			console.log("title: " + posttitle);
-			console.log("code: " + posttext);
+			// console.log("id: " + postid);
+			// console.log("title: " + posttitle);
+			// console.log("code: " + posttext);
 
 			var post = {
 				id : postid,
@@ -100,7 +148,7 @@
 				dataType: "json"
 			});
 
-			console.log("the post #" + post.id + " has been updated");
+			// console.log("the post #" + post.id + " has been updated");
 		}
 
 		function goback() {

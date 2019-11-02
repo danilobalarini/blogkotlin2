@@ -5,12 +5,11 @@ import br.com.dblogic.blogkotlin.service.PostService
 import org.slf4j.LoggerFactory
 import org.springframework.ui.Model
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+import br.com.dblogic.blogkotlin.model.UploadForm
 
 @RestController
 @RequestMapping("/post")
@@ -32,10 +31,27 @@ class PostController {
 	}
 
 	@PostMapping("/update")
-	fun save(@RequestBody post: Post): Post {
+	fun update(@RequestBody post: Post): Post {
 		logger.info("post.id: " + post.id)
 		logger.info("post.title: " + post.title)
 		logger.info("post.text: " + post.text)
+		return postService.save(post)
+	}
+
+	@PostMapping("/updateCoverImage")
+	@ResponseBody
+	fun updateCoverImage(@ModelAttribute form: UploadForm) : ResponseEntity<String> {
+
+		postService.updateCoverImage(form.id, form.coverImage[0])
+
+		return ResponseEntity("alguma coisa", HttpStatus.OK)
+	}
+
+	@PostMapping("/save")
+	fun save(@RequestBody post: Post): Post {
+		logger.info("post.title: " + post.title)
+		logger.info("post.text: " + post.text)
+		logger.info("post.coverImage: " + post.coverImage.size)
 		return postService.save(post)
 	}
 

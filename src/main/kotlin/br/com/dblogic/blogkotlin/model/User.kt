@@ -21,7 +21,7 @@ data class User (@Id
 		   		 var screenUsername: String = "someuser", 
 	
 				 @OneToMany(mappedBy = "user",
-						 	cascade = arrayOf(CascadeType.ALL),
+						 	cascade = [CascadeType.ALL],
 						 	orphanRemoval = false)
 				 var comments: MutableList<Comment> = mutableListOf<Comment>()) : DateAudit() {
 	

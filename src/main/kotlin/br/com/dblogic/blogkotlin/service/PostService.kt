@@ -8,8 +8,8 @@ import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.Optional
 import org.slf4j.LoggerFactory
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class PostService {
@@ -30,12 +30,21 @@ class PostService {
 	}
 
 	fun findById(id: Long) : Post {
-		val post = postRepository.findById(id).get()	
-		return post
+		return postRepository.findById(id).get()
 	}
 	
 	fun save(post: Post) : Post {
 		return postRepository.save(post)
+	}
+
+	fun updateCoverImage(id: Long, coverImage: MultipartFile?) {
+		val post = findById(id)
+
+		if(coverImage != null) {
+			post.coverImage = coverImage.bytes
+		}
+
+		postRepository.save(post)
 	}
 
 	fun deleteById(id: Long) {
@@ -75,8 +84,7 @@ class PostService {
 			p.text = p.text.replace("\\<.*?>".toRegex(),"")
 			listPost.add(p)
 		}
-
 		return posts;
 	}
-	
+
 }
