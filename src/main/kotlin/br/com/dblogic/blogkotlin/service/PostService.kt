@@ -37,16 +37,6 @@ class PostService {
 		return postRepository.save(post)
 	}
 
-	fun updateCoverImage(id: Long, coverImage: MultipartFile?) {
-		val post = findById(id)
-
-		if(coverImage != null) {
-			post.coverImage = coverImage.bytes
-		}
-
-		postRepository.save(post)
-	}
-
 	fun deleteById(id: Long) {
 		postRepository.deleteById(id)
 	}

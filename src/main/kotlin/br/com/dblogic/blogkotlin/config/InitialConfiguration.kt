@@ -40,7 +40,7 @@ class InitialConfiguration {
 	@Bean
 	fun initDatabase() = CommandLineRunner {
 
-		if(ddlauto.equals("create")) {
+		if(ddlauto.equals("create") || ddlauto.equals("create-drop")) {
 
 			val maxPosts = 5
 			val maxUsers = 10

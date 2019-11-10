@@ -60,14 +60,6 @@
 
 	<script>
 
-	var files = [];
-		$(document)
-				.on("change",
-					"#coverImage",
-					function(event) {
-						files=event.target.files;
-					})
-
 		$(document).ready(function() {
 
 			var autosave_timer = null
@@ -91,14 +83,8 @@
 			});
 
 			$("#btnCoverImage").click(function() {
-				console.log("clicou e é gol");
-
 				var form = $('#fileUploadForm')[0];
 				var formData = new FormData(form);
-
-				for (var value of formData.values()) {
-   					console.log("--> " + value);
-				}
 
 				$.ajax({
 					url: "/post/updateCoverImage",
@@ -110,9 +96,6 @@
 					cache: false,
 					success: function () {
 						console.log("deu certo :-D");
-						for (var value of formData.values()) {
-   							console.log("--> " + value);
-						}
                     },
                     error : function(jqXHR, textStatus, errorThrown) {
                      	console.log("jqXHR: " + jqXHR.status);
@@ -130,10 +113,6 @@
 			var posttitle = $('#posttitle').val();
 			var posttext = $('#summernote').summernote('code');
 
-			// console.log("id: " + postid);
-			// console.log("title: " + posttitle);
-			// console.log("code: " + posttext);
-
 			var post = {
 				id : postid,
 				title : posttitle,
@@ -147,8 +126,6 @@
 				contentType: "application/json; charset=utf-8",
 				dataType: "json"
 			});
-
-			// console.log("the post #" + post.id + " has been updated");
 		}
 
 		function goback() {

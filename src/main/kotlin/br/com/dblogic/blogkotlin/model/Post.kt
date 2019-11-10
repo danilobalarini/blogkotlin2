@@ -22,12 +22,6 @@ data class Post(@Id
 
 				var title: String = "",
 
-				@Lob()
-				var coverImage: ByteArray = ByteArray(0),
-
-				@Column
-				var mime: String? = "",
-
 				@Lob
 				var text: String = "",
 
@@ -36,22 +30,21 @@ data class Post(@Id
 						   orphanRemoval = true)
 				var comments: MutableList<Comment> = mutableListOf<Comment>()) : DateAudit() {
 
+	constructor(title: String): this() {
+		this.title = title
+	}
+
 	constructor(title: String, text: String): this() {
 		this.title = title
 		this.text = text
 	}
 
-	constructor(title: String, coverImage: ByteArray): this() {
-		this.title = title
-		this.coverImage = coverImage
-	}
-	
 	constructor(title: String, text: String, createdAt: Instant): this() {
 		this.title = title
 		this.text = text
 		this.createdAt = createdAt
 	}
-	
+
 	fun addComment(comment: Comment) {
 		comments.add(comment)
 		comment.post = this
@@ -74,7 +67,6 @@ data class Post(@Id
 
 		if (id != other.id) return false
 		if (title != other.title) return false
-		if (!coverImage.contentEquals(other.coverImage)) return false
 		if (text != other.text) return false
 		if (comments != other.comments) return false
 
@@ -84,7 +76,6 @@ data class Post(@Id
 	override fun hashCode(): Int {
 		var result = id.hashCode()
 		result = 31 * result + title.hashCode()
-		result = 31 * result + coverImage.contentHashCode()
 		result = 31 * result + text.hashCode()
 		result = 31 * result + comments.hashCode()
 		return result

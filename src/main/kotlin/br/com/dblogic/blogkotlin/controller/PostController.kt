@@ -2,6 +2,7 @@ package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.service.PostService
+import br.com.dblogic.blogkotlin.service.PostCoverImageService
 import org.slf4j.LoggerFactory
 import org.springframework.ui.Model
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +20,10 @@ class PostController {
 	
 	@Autowired
 	lateinit var postService: PostService;
-	
+
+	@Autowired
+	lateinit var postCoverImageService: PostCoverImageService;
+
 	@GetMapping("/findAll")
 	fun findAll(): List<Post> {
 		return postService.findAll()
@@ -42,7 +46,7 @@ class PostController {
 	@ResponseBody
 	fun updateCoverImage(@ModelAttribute form: UploadForm) : ResponseEntity<String> {
 
-		postService.updateCoverImage(form.id, form.coverImage[0])
+		postCoverImageService.update(form.id, form.coverImage[0])
 
 		return ResponseEntity("alguma coisa", HttpStatus.OK)
 	}
@@ -51,7 +55,7 @@ class PostController {
 	fun save(@RequestBody post: Post): Post {
 		logger.info("post.title: " + post.title)
 		logger.info("post.text: " + post.text)
-		logger.info("post.coverImage: " + post.coverImage.size)
+		// logger.info("post.coverImage: " + post.coverImage.size)
 		return postService.save(post)
 	}
 
