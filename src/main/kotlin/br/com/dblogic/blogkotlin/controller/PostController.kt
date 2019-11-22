@@ -55,7 +55,6 @@ class PostController {
 	fun save(@RequestBody post: Post): Post {
 		logger.info("post.title: " + post.title)
 		logger.info("post.text: " + post.text)
-		// logger.info("post.coverImage: " + post.coverImage.size)
 		return postService.save(post)
 	}
 

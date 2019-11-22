@@ -4,7 +4,9 @@
 
 	<!-- FRONT ARTICLE -->
 	<div th:fragment="frontArticle" class="post-wrapper">
-		<div class="blog-page-image" style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg&#39;);"></div>
+		<div class="blog-page-image" 
+			 style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg&#39;);">
+		</div>
 		<div class="post-content">
 			<h1 th:text="${facade.post.post.title}"></h1>
 			<div class="details-wrapper">
@@ -32,6 +34,7 @@
 		</div>
 	</div>
 	
+	<!-- POSTS -->
 	<div th:fragment="posts" th:each="post: ${facade.posts}" class="w-dyn-item">
 		<div class="post-wrapper">
 			<div class="post-content">

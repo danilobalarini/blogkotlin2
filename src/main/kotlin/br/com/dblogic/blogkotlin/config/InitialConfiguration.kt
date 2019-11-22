@@ -45,7 +45,7 @@ class InitialConfiguration {
 			val maxPosts = 5
 			val maxUsers = 10
 			val users = createusers(maxUsers)
-				
+			
 			val lorem = LoremIpsum.getInstance()
 			
 			for(x in 0 until maxPosts) {
@@ -63,7 +63,7 @@ class InitialConfiguration {
 				logger.info("plusInstant: " + dateUtils.toLocalDate(plusInstant)) 
 				
 				for(y in 0..ThreadLocalRandom.current().nextInt(0, 15)) {
-									
+				
 					logger.info("Comment " + y + " - instant: " + dateUtils.toLocalDate(plusInstant))
 					
 					val comment = Comment("" + y + ": " + lorem.getTitle(2, 4),
