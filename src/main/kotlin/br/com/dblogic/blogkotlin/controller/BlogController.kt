@@ -35,6 +35,6 @@ class BlogController {
 	@GetMapping("/contact")
 	fun contact() : String {
 		return "contact"
-	}	
-		
+	}
+
 }
