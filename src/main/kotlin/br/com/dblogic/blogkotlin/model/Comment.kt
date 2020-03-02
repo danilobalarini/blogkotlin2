@@ -2,15 +2,7 @@ package br.com.dblogic.blogkotlin.model
 
 import org.hibernate.annotations.GenericGenerator
 import java.time.Instant
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.Lob
-import javax.persistence.ManyToOne
-import javax.persistence.Table
-import javax.persistence.GenerationType
-import javax.persistence.FetchType
+import javax.persistence.*
 
 @Entity
 @Table(name = "tb_comment")
@@ -18,12 +10,11 @@ data class Comment(@Id
 		    	   @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 				   @GenericGenerator(name = "native", strategy = "native")
 		   		   val id: Long = 0L,
-				   				   
+
 				   @Lob
 		   		   var text: String = "",
 				   
 				   @ManyToOne(fetch = FetchType.LAZY)
-
 				   @JoinColumn(name = "post_id")
 				   var post: Post = Post(),
 				   

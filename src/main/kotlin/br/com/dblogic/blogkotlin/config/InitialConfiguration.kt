@@ -9,14 +9,12 @@ import br.com.dblogic.blogkotlin.service.UserService
 import br.com.dblogic.blogkotlin.utils.DateUtils
 import com.thedeanda.lorem.LoremIpsum
 import org.apache.commons.lang3.StringUtils
-import org.apache.commons.lang3.math.NumberUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.io.ResourceLoader
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -29,8 +27,6 @@ import java.util.concurrent.ThreadLocalRandom
 @Configuration
 class InitialConfiguration {
 
-	private final val DASH = "-"
-	
 	private val logger = LoggerFactory.getLogger(InitialConfiguration::class.java)
 	
 	@Autowired
@@ -48,13 +44,13 @@ class InitialConfiguration {
 	@Value("\${spring.jpa.hibernate.ddl-auto}")
 	lateinit var ddlauto: String
 
-	@Value("\${blog.directory.name}")
+	@Value("\${blog.name.directory}")
 	lateinit var blogFolderName: String
 
 	@Bean
 	fun initDatabase() = CommandLineRunner {
 
-		createPostDirectories()
+		checkPosts()
 
 		if(ddlauto.equals("create") || ddlauto.equals("create-drop")) {
 			createEverything()
@@ -65,11 +61,59 @@ class InitialConfiguration {
 		logger.info("Comment Count: " + commentService.count())
 	}
 
+	fun checkPosts() {
+		logger.info("entering createPostDirectories()")
+
+		for(p in postService.findAll()) {
+
+			logger.info("Criando o título")
+			val title = titleToFile(p)
+			logger.info("Título do post " + p.id.toString() + ": " + title)
+
+			// criação/verificação se existe o dir
+			val currentWorkingDir: Path = Paths.get("").toAbsolutePath()
+			val dirpath = "$currentWorkingDir/$blogFolderName/$title"
+			val path = Paths.get(dirpath)
+			val isDirectory = Files.isDirectory(path)
+
+			if(!isDirectory) {
+				logger.info("creating directory $path")
+				File("$path").mkdirs()
+			}
+		}
+	}
+
+	private fun titleToFile(p: Post): String {
+		// always put the date in the last part
+		// id-title-date
+		// date=YYYYMMDD
+		// this is documentation
+		val titleWithoutAccents = StringUtils.stripAccents(p.title)
+		var title = ""
+
+		for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
+			title = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
+		}
+
+		return p.id.toString() + "-" + title + toDateString(p.createdAt)
+	}
+
+	private fun toDateString(date: Instant) : String {
+
+		val zone = ZoneOffset.UTC
+
+		val year = LocalDateTime.ofInstant(date, zone).year.toString()
+		val month = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).monthValue.toString(), 2, "0")
+		val day = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).dayOfMonth.toString(), 2, "0")
+
+		return "$year$month$day"
+	}
+
 	fun createEverything() {
 		logger.info("creating all data")
 
-		val maxPosts = 5
-		val maxUsers = 10
+		val maxPosts = 8
+		val maxUsers = 12
 		val users = createusers(maxUsers)
 		
 		val lorem = LoremIpsum.getInstance()
@@ -116,55 +160,5 @@ class InitialConfiguration {
 		return listUsers
 	}
 
-	fun createPostDirectories() {
 
-		logger.info("entering createPostDirectories()")
-
-		for(p in postService.findAll()) {
-
-			logger.info("Criando o título")
-			val title = titleToFile(p)
-			logger.info("Título do post " + p.id.toString() + ": " + title)
-
-			// criar o diretório
-			val currentWorkingDir: Path = Paths.get("").toAbsolutePath()
-
-			val dirpath = "$currentWorkingDir/$blogFolderName/$title"
-			val path = Paths.get(dirpath)
-
-			val isDirectory = Files.isDirectory(path)
-
-			if(!isDirectory) {
-				logger.info("creating directory $path")
-				File("$path").mkdirs()
-			}
-		}
-	}
-
-	private fun titleToFile(p: Post): String {
-		// always put the date in the last part
-		// id-title-date
-		// date=YYYYMMDD
-		// this is documentation
-		val titleWithoutAccents = StringUtils.stripAccents(p.title)
-		var title = ""
-
-		for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
-			title = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + DASH
-		}
-
-		return p.id.toString() + DASH + title + toDateString(p.createdAt)
-	}
-
-	private fun toDateString(date: Instant) : String {
-
-		val zone = ZoneOffset.UTC
-
-		val year = LocalDateTime.ofInstant(date, zone).year.toString()
-		val month = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).monthValue.toString(), 2, "0")
-		val day = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).dayOfMonth.toString(), 2, "0")
-
-		return "$year$month$day"
-	}
-	
 }
