@@ -6,10 +6,10 @@ import br.com.dblogic.blogkotlin.model.facade.PostCommentCountFacade
 import br.com.dblogic.blogkotlin.repository.CommentRepository
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.slf4j.LoggerFactory
-import org.springframework.web.multipart.MultipartFile
+import java.util.*
 
 @Service
 class PostService {
@@ -24,6 +24,9 @@ class PostService {
 	
 	@Autowired
 	lateinit var postSpecification: PostSpecification
+
+	@Autowired
+	lateinit var postCoverImageService: PostCoverImageService
 	
 	fun findAll(): List<Post> {
 		return postRepository.findAll()
@@ -49,17 +52,18 @@ class PostService {
 	fun frontPage() : FrontPageFacade {
 		
 		val posts = cleanHtml(postRepository.findByOrderByCreatedAtDesc())
-		val post = PostCommentCountFacade(posts.first(), commentRepository.countByPost(posts.first()))
+		val frontPostCoverImage = postCoverImageService.findByPost(posts.first())
+
+		val post = PostCommentCountFacade(posts.first(), commentRepository.countByPost(posts.first()), Base64.getEncoder().encode(frontPostCoverImage.coverImage))
 		
 		var listPostComments = mutableListOf<PostCommentCountFacade>()
 		
 		for(p in posts.drop(1)) {
-			listPostComments.add(PostCommentCountFacade(p, commentRepository.countByPost(p)))
+			val ci = postCoverImageService.findByPost(p)
+			listPostComments.add(PostCommentCountFacade(p, commentRepository.countByPost(p), Base64.getEncoder().encode(ci.coverImage)))
 		}
-		
-		val facade = FrontPageFacade(post, listPostComments)
-		
-		return facade
+
+		return FrontPageFacade(post, listPostComments)
 	}
 
 	private fun cleanHtml(posts: List<Post>) : List<Post> {

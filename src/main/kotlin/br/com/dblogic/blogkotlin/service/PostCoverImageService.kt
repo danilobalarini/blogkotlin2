@@ -2,11 +2,10 @@ package br.com.dblogic.blogkotlin.service
 
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostCoverImage
-import org.springframework.stereotype.Service
-import org.slf4j.LoggerFactory
 import br.com.dblogic.blogkotlin.repository.PostCoverImageRepository
-import org.springframework.web.multipart.MultipartFile
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class PostCoverImageService {
@@ -27,6 +26,10 @@ class PostCoverImageService {
 		val postCoverImage = PostCoverImage(id, name, image, post)
 
 		postCoverImageRepository.save(postCoverImage)
+	}
+
+	fun findByPost(p: Post): PostCoverImage {
+		return postCoverImageRepository.findByPost(p)
 	}
 
 	private fun getName(coverImage: MultipartFile) : String {

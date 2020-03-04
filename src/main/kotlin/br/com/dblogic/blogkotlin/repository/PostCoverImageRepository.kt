@@ -1,12 +1,10 @@
 package br.com.dblogic.blogkotlin.repository
 
+import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostCoverImage
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor
-import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import java.time.Instant
-import java.util.Optional
+import java.util.*
 
 @Repository
 interface PostCoverImageRepository : JpaRepository<PostCoverImage, Long> {
@@ -16,5 +14,7 @@ interface PostCoverImageRepository : JpaRepository<PostCoverImage, Long> {
 	override fun findById(id: Long): Optional<PostCoverImage>
 
 	override fun deleteById(id: Long)
+
+	fun findByPost(post: Post): PostCoverImage
 
 }

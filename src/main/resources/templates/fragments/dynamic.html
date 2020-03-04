@@ -4,14 +4,13 @@
 
 	<!-- FRONT ARTICLE -->
 	<div th:fragment="frontArticle" class="post-wrapper">
-		<div class="blog-page-image" 
-			 style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg&#39;);">
+		<div class="blog-page-image"
+			 style="background:url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg&#39;);">
 		</div>
 		<div class="post-content">
 			<h1 th:text="${facade.post.post.title}"></h1>
 			<div class="details-wrapper">
-				<div th:with="date=${facade.post.post.createdAt}" 
-					 class="post-info"
+				<div th:with="date=${facade.post.post.createdAt}" class="post-info"
 					 th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
 				<div class="post-info">|</div>
 				<div class="post-info" th:text=" '(' + ${facade.post.commentCount} + ') Comments'"></div>
@@ -42,8 +41,9 @@
 					
 					<div class="w-col w-col-4 w-col-medium-4">
 						<a class="blog-image w-inline-block" 
-						   href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto" 
-						   style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg&#39;);"></a>
+						   href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto"
+						   style="background-image: url(&#39;https://daks2k3a4ib2z.cloudfront.net/56cf6e77d3b4fc4579d0a95f/56e9f2962682addd4d54350d_photo-1441512673622-3eaa1c39ba28.jpg&#39;);">
+						</a>
 					</div>
 					
 					<div class="w-col w-col-8 w-col-medium-8">
