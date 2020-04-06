@@ -8,7 +8,9 @@ import javax.persistence.Lob
 import javax.persistence.OneToOne
 import javax.persistence.Table
 import javax.persistence.GenerationType
+import javax.persistence.GeneratedValue
 import javax.persistence.FetchType
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "tb_post_cover_image")
@@ -22,7 +24,13 @@ data class PostCoverImage(@Id
                           
                           @OneToOne(fetch = FetchType.LAZY)
                           @MapsId
-                          val post: Post = Post()) : DateAudit() {
+                          var post: Post = Post()) : DateAudit() {
+
+    constructor(name: String, coverImage: ByteArray, post: Post): this() {
+        this.name = name
+        this.coverImage = coverImage
+        this.post = post
+    }                       
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

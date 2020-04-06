@@ -50,8 +50,10 @@ class PostService {
 	}
 	
 	fun frontPage() : FrontPageFacade {
-		
+		logger.info("posts zero length? " + (postRepository.count() == 0L));
 		val posts = cleanHtml(postRepository.findByOrderByCreatedAtDesc())
+		logger.info("### posts ###: " + posts.size)
+
 		val frontPostCoverImage = postCoverImageService.findByPost(posts.first())
 
 		val post = PostCommentCountFacade(posts.first(), commentRepository.countByPost(posts.first()), Base64.getEncoder().encode(frontPostCoverImage.coverImage))

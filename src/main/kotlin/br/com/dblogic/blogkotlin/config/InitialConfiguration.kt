@@ -3,9 +3,11 @@ package br.com.dblogic.blogkotlin.config
 import br.com.dblogic.blogkotlin.model.Comment
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.User
+import br.com.dblogic.blogkotlin.model.PostCoverImage
 import br.com.dblogic.blogkotlin.service.CommentService
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.service.UserService
+import br.com.dblogic.blogkotlin.service.PostCoverImageService
 import br.com.dblogic.blogkotlin.utils.DateUtils
 import com.thedeanda.lorem.LoremIpsum
 import org.apache.commons.lang3.StringUtils
@@ -37,6 +39,9 @@ class InitialConfiguration {
 
 	@Autowired
 	lateinit var userService: UserService
+
+	@Autowired
+	lateinit var postCoverImageService: PostCoverImageService
 	
 	@Autowired
 	lateinit var dateUtils: DateUtils
@@ -144,7 +149,11 @@ class InitialConfiguration {
 				post.addComment(comment)
 				plusInstant = dateUtils.plusInstantUntilNow(plusInstant)
 			}
-			postService.save(post)
+			val p = postService.save(post)
+
+			logger.info("Creating file $x-image.jpg")
+			val postCoverImage = PostCoverImage(p.id, "$x-image.jpg", postCoverImageService.defaultCoverImage(), p)
+			postCoverImageService.save(postCoverImage)
 		}
 	}
 	

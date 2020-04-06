@@ -7,6 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
+import java.awt.image.BufferedImage
+import java.awt.Graphics2D
+import java.awt.Color
+import java.awt.Font
+
+import java.io.ByteArrayOutputStream
+import javax.imageio.ImageIO
+
 @Service
 class PostCoverImageService {
 
@@ -15,6 +23,10 @@ class PostCoverImageService {
 
 	fun findById(id: Long) : PostCoverImage {
 		return postCoverImageRepository.findById(id).get()
+	}
+
+    fun save(postCoverImage: PostCoverImage) {
+		postCoverImageRepository.save(postCoverImage)
 	}
 
     fun update(id: Long, coverImage: MultipartFile) {
@@ -41,5 +53,26 @@ class PostCoverImageService {
 		}
 		return ""
 	}
+
+    fun defaultCoverImage(): ByteArray {
+
+        val image = BufferedImage(1300, 860, BufferedImage.TYPE_INT_RGB)
+        val g2d: Graphics2D = image.createGraphics()
+        g2d.setColor(Color.WHITE)
+        g2d.fillRect(0, 0, 1300, 860)
+
+        g2d.setColor(Color.BLACK)
+        val font = Font("Georgia", Font.BOLD, 36);
+        g2d.setFont(font);
+        g2d.drawString("Algo deve ser escrito em algum lugar", 30, 30)
+
+        val baos = ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", baos);
+        baos.flush()
+        val imageBA = baos.toByteArray()
+        baos.close()
+
+        return imageBA;
+    }
 
 }
