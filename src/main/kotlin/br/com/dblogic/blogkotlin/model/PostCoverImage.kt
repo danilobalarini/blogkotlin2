@@ -30,7 +30,7 @@ data class PostCoverImage(@Id
         this.name = name
         this.coverImage = coverImage
         this.post = post
-    }                       
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

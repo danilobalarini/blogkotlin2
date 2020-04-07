@@ -21,6 +21,7 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -55,13 +56,13 @@ class InitialConfiguration {
 	@Bean
 	fun initDatabase() = CommandLineRunner {
 
-		checkPosts()
-
 		if(ddlauto.equals("create") || ddlauto.equals("create-drop")) {
 			createEverything()
 		} else {
 			logger.info("opa e ae")
 		}
+
+		checkPosts()
 
 		logger.info("Comment Count: " + commentService.count())
 	}
@@ -84,6 +85,16 @@ class InitialConfiguration {
 			if(!isDirectory) {
 				logger.info("creating directory $path")
 				File("$path").mkdirs()
+
+				val pci = postCoverImageService.findByPost(p)
+				val name = pci.name.toString()				
+				val filepath = Paths.get("$path/$name")
+
+				logger.info("name: $name")
+				logger.info("path: $path")
+				logger.info("filepath: $filepath")
+
+				Files.write(filepath, pci.coverImage, StandardOpenOption.CREATE)
 			}
 		}
 	}
@@ -152,7 +163,7 @@ class InitialConfiguration {
 			val p = postService.save(post)
 
 			logger.info("Creating file $x-image.jpg")
-			val postCoverImage = PostCoverImage(p.id, "$x-image.jpg", postCoverImageService.defaultCoverImage(), p)
+			val postCoverImage = PostCoverImage(p.id, "" + (x+1) + "-coverimage.jpg", postCoverImageService.defaultCoverImage(), p)
 			postCoverImageService.save(postCoverImage)
 		}
 	}

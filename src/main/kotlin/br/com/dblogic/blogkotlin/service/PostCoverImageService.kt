@@ -64,7 +64,7 @@ class PostCoverImageService {
         g2d.setColor(Color.BLACK)
         val font = Font("Georgia", Font.BOLD, 36);
         g2d.setFont(font);
-        g2d.drawString("Algo deve ser escrito em algum lugar", 30, 30)
+        g2d.drawString("Algo deve ser escrito em algum lugar", 200, 200)
 
         val baos = ByteArrayOutputStream();
         ImageIO.write(image, "jpg", baos);
