@@ -55,14 +55,13 @@ class PostService {
 		logger.info("### posts ###: " + posts.size)
 
 		val frontPostCoverImage = postCoverImageService.findByPost(posts.first())
+		val post = PostCommentCountFacade(posts.first(), commentRepository.countByPost(posts.first()))
 
-		val post = PostCommentCountFacade(posts.first(), commentRepository.countByPost(posts.first()), Base64.getEncoder().encode(frontPostCoverImage.coverImage))
-		
 		var listPostComments = mutableListOf<PostCommentCountFacade>()
 		
 		for(p in posts.drop(1)) {
 			val ci = postCoverImageService.findByPost(p)
-			listPostComments.add(PostCommentCountFacade(p, commentRepository.countByPost(p), Base64.getEncoder().encode(ci.coverImage)))
+			listPostComments.add(PostCommentCountFacade(p, commentRepository.countByPost(p)))
 		}
 
 		return FrontPageFacade(post, listPostComments)

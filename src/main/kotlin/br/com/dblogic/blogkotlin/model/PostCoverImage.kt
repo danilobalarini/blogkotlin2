@@ -17,18 +17,21 @@ import org.hibernate.annotations.GenericGenerator
 data class PostCoverImage(@Id
 				          val id: Long = 0,
 
-				          var name: String = "",
+                          var filename: String = "",
+                          
+                          var filepath: String = "",
 
 				          @Lob
                           var coverImage: ByteArray = ByteArray(0), 
-                          
+
                           @OneToOne(fetch = FetchType.LAZY)
                           @MapsId
                           var post: Post = Post()) : DateAudit() {
 
-    constructor(name: String, coverImage: ByteArray, post: Post): this() {
-        this.name = name
+    constructor(filename: String, filepath: String, coverImage: ByteArray, post: Post): this() {
         this.coverImage = coverImage
+        this.filename = filename
+        this.filepath = filepath
         this.post = post
     }
 
@@ -39,7 +42,7 @@ data class PostCoverImage(@Id
         other as PostCoverImage
 
         if (id != other.id) return false
-        if (name != other.name) return false
+        if (filename != other.filename) return false
         if (!coverImage.contentEquals(other.coverImage)) return false
         if (post != other.post) return false
 
@@ -48,7 +51,7 @@ data class PostCoverImage(@Id
 
     override fun hashCode(): Int {
         var result = id.hashCode()
-        result = 31 * result + name.hashCode()
+        result = 31 * result + filename.hashCode()
         result = 31 * result + coverImage.contentHashCode()
         result = 31 * result + post.hashCode()
         return result

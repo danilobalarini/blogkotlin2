@@ -35,7 +35,7 @@ class PostCoverImageService {
 		val name = getName(coverImage)
 		val image = if (coverImage.bytes.isNotEmpty()) coverImage.bytes else byteArrayOf(0)
 
-		val postCoverImage = PostCoverImage(id, name, image, post)
+		val postCoverImage = PostCoverImage(id, name, "", image, post)
 
 		postCoverImageRepository.save(postCoverImage)
 	}

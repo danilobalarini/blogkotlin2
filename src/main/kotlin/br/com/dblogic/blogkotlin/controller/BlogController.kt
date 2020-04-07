@@ -16,17 +16,10 @@ class BlogController {
 	
 	@GetMapping("", "/home", "/index")
 	fun goHome(model: Model) : String {
-		
 		model.addAttribute("facade", postService.frontPage())
-		
 		return "index"
 	}
 	
-	@GetMapping("/index")
-	fun index() : String {
-		return "index"
-	}
-
 	@GetMapping("/about")
 	fun about() : String {
 		return "about"

@@ -53,6 +53,9 @@ class InitialConfiguration {
 	@Value("\${blog.name.directory}")
 	lateinit var blogFolderName: String
 
+
+
+
 	@Bean
 	fun initDatabase() = CommandLineRunner {
 
@@ -80,6 +83,7 @@ class InitialConfiguration {
 			val currentWorkingDir: Path = Paths.get("").toAbsolutePath()
 			val dirpath = "$currentWorkingDir/$blogFolderName/$title"
 			val path = Paths.get(dirpath)
+
 			val isDirectory = Files.isDirectory(path)
 
 			if(!isDirectory) {
@@ -87,7 +91,7 @@ class InitialConfiguration {
 				File("$path").mkdirs()
 
 				val pci = postCoverImageService.findByPost(p)
-				val name = pci.name.toString()				
+				val name = pci.filename.toString()
 				val filepath = Paths.get("$path/$name")
 
 				logger.info("name: $name")
@@ -126,6 +130,7 @@ class InitialConfiguration {
 	}
 
 	fun createEverything() {
+
 		logger.info("creating all data")
 
 		val maxPosts = 8
@@ -163,7 +168,12 @@ class InitialConfiguration {
 			val p = postService.save(post)
 
 			logger.info("Creating file $x-image.jpg")
-			val postCoverImage = PostCoverImage(p.id, "" + (x+1) + "-coverimage.jpg", postCoverImageService.defaultCoverImage(), p)
+			val postCoverImage = PostCoverImage(p.id, 
+												"" + (x+1) + "-coverimage.jpg", 
+												"" + (x+1) + "-coverimage.jpg", 
+												postCoverImageService.defaultCoverImage(), 
+												p)
+
 			postCoverImageService.save(postCoverImage)
 		}
 	}
