@@ -8,6 +8,7 @@ import br.com.dblogic.blogkotlin.service.CommentService
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.service.UserService
 import br.com.dblogic.blogkotlin.service.PostCoverImageService
+import br.com.dblogic.blogkotlin.utils.BlogUtils
 import br.com.dblogic.blogkotlin.utils.DateUtils
 import com.thedeanda.lorem.LoremIpsum
 import org.apache.commons.lang3.StringUtils
@@ -19,7 +20,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.io.File
 import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 import java.time.Instant
@@ -47,14 +47,11 @@ class InitialConfiguration {
 	@Autowired
 	lateinit var dateUtils: DateUtils
 
+	@Autowired
+	lateinit var blogUtils: BlogUtils
+
 	@Value("\${spring.jpa.hibernate.ddl-auto}")
 	lateinit var ddlauto: String
-
-	@Value("\${blog.name.directory}")
-	lateinit var blogFolderName: String
-
-
-
 
 	@Bean
 	fun initDatabase() = CommandLineRunner {
@@ -80,8 +77,7 @@ class InitialConfiguration {
 			logger.info("Título do post " + p.id.toString() + ": " + title)
 
 			// criação/verificação se existe o dir
-			val currentWorkingDir: Path = Paths.get("").toAbsolutePath()
-			val dirpath = "$currentWorkingDir/$blogFolderName/$title"
+			val dirpath = blogUtils.appendToBlogDir(title)
 			val path = Paths.get(dirpath)
 
 			val isDirectory = Files.isDirectory(path)
@@ -170,7 +166,7 @@ class InitialConfiguration {
 			logger.info("Creating file $x-image.jpg")
 			val postCoverImage = PostCoverImage(p.id, 
 												"" + (x+1) + "-coverimage.jpg", 
-												"" + (x+1) + "-coverimage.jpg", 
+												"" + (x+1) + "-coverimage.jpg",
 												postCoverImageService.defaultCoverImage(), 
 												p)
 
