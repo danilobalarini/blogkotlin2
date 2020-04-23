@@ -95,34 +95,10 @@ class InitialConfiguration {
 				logger.info("filepath: $filepath")
 
 				Files.write(filepath, pci.coverImage, StandardOpenOption.CREATE)
+
+				//postService.updateBackgroundImage(p, filepath.toString())
 			}
 		}
-	}
-
-	private fun titleToFile(p: Post): String {
-		// always put the date in the last part
-		// id-title-date
-		// date=YYYYMMDD
-		// this is documentation
-		val titleWithoutAccents = StringUtils.stripAccents(p.title)
-		var title = ""
-
-		for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
-			title = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
-		}
-
-		return p.id.toString() + "-" + title + toDateString(p.createdAt)
-	}
-
-	private fun toDateString(date: Instant) : String {
-
-		val zone = ZoneOffset.UTC
-
-		val year = LocalDateTime.ofInstant(date, zone).year.toString()
-		val month = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).monthValue.toString(), 2, "0")
-		val day = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).dayOfMonth.toString(), 2, "0")
-
-		return "$year$month$day"
 	}
 
 	fun createEverything() {
@@ -141,8 +117,9 @@ class InitialConfiguration {
 			val paragraphmin = ThreadLocalRandom.current().nextInt(3, 12)
 			val paragraphmax = ThreadLocalRandom.current().nextInt(paragraphmin, 15)
 			val datePost = dateUtils.getRandomDateSince(30)
-			
-			var post = Post(lorem.getTitle(titlemin, titlemax),
+
+			val title = lorem.getTitle(titlemin, titlemax)
+			var post = Post(title,
 							lorem.getParagraphs(paragraphmin, paragraphmax),
 							datePost)
 			
@@ -186,5 +163,46 @@ class InitialConfiguration {
 		return listUsers
 	}
 
+	private fun titleToFile(p: Post): String {
+		// always put the date in the last part
+		// id-title-date
+		// date=YYYYMMDD
+		// this is documentation
+		val titleWithoutAccents = StringUtils.stripAccents(p.title)
+		var title = ""
+
+		for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
+			title = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
+		}
+
+		return p.id.toString() + "-" + title + toDateString(p.createdAt)
+	}
+
+
+	private fun title(title: String): String {
+		// always put the date in the last part
+		// id-title-date
+		// date=YYYYMMDD
+		// this is documentation
+		val titleWithoutAccents = StringUtils.stripAccents(title)
+		var t = ""
+
+		for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
+			t = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
+		}
+
+		return t + "-" + title
+	}
+
+	private fun toDateString(date: Instant) : String {
+
+		val zone = ZoneOffset.UTC
+
+		val year = LocalDateTime.ofInstant(date, zone).year.toString()
+		val month = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).monthValue.toString(), 2, "0")
+		val day = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).dayOfMonth.toString(), 2, "0")
+
+		return "$year$month$day"
+	}
 
 }
