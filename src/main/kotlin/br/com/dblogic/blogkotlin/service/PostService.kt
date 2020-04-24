@@ -6,11 +6,11 @@ import br.com.dblogic.blogkotlin.model.facade.PostCommentCountFacade
 import br.com.dblogic.blogkotlin.repository.CommentRepository
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
+import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.util.*
-import java.nio.file.Paths
 
 @Service
 class PostService {
@@ -28,6 +28,12 @@ class PostService {
 
 	@Autowired
 	lateinit var postCoverImageService: PostCoverImageService
+
+	@Autowired
+	lateinit var blogUtils: BlogUtils
+
+	@Value("\${blog.directory.name}")
+	lateinit var rootFolder: String
 	
 	fun findAll(): List<Post> {
 		return postRepository.findAll()
@@ -55,14 +61,14 @@ class PostService {
 		val posts = cleanHtml(postRepository.findByOrderByCreatedAtDesc())
 		logger.info("### posts ###: " + posts.size)
 
-		val frontPostCoverImage = postCoverImageService.findByPost(posts.first())
-		val post = PostCommentCountFacade(posts.first(), commentRepository.countByPost(posts.first()))
+		val first = posts.first()
+		val post = PostCommentCountFacade(first, commentRepository.countByPost(first), createCoverImagePath(first))
 
 		var listPostComments = mutableListOf<PostCommentCountFacade>()
-		
-		for(p in posts.drop(1)) {
+
+		for (p in posts.drop(1)) {
 			val ci = postCoverImageService.findByPost(p)
-			listPostComments.add(PostCommentCountFacade(p, commentRepository.countByPost(p)))
+			listPostComments.add(PostCommentCountFacade(p, commentRepository.countByPost(p), createCoverImagePath(p)))
 		}
 
 		return FrontPageFacade(post, listPostComments)
@@ -81,6 +87,13 @@ class PostService {
 			listPost.add(p)
 		}
 		return posts;
+	}
+
+	private fun createCoverImagePath(post: Post): String {
+		val directoryName = blogUtils.getDirectoryNameFromPost(post)
+		val imageName = postCoverImageService.findByPost(post).filename
+
+		return "$rootFolder/$directoryName/$imageName"
 	}
 
 }

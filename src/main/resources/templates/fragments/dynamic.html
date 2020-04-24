@@ -4,7 +4,7 @@
 
 	<!-- FRONT ARTICLE -->
 	<div th:fragment="frontArticle" class="post-wrapper">
-		<div class="blog-page-image" style="background:url('blog/1-Neglegentur-in-Vehicula-Iaculis-Platea-Principes-20200421/1-coverimage.jpg')"></div>
+		<div class="blog-page-image" th:style="'background:url(' + ${facade.post.coverImage} + ');'"></div>
 		<div class="post-content">
 			<h1 th:text="${facade.post.post.title}"></h1>
 			<div class="details-wrapper">
@@ -40,7 +40,7 @@
 					<div class="w-col w-col-4 w-col-medium-4">
 						<a class="blog-image w-inline-block" 
 						   href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto"
-						   style="background-image: url(&#39;../blog/$post.&#39;);">
+						   th:style="'background-image: url('+ ${post.coverImage} +');'">
 						</a>
 					</div>
 					
