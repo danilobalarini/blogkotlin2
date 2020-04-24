@@ -54,7 +54,7 @@ class PostCoverImageService {
 		return ""
 	}
 
-    fun defaultCoverImage(): ByteArray {
+    fun defaultCoverImage(text: String): ByteArray {
 
         val image = BufferedImage(1300, 860, BufferedImage.TYPE_INT_RGB)
         val g2d: Graphics2D = image.createGraphics()
@@ -64,7 +64,7 @@ class PostCoverImageService {
         g2d.setColor(Color.BLACK)
         val font = Font("Georgia", Font.BOLD, 36);
         g2d.setFont(font);
-        g2d.drawString("Algo deve ser escrito em algum lugar", 200, 200)
+        g2d.drawString(text, 200, 200)
 
         val baos = ByteArrayOutputStream();
         ImageIO.write(image, "jpg", baos);

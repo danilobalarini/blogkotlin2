@@ -73,8 +73,8 @@ class InitialConfiguration {
 		for(p in postService.findAll()) {
 
 			logger.info("Criando o título")
-			val title = titleToFile(p)
-			logger.info("Título do post " + p.id.toString() + ": " + title)
+			val title = blogUtils.getDirectoryNameFromPost(p)
+			logger.info("Título do post: $title")
 
 			// criação/verificação se existe o dir
 			val dirpath = blogUtils.appendToBlogDir(title)
@@ -144,7 +144,7 @@ class InitialConfiguration {
 			val postCoverImage = PostCoverImage(p.id, 
 												"" + (x+1) + "-coverimage.jpg", 
 												"" + (x+1) + "-coverimage.jpg",
-												postCoverImageService.defaultCoverImage(), 
+												postCoverImageService.defaultCoverImage("${p.id}: $title"),
 												p)
 
 			postCoverImageService.save(postCoverImage)
@@ -161,48 +161,6 @@ class InitialConfiguration {
 			listUsers.add(userService.save(user))
 		}
 		return listUsers
-	}
-
-	private fun titleToFile(p: Post): String {
-		// always put the date in the last part
-		// id-title-date
-		// date=YYYYMMDD
-		// this is documentation
-		val titleWithoutAccents = StringUtils.stripAccents(p.title)
-		var title = ""
-
-		for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
-			title = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
-		}
-
-		return p.id.toString() + "-" + title + toDateString(p.createdAt)
-	}
-
-
-	private fun title(title: String): String {
-		// always put the date in the last part
-		// id-title-date
-		// date=YYYYMMDD
-		// this is documentation
-		val titleWithoutAccents = StringUtils.stripAccents(title)
-		var t = ""
-
-		for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
-			t = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
-		}
-
-		return t + "-" + title
-	}
-
-	private fun toDateString(date: Instant) : String {
-
-		val zone = ZoneOffset.UTC
-
-		val year = LocalDateTime.ofInstant(date, zone).year.toString()
-		val month = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).monthValue.toString(), 2, "0")
-		val day = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).dayOfMonth.toString(), 2, "0")
-
-		return "$year$month$day"
 	}
 
 }

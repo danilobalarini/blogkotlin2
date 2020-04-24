@@ -1,5 +1,6 @@
 ## Application
 blog/*
+src/main/resources/static/blog/*
 
 ## Maven
 /target/

@@ -13,8 +13,6 @@ data class Post(@Id
 
 				var title: String = "",
 
-				var titleDirectoryName: String = "",
-
 				@Lob
 				var text: String = "",
 
