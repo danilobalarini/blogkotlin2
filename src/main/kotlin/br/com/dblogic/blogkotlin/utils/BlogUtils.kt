@@ -13,7 +13,7 @@ import java.time.ZoneOffset
 @Component
 class BlogUtils {
 
-    @Value("\${blog.directory.name}")
+    @Value("\${blog.root.folder}")
     lateinit var blogFolderName: String
 
     fun createInBlogDir(): Path {

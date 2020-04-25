@@ -4,6 +4,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
@@ -28,6 +30,7 @@ class WebConfiguration : WebMvcConfigurer {
 		registry.addResourceHandler("/javascript/**").addResourceLocations("classpath:/static/javascript/")
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/")
 		registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/images/favicon/favicon.ico")
+		//registry.addResourceHandler("/blog/**").addResourceLocations("classpath:/static/blog/")
 		
 		// ## swagger config ##
 		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/")
