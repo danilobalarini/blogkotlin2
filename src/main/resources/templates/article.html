@@ -7,12 +7,14 @@
 </head>
 
 <body>
+
 	<div class="navigation-bar w-nav" data-animation="default" data-collapse="medium" data-contain="1" data-duration="400">
 		<div class="w-container">
 			<a class="w-nav-brand" href="http://denali-template.webflow.io/"><div class="site-name">Denali</div></a>
 			<nav class="navigation-menu w-nav-menu" role="navigation">
-				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/" style="max-width: 940px;">Home</a><a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/about" style="max-width: 940px;">About</a><a class="navigation-link w-nav-link"
-					href="http://denali-template.webflow.io/contact" style="max-width: 940px;">Contact</a>
+				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/" style="max-width: 940px;">Home</a>
+				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/about" style="max-width: 940px;">About</a>
+				<a class="navigation-link w-nav-link" href="http://denali-template.webflow.io/contact" style="max-width: 940px;">Contact</a>
 			</nav>
 			<div class="menu-button w-nav-button">
 				<div class="w-icon-nav-menu"></div>
@@ -20,26 +22,28 @@
 		</div>
 		<div class="w-nav-overlay" data-wf-ignore=""></div>
 	</div>
+
 	<div class="content-wrapper">
 		<div class="w-container">
 			<div class="w-row">
 
-				<div th:replace="fragments/general.html :: sidebar"></div>
+				<div th:replace="fragments/general.html :: sidebar_level_1"></div>
 				
 					<div class="content-column w-col w-col-9">
 					
-						<div th:replace="fragments/post.html :: post"></div>
+						<div th:replace="fragments/articlebody.html :: post"></div>
 
 						<div class="button-wrapper">
 							<a class="button w-button" href="http://denali-template.webflow.io/all-posts">←&nbsp;All posts</a>
 						</div>
 
-						<div th:replace="fragments/general.html :: mobile-sidebar"></div>
+						<div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div>
 
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<script src="./article_files/jquery.min.js.download" type="text/javascript"></script>
 	<script src="./article_files/webflow.5b0765584.js.download" type="text/javascript"></script>
 	<!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->

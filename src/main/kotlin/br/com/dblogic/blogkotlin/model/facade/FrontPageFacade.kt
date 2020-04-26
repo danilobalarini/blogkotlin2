@@ -1,8 +1,8 @@
 package br.com.dblogic.blogkotlin.model
 
-import br.com.dblogic.blogkotlin.model.facade.PostCommentCountFacade
+import br.com.dblogic.blogkotlin.model.facade.FrontPagePostFacade
 
-data class FrontPageFacade(val post: PostCommentCountFacade,
-						   val posts: List<PostCommentCountFacade>) {
+data class FrontPageFacade(val frontPagePost: FrontPagePostFacade,
+						   val frontPagePosts: List<FrontPagePostFacade>) {
 			
 }

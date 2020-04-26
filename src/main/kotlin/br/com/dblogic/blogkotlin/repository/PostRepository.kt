@@ -14,5 +14,4 @@ interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<P
 	override fun deleteById(id: Long)
 
 	fun findByOrderByCreatedAtDesc(): List<Post>
-
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.beans.factory.annotation.Autowired
 import br.com.dblogic.blogkotlin.service.PostService
+import org.springframework.web.bind.annotation.PathVariable
 
 @Controller
 @RequestMapping("")
@@ -16,10 +17,16 @@ class BlogController {
 	
 	@GetMapping("", "/home", "/index")
 	fun goHome(model: Model) : String {
-		model.addAttribute("facade", postService.frontPage())
+		model.addAttribute("frontPageFacade", postService.frontPage())
 		return "index"
 	}
-	
+
+	@GetMapping("/postid/{id}")
+	fun goArticle(@PathVariable id: Long, model: Model): String {
+		model.addAttribute("postFacade", postService.goArticle(id))
+		return "article"
+	}
+
 	@GetMapping("/about")
 	fun about() : String {
 		return "about"

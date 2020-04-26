@@ -2,7 +2,8 @@ package br.com.dblogic.blogkotlin.service
 
 import br.com.dblogic.blogkotlin.model.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.Post
-import br.com.dblogic.blogkotlin.model.facade.PostCommentCountFacade
+import br.com.dblogic.blogkotlin.model.facade.FrontPagePostFacade
+import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.repository.CommentRepository
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
@@ -42,7 +43,7 @@ class PostService {
 	fun findById(id: Long) : Post {
 		return postRepository.findById(id).get()
 	}
-	
+
 	fun save(post: Post) : Post {
 		return postRepository.save(post)
 	}
@@ -62,16 +63,21 @@ class PostService {
 		logger.info("### posts ###: " + posts.size)
 
 		val first = posts.first()
-		val post = PostCommentCountFacade(first, commentRepository.countByPost(first), createCoverImagePath(first))
+		val post = FrontPagePostFacade(first, commentRepository.countByPost(first), createCoverImagePath(first))
 
-		var listPostComments = mutableListOf<PostCommentCountFacade>()
+		var listPostComments = mutableListOf<FrontPagePostFacade>()
 
 		for (p in posts.drop(1)) {
 			val ci = postCoverImageService.findByPost(p)
-			listPostComments.add(PostCommentCountFacade(p, commentRepository.countByPost(p), createCoverImagePath(p)))
+			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImagePath(p)))
 		}
 
 		return FrontPageFacade(post, listPostComments)
+	}
+
+	fun goArticle(id: Long): PostFacade {
+		val post = findById(id)
+		return PostFacade(post, createCoverImagePath(post))
 	}
 
 	private fun cleanHtml(posts: List<Post>) : List<Post> {

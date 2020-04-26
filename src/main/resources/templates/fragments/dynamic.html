@@ -4,27 +4,27 @@
 
 	<!-- FRONT ARTICLE -->
 	<div th:fragment="frontArticle" class="post-wrapper">
-		<div class="blog-page-image" th:style="'background:url(' + ${facade.post.coverImage} + ');'"></div>
+		<div class="blog-page-image" th:style="'background:url(' + ${frontPageFacade.frontPagePost.coverImage} + ');'"></div>
 		<div class="post-content">
-			<h1 th:text="${facade.post.post.title}"></h1>
+			<h1 th:text="${frontPageFacade.frontPagePost.post.title}"></h1>
 			<div class="details-wrapper">
-				<div th:with="date=${facade.post.post.createdAt}" class="post-info"
+				<div th:with="date=${frontPageFacade.frontPagePost.post.createdAt}" class="post-info"
 					 th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
 				<div class="post-info">|</div>
-				<div class="post-info" th:text=" '(' + ${facade.post.commentCount} + ') Comments'"></div>
+				<div class="post-info" th:text=" '(' + ${frontPageFacade.frontPagePost.commentCount} + ') Comments'"></div>
 				<div class="post-info">|</div>
 				<a   class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
 			</div>
 			<div class="grey-rule"></div>
 			<div class="body-copy w-richtext">
-				<div th:if="${#strings.length(facade.post.post.text) >= 200}" th:text="${#strings.substring(facade.post.post.text, 0, 200)}" class="post-summary-wrapper">
-					<p class="post-summary" th:if="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, 130)}"></p>
-					<p class="post-summary" th:unless="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, #strings.length(post.post.text))}"></p>
+				<div th:if="${#strings.length(frontPageFacade.frontPagePost.post.text) >= 200}" th:text="${#strings.substring(frontPageFacade.frontPagePost.post.text, 0, 200)}" class="post-summary-wrapper">
+					<p class="post-summary" th:if="${#strings.length(frontPagePost.post.text) >= 130}" th:text="${#strings.substring(frontPagePost.post.text, 0, 130)}"></p>
+					<p class="post-summary" th:unless="${#strings.length(frontPagePost.post.text) >= 130}" th:text="${#strings.substring(frontPagePost.post.text, 0, #strings.length(post.post.text))}"></p>
 					<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
 				</div>
-				<div th:unless="${#strings.length(facade.post.post.text) >= 200}" th:text="${#strings.substring(facade.post.post.text, 0, #strings.length(facade.post.post.text))}" class="post-summary-wrapper">
-					<p class="post-summary" th:if="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, 130)}"></p>
-					<p class="post-summary" th:unless="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, #strings.length(post.post.text))}"></p>
+				<div th:unless="${#strings.length(frontPageFacade.frontPagePost.post.text) >= 200}" th:text="${#strings.substring(frontPageFacade.frontPagePost.post.text, 0, #strings.length(frontPageFacade.frontPagePost.post.text))}" class="post-summary-wrapper">
+					<p class="post-summary" th:if="${#strings.length(frontPagePost.post.text) >= 130}" th:text="${#strings.substring(frontPagePost.post.text, 0, 130)}"></p>
+					<p class="post-summary" th:unless="${#strings.length(frontPagePost.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, #strings.length(frontPagePost.post.text))}"></p>
 					<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
 				</div>
 			</div>
@@ -32,38 +32,38 @@
 	</div>
 	
 	<!-- POSTS -->
-	<div th:fragment="posts" th:each="post: ${facade.posts}" class="w-dyn-item">
+	<div th:fragment="posts" th:each="fpp: ${frontPageFacade.frontPagePosts}" class="w-dyn-item">
 		<div class="post-wrapper">
 			<div class="post-content">
 				<div class="w-row">
 					
 					<div class="w-col w-col-4 w-col-medium-4">
-						<a class="blog-image w-inline-block" 
-						   href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto"
-						   th:style="'background-image: url('+ ${post.coverImage} +');'">
+						<a class="blog-image w-inline-block"
+						   th:href="'/postid/' + ${fpp.post.id}"
+						   th:style="'background-image: url('+ ${fpp.coverImage} +');'">
 						</a>
 					</div>
 					
 					<div class="w-col w-col-8 w-col-medium-8">
 						
-						<a class="blog-title-link w-inline-block" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">
-							<h2 th:text="${post.post.title}" class="blog-title"></h2>
+						<a class="blog-title-link w-inline-block" th:href="'/postid/' + ${fpp.post.id}">
+							<h2 th:text="${fpp.post.title}" class="blog-title"></h2>
 						</a>
 						
 						<div class="details-wrapper">
-							<div class="post-info" 
-								 th:with="date=${post.post.createdAt}" 
+							<div class="post-info"
+								 th:with="date=${fpp.post.createdAt}"
 								 th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
 							<div class="post-info">|</div>
-							<div class="post-info" th:text=" '(' + ${post.commentCount} + ') Comments'"></div>
+							<div class="post-info" th:text=" '(' + ${fpp.commentCount} + ') Comments'"></div>
 							<div class="post-info">|</div>
 							<a   class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
 						</div>
 						
 						<div class="post-summary-wrapper">
-							<p class="post-summary" th:if="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, 130)}"></p>
-							<p class="post-summary" th:unless="${#strings.length(post.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, #strings.length(post.post.text))}"></p>
-							<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
+							<p class="post-summary" th:if="${#strings.length(fpp.post.text) >= 130}" th:text="${#strings.substring(fpp.post.text, 0, 130)}"></p>
+							<p class="post-summary" th:unless="${#strings.length(fpp.post.text) >= 130}" th:text="${#strings.substring(fpp.post.text, 0, #strings.length(fpp.post.text))}"></p>
+							<a class="read-more-link" th:href="'/postid/' + ${fpp.post.id}">Read more...</a>
 						</div>
 					</div>
 				</div>
