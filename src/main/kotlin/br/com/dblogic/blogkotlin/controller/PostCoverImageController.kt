@@ -18,7 +18,8 @@ class PostCoverImageController {
     lateinit var postCoverImageService: PostCoverImageService
 
     @PostMapping("/update")
-    fun uploadImage(@RequestParam(value = "post") id: Long, @RequestParam("image") multiPartFile: MultipartFile): ResponseEntity<HttpStatus> {
+    fun uploadImage(@RequestParam(value = "post") id: Long,
+                    @RequestParam("image") multiPartFile: MultipartFile): ResponseEntity<HttpStatus> {
 
         postCoverImageService.updateFrontPageCoverImage(id, multiPartFile)
 

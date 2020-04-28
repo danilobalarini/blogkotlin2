@@ -78,7 +78,10 @@
 							console.log("saving information");
 							updater();
 						}, 7000);
-					}
+					},
+					onImageUpload: function(files) {
+            			sendFile(files[0]);
+        			}
 				}
 			});
 
@@ -104,8 +107,27 @@
                     }
 				});
 			});
-
 		});
+
+		function sendFile(file) {
+			console.log("started send file...");
+			data = new FormData();
+			data.append('id', $('#postid').val());
+			data.append("image", file);
+
+			$.ajax({
+				data: data,
+				type: "POST",
+				url: "/postImage/save",
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(url) {
+					console.log("URL: " + url)
+					$('#summernote').summernote("insertImage", url);
+				}
+			});
+		}
 		
 		function updater() {
 

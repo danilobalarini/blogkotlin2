@@ -19,6 +19,11 @@ data class Post(@Id
 				@OneToMany(mappedBy = "post",
 						   cascade = [CascadeType.ALL],
 						   orphanRemoval = true)
+				var postImages: MutableList<PostImage> = mutableListOf<PostImage>(),
+
+				@OneToMany(mappedBy = "post",
+						   cascade = [CascadeType.ALL],
+						   orphanRemoval = true)
 				var comments: MutableList<Comment> = mutableListOf<Comment>()) : DateAudit() {
 
 	constructor(title: String): this() {
@@ -34,6 +39,16 @@ data class Post(@Id
 		this.title = title
 		this.text = text
 		this.createdAt = createdAt
+	}
+
+	fun addPostImage(postImage: PostImage) {
+		postImages.add(postImage)
+		postImage.post = this
+	}
+
+	fun removePostImage(postImage: PostImage) {
+		postImages.remove(postImage)
+		postImage.post = this
 	}
 
 	fun addComment(comment: Comment) {
