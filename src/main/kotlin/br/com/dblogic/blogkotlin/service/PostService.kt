@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import java.nio.file.Path
+import java.nio.file.Paths
 
 @Service
 class PostService {
@@ -63,13 +65,13 @@ class PostService {
 		logger.info("### posts ###: " + posts.size)
 
 		val first = posts.first()
-		val post = FrontPagePostFacade(first, commentRepository.countByPost(first), createCoverImagePath(first))
+		val post = FrontPagePostFacade(first, commentRepository.countByPost(first), createCoverImage(first))
 
 		var listPostComments = mutableListOf<FrontPagePostFacade>()
 
 		for (p in posts.drop(1)) {
 			val ci = postCoverImageService.findByPost(p)
-			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImagePath(p)))
+			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p)))
 		}
 
 		return FrontPageFacade(post, listPostComments)
@@ -77,7 +79,21 @@ class PostService {
 
 	fun goArticle(id: Long): PostFacade {
 		val post = findById(id)
-		return PostFacade(post, createCoverImagePath(post))
+		return PostFacade(post, createCoverImage(post))
+	}
+
+	fun createCoverImage(post: Post): String {
+		val directoryName = blogUtils.getDirectoryNameFromPost(post)
+		val imageName = postCoverImageService.findByPost(post).filename
+
+		return "$rootFolder/$directoryName/$imageName"
+	}
+
+	fun createCoverImagePath(post: Post): Path {
+		val directoryName = blogUtils.getDirectoryNameFromPost(post)
+		val imageName = postCoverImageService.findByPost(post).filename
+
+		return Paths.get("$rootFolder/$directoryName/$imageName")
 	}
 
 	private fun cleanHtml(posts: List<Post>) : List<Post> {
@@ -93,13 +109,6 @@ class PostService {
 			listPost.add(p)
 		}
 		return posts;
-	}
-
-	private fun createCoverImagePath(post: Post): String {
-		val directoryName = blogUtils.getDirectoryNameFromPost(post)
-		val imageName = postCoverImageService.findByPost(post).filename
-
-		return "$rootFolder/$directoryName/$imageName"
 	}
 
 }

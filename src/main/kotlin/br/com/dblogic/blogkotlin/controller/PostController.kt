@@ -46,7 +46,7 @@ class PostController {
 	@ResponseBody
 	fun updateCoverImage(@ModelAttribute form: UploadForm) : ResponseEntity<String> {
 
-		postCoverImageService.update(form.id, form.coverImage[0])
+		postCoverImageService.updateFrontPageCoverImage(form.id, form.coverImage[0])
 
 		return ResponseEntity("alguma coisa", HttpStatus.OK)
 	}

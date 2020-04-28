@@ -90,13 +90,7 @@ class InitialConfiguration {
 				val name = pci.filename.toString()
 				val filepath = Paths.get("$path/$name")
 
-				logger.info("name: $name")
-				logger.info("path: $path")
-				logger.info("filepath: $filepath")
-
 				Files.write(filepath, pci.coverImage, StandardOpenOption.CREATE)
-
-				//postService.updateBackgroundImage(p, filepath.toString())
 			}
 		}
 	}
@@ -143,7 +137,6 @@ class InitialConfiguration {
 			logger.info("Creating file $x-image.jpg")
 			val postCoverImage = PostCoverImage(p.id, 
 												"" + (x+1) + "-coverimage.jpg", 
-												"" + (x+1) + "-coverimage.jpg",
 												postCoverImageService.defaultCoverImage("${p.id}: $title"),
 												p)
 

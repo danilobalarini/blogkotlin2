@@ -20,7 +20,7 @@ class PostCoverImageController {
     @PostMapping("/update")
     fun uploadImage(@RequestParam(value = "post") id: Long, @RequestParam("image") multiPartFile: MultipartFile): ResponseEntity<HttpStatus> {
 
-        postCoverImageService.update(id, multiPartFile)
+        postCoverImageService.updateFrontPageCoverImage(id, multiPartFile)
 
         return ResponseEntity.ok(HttpStatus.OK)
     }

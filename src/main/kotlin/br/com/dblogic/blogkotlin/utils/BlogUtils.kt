@@ -1,7 +1,10 @@
 package br.com.dblogic.blogkotlin.utils
 
 import br.com.dblogic.blogkotlin.model.Post
+import br.com.dblogic.blogkotlin.service.PostCoverImageService
 import org.apache.commons.lang3.StringUtils
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.nio.file.Path
@@ -13,10 +16,15 @@ import java.time.ZoneOffset
 @Component
 class BlogUtils {
 
+    private val logger = LoggerFactory.getLogger(BlogUtils::class.java)
+
+    @Autowired
+    lateinit var postCoverImageService: PostCoverImageService
+
     @Value("\${blog.root.folder}")
     lateinit var blogFolderName: String
 
-    fun createInBlogDir(): Path {
+    fun getBlogDefaultDirectory(): Path {
         val currentWorkingDir: Path = Paths.get("").toAbsolutePath()
         val dirpath = "$currentWorkingDir/$blogFolderName/"
 
@@ -43,6 +51,15 @@ class BlogUtils {
         }
 
         return post.id.toString() + "-" + title + toDateString(post.createdAt)
+    }
+
+    fun getCoverImagePathFromPost(post: Post) : Path {
+        val currentWorkingDir: Path = Paths.get("").toAbsolutePath()
+        val dirpath = "$currentWorkingDir/$blogFolderName/"
+
+        val filename = postCoverImageService.findById(post.id).filename
+
+        return Paths.get("$dirpath/$filename")
     }
 
     private fun toDateString(date: Instant) : String {

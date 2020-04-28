@@ -18,8 +18,6 @@ data class PostCoverImage(@Id
 				          val id: Long = 0,
 
                           var filename: String = "",
-                          
-                          var filepath: String = "",
 
 				          @Lob
                           var coverImage: ByteArray = ByteArray(0), 
@@ -31,7 +29,6 @@ data class PostCoverImage(@Id
     constructor(filename: String, filepath: String, coverImage: ByteArray, post: Post): this() {
         this.coverImage = coverImage
         this.filename = filename
-        this.filepath = filepath
         this.post = post
     }
 
