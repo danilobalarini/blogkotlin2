@@ -1,13 +1,7 @@
 package br.com.dblogic.blogkotlin.config
 
-import br.com.dblogic.blogkotlin.model.Comment
-import br.com.dblogic.blogkotlin.model.Post
-import br.com.dblogic.blogkotlin.model.User
-import br.com.dblogic.blogkotlin.model.PostCoverImage
-import br.com.dblogic.blogkotlin.service.CommentService
-import br.com.dblogic.blogkotlin.service.PostService
-import br.com.dblogic.blogkotlin.service.UserService
-import br.com.dblogic.blogkotlin.service.PostCoverImageService
+import br.com.dblogic.blogkotlin.model.*
+import br.com.dblogic.blogkotlin.service.*
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import br.com.dblogic.blogkotlin.utils.DateUtils
 import com.thedeanda.lorem.LoremIpsum
@@ -38,8 +32,8 @@ class InitialConfiguration {
 	lateinit var userService: UserService
 
 	@Autowired
-	lateinit var postCoverImageService: PostCoverImageService
-	
+	lateinit var postImageService: PostImageService
+
 	@Autowired
 	lateinit var dateUtils: DateUtils
 
@@ -82,11 +76,11 @@ class InitialConfiguration {
 				logger.info("creating directory $path")
 				File("$path").mkdirs()
 
-				val pci = postCoverImageService.findByPost(p)
-				val name = pci.filename.toString()
+				val postImage = postImageService.findCoverImage(p)
+				val name = postImage.filename
 				val filepath = Paths.get("$path/$name")
 
-				Files.write(filepath, pci.coverImage, StandardOpenOption.CREATE)
+				Files.write(filepath, postImage.image, StandardOpenOption.CREATE)
 			}
 		}
 	}
@@ -128,15 +122,14 @@ class InitialConfiguration {
 				post.addComment(comment)
 				plusInstant = dateUtils.plusInstantUntilNow(plusInstant)
 			}
+
+			logger.info("Creating file ${x+1}-image.jpg for cover image")
+
+			val postImage = PostImage("${x+1}-coverimage.jpg", "", postImageService.defaultCoverImage("${x+1}: $title"), true, post)
+			post.addPostImage(postImage)
+
 			val p = postService.save(post)
 
-			logger.info("Creating file $x-image.jpg")
-			val postCoverImage = PostCoverImage(p.id, 
-												"" + (x+1) + "-coverimage.jpg", 
-												postCoverImageService.defaultCoverImage("${p.id}: $title"),
-												p)
-
-			postCoverImageService.save(postCoverImage)
 		}
 	}
 	

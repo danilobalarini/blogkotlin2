@@ -30,7 +30,7 @@ class PostService {
 	lateinit var postSpecification: PostSpecification
 
 	@Autowired
-	lateinit var postCoverImageService: PostCoverImageService
+	lateinit var postImageService: PostImageService
 
 	@Autowired
 	lateinit var blogUtils: BlogUtils
@@ -53,12 +53,7 @@ class PostService {
 	fun deleteById(id: Long) {
 		postRepository.deleteById(id)
 	}
-	
-	fun frontPage2() : List<Post> {
-		val posts = postSpecification.frontPage2()
-		return postRepository.findAll(posts)
-	}
-	
+
 	fun frontPage() : FrontPageFacade {
 		logger.info("posts zero length? " + (postRepository.count() == 0L));
 		val posts = cleanHtml(postRepository.findByOrderByCreatedAtDesc())
@@ -70,7 +65,7 @@ class PostService {
 		var listPostComments = mutableListOf<FrontPagePostFacade>()
 
 		for (p in posts.drop(1)) {
-			val ci = postCoverImageService.findByPost(p)
+			val ci = postImageService.findCoverImage(p)
 			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p)))
 		}
 
@@ -84,14 +79,23 @@ class PostService {
 
 	fun createCoverImage(post: Post): String {
 		val directoryName = blogUtils.getDirectoryNameFromPost(post)
-		val imageName = postCoverImageService.findByPost(post).filename
+		val imageName = postImageService.findCoverImage(post).filename
 
 		return "$rootFolder/$directoryName/$imageName"
 	}
 
+	fun updateComposer(p: Post): Post {
+
+		val post = findById(p.id)
+		post.title = p.title
+		post.text = p.text
+
+		return postRepository.saveAndFlush(post)
+	}
+
 	fun createCoverImagePath(post: Post): Path {
 		val directoryName = blogUtils.getDirectoryNameFromPost(post)
-		val imageName = postCoverImageService.findByPost(post).filename
+		val imageName = postImageService.findCoverImage(post).filename
 
 		return Paths.get("$rootFolder/$directoryName/$imageName")
 	}

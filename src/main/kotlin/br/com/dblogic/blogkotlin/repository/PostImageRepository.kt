@@ -13,4 +13,6 @@ interface PostImageRepository : JpaRepository<PostImage, Long> {
 
     fun findByPost(post: Post): PostImage
 
+    fun findByPostAndIsCoverImageTrue(post: Post): PostImage
+
 }

@@ -2,15 +2,13 @@ package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.service.PostService
-import br.com.dblogic.blogkotlin.service.PostCoverImageService
 import org.slf4j.LoggerFactory
-import org.springframework.ui.Model
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 import br.com.dblogic.blogkotlin.model.UploadForm
+import br.com.dblogic.blogkotlin.service.PostImageService
 
 @RestController
 @RequestMapping("/post")
@@ -19,10 +17,10 @@ class PostController {
 	private val logger = LoggerFactory.getLogger(PostController::class.java)
 	
 	@Autowired
-	lateinit var postService: PostService;
+	lateinit var postService: PostService
 
 	@Autowired
-	lateinit var postCoverImageService: PostCoverImageService;
+	lateinit var postImageService: PostImageService
 
 	@GetMapping("/findAll")
 	fun findAll(): List<Post> {
@@ -39,16 +37,7 @@ class PostController {
 		logger.info("post.id: " + post.id)
 		logger.info("post.title: " + post.title)
 		logger.info("post.text: " + post.text)
-		return postService.save(post)
-	}
-
-	@PostMapping("/updateCoverImage")
-	@ResponseBody
-	fun updateCoverImage(@ModelAttribute form: UploadForm) : ResponseEntity<String> {
-
-		postCoverImageService.updateFrontPageCoverImage(form.id, form.coverImage[0])
-
-		return ResponseEntity("alguma coisa", HttpStatus.OK)
+		return postService.updateComposer(post)
 	}
 
 	@PostMapping("/save")
