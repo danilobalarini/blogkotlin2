@@ -1,20 +1,9 @@
 package br.com.dblogic.blogkotlin.config
 
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.Ordered
-import org.springframework.core.annotation.Order
-import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry
-import org.springframework.web.servlet.view.JstlView;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver
-import org.thymeleaf.spring5.SpringTemplateEngine
-import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect
 
 @Configuration
 class WebConfiguration : WebMvcConfigurer {

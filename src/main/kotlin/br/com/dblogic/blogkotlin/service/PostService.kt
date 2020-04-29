@@ -3,6 +3,7 @@ package br.com.dblogic.blogkotlin.service
 import br.com.dblogic.blogkotlin.model.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.facade.FrontPagePostFacade
+import br.com.dblogic.blogkotlin.model.facade.PostAndCoverImageFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.repository.CommentRepository
 import br.com.dblogic.blogkotlin.repository.PostRepository
@@ -72,9 +73,9 @@ class PostService {
 		return FrontPageFacade(post, listPostComments)
 	}
 
-	fun goArticle(id: Long): PostFacade {
+	fun goArticle(id: Long): PostAndCoverImageFacade {
 		val post = findById(id)
-		return PostFacade(post, createCoverImage(post))
+		return PostAndCoverImageFacade(post, createCoverImage(post))
 	}
 
 	fun createCoverImage(post: Post): String {
@@ -84,13 +85,14 @@ class PostService {
 		return "$rootFolder/$directoryName/$imageName"
 	}
 
-	fun updateComposer(p: Post): Post {
+	fun updateComposer(p: PostFacade): PostFacade {
+		logger.info("updateComposer: ${p.id}")
 
-		val post = findById(p.id)
+		var post = findById(p.id)
 		post.title = p.title
 		post.text = p.text
 
-		return postRepository.saveAndFlush(post)
+		return postToFacade(postRepository.save(post))
 	}
 
 	fun createCoverImagePath(post: Post): Path {
@@ -98,6 +100,18 @@ class PostService {
 		val imageName = postImageService.findCoverImage(post).filename
 
 		return Paths.get("$rootFolder/$directoryName/$imageName")
+	}
+
+	fun postToFacade(p: Post): PostFacade {
+		return PostFacade(p.id,
+				          p.title,
+						  p.text)
+	}
+
+	fun facadeToPost(pf: PostFacade) : Post {
+		return Post(pf.id,
+					pf.title,
+					pf.text)
 	}
 
 	private fun cleanHtml(posts: List<Post>) : List<Post> {

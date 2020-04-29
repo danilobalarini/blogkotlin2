@@ -102,7 +102,7 @@ class PostImageService {
         val deleteImage = postImageRepository.findByPostAndIsCoverImageTrue(post)
         val name = getName(coverImage)
         val image = if (coverImage.bytes.isNotEmpty()) coverImage.bytes else byteArrayOf(0)
-        
+
         val postImage = PostImage(name, "", image,  true, post)
 
         post.addPostImage(postImage)

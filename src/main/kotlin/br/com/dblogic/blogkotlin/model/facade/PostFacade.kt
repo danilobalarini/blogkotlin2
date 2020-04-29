@@ -1,7 +1,6 @@
 package br.com.dblogic.blogkotlin.model.facade
 
-import br.com.dblogic.blogkotlin.model.Post
-
-data class PostFacade(val post: Post = Post(),
-                      val coverImage: String) {
+data class PostFacade(val id: Long = 0,
+                      var title: String = "",
+                      var text: String = "") {
 }

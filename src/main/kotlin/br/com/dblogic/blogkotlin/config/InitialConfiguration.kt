@@ -1,7 +1,13 @@
 package br.com.dblogic.blogkotlin.config
 
-import br.com.dblogic.blogkotlin.model.*
-import br.com.dblogic.blogkotlin.service.*
+import br.com.dblogic.blogkotlin.model.Comment
+import br.com.dblogic.blogkotlin.model.Post
+import br.com.dblogic.blogkotlin.model.PostImage
+import br.com.dblogic.blogkotlin.model.User
+import br.com.dblogic.blogkotlin.service.CommentService
+import br.com.dblogic.blogkotlin.service.PostImageService
+import br.com.dblogic.blogkotlin.service.PostService
+import br.com.dblogic.blogkotlin.service.UserService
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import br.com.dblogic.blogkotlin.utils.DateUtils
 import com.thedeanda.lorem.LoremIpsum

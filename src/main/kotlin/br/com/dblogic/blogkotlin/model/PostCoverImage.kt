@@ -1,16 +1,6 @@
 package br.com.dblogic.blogkotlin.model
 
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.MapsId
-import javax.persistence.JoinColumn
-import javax.persistence.Lob
-import javax.persistence.OneToOne
-import javax.persistence.Table
-import javax.persistence.GenerationType
-import javax.persistence.GeneratedValue
-import javax.persistence.FetchType
-import org.hibernate.annotations.GenericGenerator
+import javax.persistence.*
 
 @Entity
 @Table(name = "tb_post_cover_image")

@@ -1,16 +1,11 @@
 package br.com.dblogic.blogkotlin.model
 
-import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonIdentityInfo
-import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import org.hibernate.annotations.GenericGenerator
 import java.time.Instant
 import javax.persistence.*
 
 @Entity
 @Table(name = "tb_post")
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator :: class, property="@postId")
 data class Post(@Id
 				@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 				@GenericGenerator(name = "native", strategy = "native")
@@ -24,7 +19,6 @@ data class Post(@Id
 				@OneToMany(mappedBy = "post",
 						   cascade = [CascadeType.ALL],
 						   orphanRemoval = true)
-				@JsonManagedReference
 				var postImages: MutableList<PostImage> = mutableListOf<PostImage>(),
 
 				@OneToMany(mappedBy = "post",
