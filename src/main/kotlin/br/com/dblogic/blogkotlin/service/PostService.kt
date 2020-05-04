@@ -78,6 +78,20 @@ class PostService {
 		return PostAndCoverImageFacade(post, createCoverImage(post))
 	}
 
+	fun allPosts(): List<FrontPagePostFacade> {
+		val posts = postRepository.findAll()
+
+		var listPostComments = mutableListOf<FrontPagePostFacade>()
+
+		for (p in posts.drop(1)) {
+			val ci = postImageService.findCoverImage(p)
+			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p)))
+		}
+
+		return listPostComments
+
+	}
+
 	fun createCoverImage(post: Post): String {
 		val directoryName = blogUtils.getDirectoryNameFromPost(post)
 		val imageName = postImageService.findCoverImage(post).filename

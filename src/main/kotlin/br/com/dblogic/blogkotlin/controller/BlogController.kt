@@ -37,4 +37,10 @@ class BlogController {
 		return "contact"
 	}
 
+	@GetMapping("/all-posts")
+	fun allPosts(model: Model) : String {
+		model.addAttribute("allposts", postService.allPosts())
+		return "allposts"
+	}
+
 }
