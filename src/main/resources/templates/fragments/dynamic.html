@@ -4,9 +4,11 @@
 
 	<!-- FRONT ARTICLE -->
 	<div th:fragment="frontArticle" class="post-wrapper">
-		<div class="blog-page-image" th:style="'background:url(' + ${frontPageFacade.frontPagePost.coverImage} + ');'"></div>
+		<a th:href="'/postid/' + ${frontPageFacade.frontPagePost.post.id}">
+			<div class="blog-page-image" th:style="'background:url(' + ${frontPageFacade.frontPagePost.coverImage} + ');'"></div>
+		</a>
 		<div class="post-content">
-			<h1 th:text="${frontPageFacade.frontPagePost.post.title}"></h1>
+			<a th:href="'/postid/' + ${frontPageFacade.frontPagePost.post.id}" style="text-decoration: none;color: #000000;"><h1 th:text="${frontPageFacade.frontPagePost.post.title}"></h1></a>
 			<div class="details-wrapper">
 				<div th:with="date=${frontPageFacade.frontPagePost.post.createdAt}" class="post-info"
 					 th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
@@ -20,12 +22,12 @@
 				<div th:if="${#strings.length(frontPageFacade.frontPagePost.post.text) >= 200}" th:text="${#strings.substring(frontPageFacade.frontPagePost.post.text, 0, 200)}" class="post-summary-wrapper">
 					<p class="post-summary" th:if="${#strings.length(frontPagePost.post.text) >= 130}" th:text="${#strings.substring(frontPagePost.post.text, 0, 130)}"></p>
 					<p class="post-summary" th:unless="${#strings.length(frontPagePost.post.text) >= 130}" th:text="${#strings.substring(frontPagePost.post.text, 0, #strings.length(post.post.text))}"></p>
-					<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
+					<a class="read-more-link" th:href="/postid/${frontPageFacade.frontPagePost.post.id}">Saiba mais...</a>
 				</div>
 				<div th:unless="${#strings.length(frontPageFacade.frontPagePost.post.text) >= 200}" th:text="${#strings.substring(frontPageFacade.frontPagePost.post.text, 0, #strings.length(frontPageFacade.frontPagePost.post.text))}" class="post-summary-wrapper">
 					<p class="post-summary" th:if="${#strings.length(frontPagePost.post.text) >= 130}" th:text="${#strings.substring(frontPagePost.post.text, 0, 130)}"></p>
 					<p class="post-summary" th:unless="${#strings.length(frontPagePost.post.text) >= 130}" th:text="${#strings.substring(post.post.text, 0, #strings.length(frontPagePost.post.text))}"></p>
-					<a class="read-more-link" href="http://denali-template.webflow.io/posts/cafe-au-lait-turkish-doppio-ristretto">Read more...</a>
+					<a class="read-more-link" th:href="'/postid/' + ${frontPageFacade.frontPagePost.post.id}">Saiba mais...</a>
 				</div>
 			</div>
 		</div>
@@ -63,7 +65,7 @@
 						<div class="post-summary-wrapper">
 							<p class="post-summary" th:if="${#strings.length(fpp.post.text) >= 130}" th:text="${#strings.substring(fpp.post.text, 0, 130)}"></p>
 							<p class="post-summary" th:unless="${#strings.length(fpp.post.text) >= 130}" th:text="${#strings.substring(fpp.post.text, 0, #strings.length(fpp.post.text))}"></p>
-							<a class="read-more-link" th:href="'/postid/' + ${fpp.post.id}">Read more...</a>
+							<a class="read-more-link" th:href="'/postid/' + ${fpp.post.id}">Saiba mais...</a>
 						</div>
 					</div>
 				</div>
@@ -103,7 +105,7 @@
 						<div class="post-summary-wrapper">
 							<p class="post-summary" th:if="${#strings.length(fpp.post.text) >= 130}" th:text="${#strings.substring(fpp.post.text, 0, 130)}"></p>
 							<p class="post-summary" th:unless="${#strings.length(fpp.post.text) >= 130}" th:text="${#strings.substring(fpp.post.text, 0, #strings.length(fpp.post.text))}"></p>
-							<a class="read-more-link" th:href="'/postid/' + ${fpp.post.id}">Read more...</a>
+							<a class="read-more-link" th:href="'/postid/' + ${fpp.post.id}">Saiba mais...</a>
 						</div>
 					</div>
 				</div>
