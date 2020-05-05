@@ -95,7 +95,7 @@ class InitialConfiguration {
 
 		logger.info("creating all data")
 
-		val maxPosts = 8
+		val maxPosts = 150
 		val maxUsers = 12
 		val users = createusers(maxUsers)
 		

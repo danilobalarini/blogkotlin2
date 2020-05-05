@@ -16,6 +16,9 @@ class BlogUtils {
 
     private val logger = LoggerFactory.getLogger(BlogUtils::class.java)
 
+    @Value("\${blog.directory.name}")
+    lateinit var blogDirName: String
+
     @Value("\${blog.root.folder}")
     lateinit var blogFolderName: String
 
@@ -24,6 +27,21 @@ class BlogUtils {
         val dirpath = "$currentWorkingDir/$blogFolderName/$pathToAdd"
 
         return dirpath
+    }
+
+    fun getDirectoryName(id: Long, blogtitle: String, createdAt: Instant): String {
+        // always put the date in the last part
+        // id-title-date
+        // date=YYYYMMDD
+        // this is documentation
+        val titleWithoutAccents = StringUtils.stripAccents(blogtitle)
+        var title = ""
+
+        for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
+            title = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
+        }
+
+        return "$blogDirName/$id-$title${toDateString(createdAt)}"
     }
 
     fun getDirectoryNameFromPost(post: Post): String {

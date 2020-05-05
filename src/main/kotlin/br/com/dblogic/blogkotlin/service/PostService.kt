@@ -12,6 +12,8 @@ import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -26,9 +28,6 @@ class PostService {
 	
 	@Autowired
 	lateinit var commentRepository: CommentRepository
-	
-	@Autowired
-	lateinit var postSpecification: PostSpecification
 
 	@Autowired
 	lateinit var postImageService: PostImageService
@@ -57,17 +56,16 @@ class PostService {
 
 	fun frontPage() : FrontPageFacade {
 		logger.info("posts zero length? " + (postRepository.count() == 0L));
-		val posts = cleanHtml(postRepository.findByOrderByCreatedAtDesc())
+		val posts = cleanHtml(postRepository.findTop6ByOrderByCreatedAtDesc())
 		logger.info("### posts ###: " + posts.size)
 
 		val first = posts.first()
-		val post = FrontPagePostFacade(first, commentRepository.countByPost(first), createCoverImage(first))
+		val post = FrontPagePostFacade(first, commentRepository.countByPost(first), createCoverImage(first), first.createdAt)
 
 		var listPostComments = mutableListOf<FrontPagePostFacade>()
 
 		for (p in posts.drop(1)) {
-			val ci = postImageService.findCoverImage(p)
-			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p)))
+			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p), p.createdAt))
 		}
 
 		return FrontPageFacade(post, listPostComments)
@@ -84,12 +82,31 @@ class PostService {
 		var listPostComments = mutableListOf<FrontPagePostFacade>()
 
 		for (p in posts.drop(1)) {
-			val ci = postImageService.findCoverImage(p)
-			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p)))
+			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p), p.createdAt))
 		}
 
 		return listPostComments
 
+	}
+
+	fun getAllPosts(pageNumber: Int = 0, pageSize: Int = 10): List<FrontPagePostFacade> {
+
+		val paging = PageRequest.of(pageNumber, pageSize)
+		val pagedResult = postRepository.findAllCustomBy(paging)
+
+		val listPostComments = mutableListOf<FrontPagePostFacade>()
+		if(pagedResult.isNotEmpty()) {
+			for(p in pagedResult.toList()) {
+
+				val coverImage = "${blogUtils.getDirectoryName(p.post.id, p.post.title, p.createdAt)}/${p.coverImage}"
+
+				listPostComments.add(FrontPagePostFacade(Post(p.post.id, p.post.title, p.post.text),
+														 p.commentCount,
+														 coverImage,
+														 p.createdAt))
+			}
+		}
+		return listPostComments
 	}
 
 	fun createCoverImage(post: Post): String {
