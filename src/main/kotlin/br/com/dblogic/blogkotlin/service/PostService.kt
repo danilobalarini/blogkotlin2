@@ -11,7 +11,10 @@ import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -105,6 +108,20 @@ class PostService {
 			}
 		}
 		return listPostComments
+	}
+
+	fun getAllPageable(pageable: Pageable): Page<FrontPagePostFacade> {
+
+		val page = postRepository.findAllPageable(pageable)
+
+		val facadeList = mutableListOf<FrontPagePostFacade>()
+		for(f in page.content) {
+			val dirname = blogUtils.getDirectoryName(f.post.id, f.post.title, f.createdAt)
+			f.coverImage = "$dirname/${f.coverImage}"
+			facadeList.add(f)
+		}
+
+		return PageImpl(facadeList, pageable, pageable.pageSize.toLong())
 	}
 
 	fun createCoverImage(post: Post): String {

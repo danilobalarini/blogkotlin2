@@ -4,6 +4,7 @@ import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -60,6 +61,14 @@ class BlogController {
 		model.addAttribute("allposts", postService.getAllPosts(pagenumber, pageSize))
 
 		return "allposts"
+	}
+
+	@GetMapping("/findPageable")
+	fun getAllPageable(pageable: Pageable, model: Model): String {
+
+		model.addAttribute("allposts", postService.getAllPageable(pageable))
+
+		return "allpageable"
 	}
 
 }
