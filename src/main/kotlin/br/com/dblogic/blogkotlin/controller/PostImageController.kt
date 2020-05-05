@@ -3,6 +3,7 @@ package br.com.dblogic.blogkotlin.controller
 import br.com.dblogic.blogkotlin.model.UploadForm
 import br.com.dblogic.blogkotlin.service.PostImageService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

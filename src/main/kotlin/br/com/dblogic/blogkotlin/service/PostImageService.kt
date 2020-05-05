@@ -62,7 +62,7 @@ class PostImageService {
         logger.info("### path to be created: $newimage")
         Files.write(newimage, postImage.image, StandardOpenOption.CREATE)
 
-        val url = "http://localhost:$port/$blogDirectoryName/$title/$name"
+        val url = "../$blogDirectoryName/$title/$name"
         logger.info("URL: $url")
 
         return url

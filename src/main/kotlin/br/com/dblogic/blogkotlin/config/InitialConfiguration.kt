@@ -114,19 +114,20 @@ class InitialConfiguration {
 							datePost)
 			
 			var plusInstant = dateUtils.plusInstantUntilNow(datePost)
-			logger.info("plusInstant: " + dateUtils.toLocalDate(plusInstant)) 
-			
+			logger.info("plusInstant: " + dateUtils.toLocalDate(plusInstant))
+
+			var plusInstantComment = plusInstant
 			for(y in 0..ThreadLocalRandom.current().nextInt(0, 15)) {
-			
-				logger.info("Comment " + y + " - instant: " + dateUtils.toLocalDate(plusInstant))
+
+				logger.info("Comment " + y + " - instant: " + dateUtils.toLocalDate(plusInstantComment))
 				
 				val comment = Comment("" + y + ": " + lorem.getTitle(2, 4),
 									post,
 									users.get(ThreadLocalRandom.current().nextInt(0, maxUsers)),
-									plusInstant)
+						 			plusInstantComment)
 				
 				post.addComment(comment)
-				plusInstant = dateUtils.plusInstantUntilNow(plusInstant)
+				plusInstantComment = dateUtils.plusInstantUntilNow(plusInstantComment)
 			}
 
 			logger.info("Creating file ${x+1}-image.jpg for cover image")

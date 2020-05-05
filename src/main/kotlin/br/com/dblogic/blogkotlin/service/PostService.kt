@@ -7,13 +7,11 @@ import br.com.dblogic.blogkotlin.model.facade.PostAndCoverImageFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.repository.CommentRepository
 import br.com.dblogic.blogkotlin.repository.PostRepository
-import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.nio.file.Path
 import java.nio.file.Paths
