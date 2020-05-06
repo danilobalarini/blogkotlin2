@@ -84,7 +84,6 @@
     			],
 				callbacks: {
 					onInit: function() {
-						console.log("iniciou o summernote");
 						var ptext = $('#spanPost').html();
 						$('#summernote').summernote('code', ptext);
 						$('#spanPost').remove();
@@ -98,7 +97,11 @@
 					},
 					onImageUpload: function(files) {
             			sendFile(files[0]);
-        			}
+        			},
+					onMediaDelete : function(target) {
+                		console.log(target[0].src);
+                		//deleteFile(target[0].src);
+            		}
 				}
 			});
 

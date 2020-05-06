@@ -44,6 +44,7 @@ class PostImageService {
     }
 
     fun findCoverImage(post: Post): PostImage {
+        logger.info("### findCoverImage post: ${post.id}")
         return postImageRepository.findByPostAndIsCoverImageTrue(post)
     }
 
@@ -98,17 +99,27 @@ class PostImageService {
     fun updateCoverImage(id: Long, coverImage: MultipartFile): PostImage {
 
         val post = postService.findById(id)
-
         val deleteImage = postImageRepository.findByPostAndIsCoverImageTrue(post)
+        val deleteFilename = deleteImage.filename
+        logger.info("deleteFilename: $deleteFilename")
+
         val name = getName(coverImage)
         val image = if (coverImage.bytes.isNotEmpty()) coverImage.bytes else byteArrayOf(0)
 
-        val postImage = PostImage(name, "", image,  true, post)
-
+        val postImage = postImageRepository.save(PostImage(name, "", image,  true, post))
         post.addPostImage(postImage)
         post.removePostImage(deleteImage)
+        postService.save(post)
 
-        return postImageRepository.save(postImage)
+        val title = blogUtils.getTitle(post.id, post.title, post.createdAt)
+        val imagepath = Paths.get(blogUtils.appendToBlogDir("$title/${postImage.filename}"))
+        val imagepathdelete = Paths.get(blogUtils.appendToBlogDir("$title/${deleteFilename}"))
+        logger.info("### imagepath: $imagepath")
+        logger.info("### imagepathdelete: $imagepathdelete")
+        Files.write(imagepath, postImage.image, StandardOpenOption.CREATE)
+        Files.delete(imagepathdelete)
+
+        return postImage
     }
 
     fun defaultCoverImage(text: String): ByteArray {
@@ -130,6 +141,10 @@ class PostImageService {
         baos.close()
 
         return imageBA;
+    }
+
+    fun findByPost(post: Post): List<PostImage> {
+        return postImageRepository.findByPost(post)
     }
 
 }

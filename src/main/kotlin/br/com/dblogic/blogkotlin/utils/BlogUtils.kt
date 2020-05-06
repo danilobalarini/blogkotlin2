@@ -23,10 +23,26 @@ class BlogUtils {
     lateinit var blogFolderName: String
 
     fun appendToBlogDir(pathToAdd: String): String {
+
         val currentWorkingDir: Path = Paths.get("").toAbsolutePath()
         val dirpath = "$currentWorkingDir/$blogFolderName/$pathToAdd"
 
         return dirpath
+    }
+
+    fun getTitle(id: Long, blogtitle: String, createdAt: Instant): String {
+        // always put the date in the last part
+        // id-title-date
+        // date=YYYYMMDD
+        // this is documentation
+        val titleWithoutAccents = StringUtils.stripAccents(blogtitle)
+        var title = ""
+
+        for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
+            title = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
+        }
+
+        return "$id-$title${toDateString(createdAt)}"
     }
 
     fun getDirectoryName(id: Long, blogtitle: String, createdAt: Instant): String {

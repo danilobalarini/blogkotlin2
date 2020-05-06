@@ -11,7 +11,7 @@ interface PostImageRepository : JpaRepository<PostImage, Long> {
 
     override fun findById(id: Long): Optional<PostImage>
 
-    fun findByPost(post: Post): PostImage
+    fun findByPost(post: Post): List<PostImage>
 
     fun findByPostAndIsCoverImageTrue(post: Post): PostImage
 

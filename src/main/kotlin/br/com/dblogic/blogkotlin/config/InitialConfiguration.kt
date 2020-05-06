@@ -82,11 +82,10 @@ class InitialConfiguration {
 				logger.info("creating directory $path")
 				File("$path").mkdirs()
 
-				val postImage = postImageService.findCoverImage(p)
-				val name = postImage.filename
-				val filepath = Paths.get("$path/$name")
-
-				Files.write(filepath, postImage.image, StandardOpenOption.CREATE)
+				for(pi in postImageService.findByPost(p)) {
+					val filepath = Paths.get("$path/${pi.filename}")
+					Files.write(filepath, pi.image, StandardOpenOption.CREATE)
+				}
 			}
 		}
 	}
