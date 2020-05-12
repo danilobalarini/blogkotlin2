@@ -48,27 +48,6 @@ class PostImageService {
         return postImageRepository.findByPostAndIsCoverImageTrue(post)
     }
 
-    fun save(id: Long, multiPartFile: MultipartFile): String {
-
-        val post = postService.findById(id)
-        val name = getName(multiPartFile)
-        val image = if (multiPartFile.bytes.isNotEmpty()) multiPartFile.bytes else byteArrayOf(0)
-
-        val postImage = postImageRepository.save(PostImage(id, name, "", image, false, post))
-
-        val title = blogUtils.getDirectoryNameFromPost(post)
-        logger.info("### title: $title")
-
-        val newimage = Paths.get(blogUtils.appendToBlogDir("$title/$name"))
-        logger.info("### path to be created: $newimage")
-        Files.write(newimage, postImage.image, StandardOpenOption.CREATE)
-
-        val url = "../$blogDirectoryName/$title/$name"
-        logger.info("URL: $url")
-
-        return url
-    }
-
     private fun getName(multiPartFile: MultipartFile) : String {
 
         if(!multiPartFile.isEmpty) {
@@ -120,6 +99,27 @@ class PostImageService {
         Files.delete(imagepathdelete)
 
         return postImage
+    }
+
+    fun save(id: Long, multiPartFile: MultipartFile): String {
+
+        val post = postService.findById(id)
+        val name = getName(multiPartFile)
+        val image = if (multiPartFile.bytes.isNotEmpty()) multiPartFile.bytes else byteArrayOf(0)
+
+        val postImage = postImageRepository.save(PostImage(name, "", image, false, post))
+
+        val title = blogUtils.getDirectoryNameFromPost(post)
+        logger.info("### title: $title")
+
+        val newimage = Paths.get(blogUtils.appendToBlogDir("$title/$name"))
+        logger.info("### path to be created: $newimage")
+        Files.write(newimage, postImage.image, StandardOpenOption.CREATE)
+
+        val url = "../$blogDirectoryName/$title/$name"
+        logger.info("URL: $url")
+
+        return url
     }
 
     fun defaultCoverImage(text: String): ByteArray {
