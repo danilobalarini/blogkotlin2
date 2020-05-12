@@ -16,8 +16,8 @@ class PostImageController {
     @Autowired
     lateinit var postImageService: PostImageService
 
-    @PostMapping("/updateCoverImage")
     @ResponseBody
+    @PostMapping("/updateCoverImage")
     fun updateCoverImage(@ModelAttribute form: UploadForm) : ResponseEntity<String> {
 
         postImageService.updateCoverImage(form.id, form.coverImage[0])

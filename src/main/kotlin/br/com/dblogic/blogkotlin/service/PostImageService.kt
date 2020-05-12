@@ -58,23 +58,6 @@ class PostImageService {
         return ""
     }
 
-    fun updateFrontPageCoverImage(id: Long, multiPartFile: MultipartFile) {
-
-        val post = postService.findById(id)
-        val title = blogUtils.getDirectoryNameFromPost(post)
-
-        val imageName = postImageRepository.findByPostAndIsCoverImageTrue(post).filename
-        val imagepath = Paths.get(blogUtils.appendToBlogDir("$title/$imageName"))
-        logger.info("### path to be deleted: $imagepath")
-        Files.delete(imagepath)
-
-        val postImage = updateCoverImage(post.id, multiPartFile)
-        val newimage = Paths.get(blogUtils.appendToBlogDir("$title/${postImage.filename}"))
-        logger.info("path to be created: $newimage")
-
-        Files.write(newimage, postImage.image, StandardOpenOption.CREATE)
-    }
-
     fun updateCoverImage(id: Long, coverImage: MultipartFile): PostImage {
 
         val post = postService.findById(id)
