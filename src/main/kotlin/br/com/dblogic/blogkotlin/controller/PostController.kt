@@ -17,9 +17,6 @@ class PostController {
 	@Autowired
 	lateinit var postService: PostService
 
-	@Autowired
-	lateinit var postImageService: PostImageService
-
 	@GetMapping("/findAll")
 	fun findAll(): List<Post> {
 		return postService.findAll()

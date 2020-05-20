@@ -2,6 +2,7 @@ package br.com.dblogic.blogkotlin.service
 
 import br.com.dblogic.blogkotlin.model.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.Post
+import br.com.dblogic.blogkotlin.model.PostImage
 import br.com.dblogic.blogkotlin.model.facade.FrontPagePostFacade
 import br.com.dblogic.blogkotlin.model.facade.PostAndCoverImageFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
@@ -16,8 +17,11 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.nio.file.Path
+import java.io.File
+import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
+import java.time.Instant
 
 @Service
 class PostService {
@@ -57,19 +61,27 @@ class PostService {
 
 	fun frontPage() : FrontPageFacade {
 		logger.info("posts zero length? " + (postRepository.count() == 0L));
-		val posts = cleanHtml(postRepository.findTop6ByOrderByCreatedAtDesc())
+		val posts = cleanHtml(postRepository.findTop6ByIsDraftFalseOrderByCreatedAtDesc())
 		logger.info("### posts ###: " + posts.size)
 
-		val first = posts.first()
-		val post = FrontPagePostFacade(first, commentRepository.countByPost(first), createCoverImage(first), first.createdAt)
+		if(posts.isEmpty()) {
 
-		var listPostComments = mutableListOf<FrontPagePostFacade>()
+			val post = Post(0L, "Não temos posts. Volte outro dia. Teremos bolinhos.", "")
 
-		for (p in posts.drop(1)) {
-			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p), p.createdAt))
+			val fppf = FrontPagePostFacade(post, 0L, "", Instant.now())
+			return FrontPageFacade(fppf, mutableListOf<FrontPagePostFacade>())
+		} else {
+			val first = posts.first()
+			val post = FrontPagePostFacade(first, commentRepository.countByPost(first), createCoverImage(first), first.createdAt)
+
+			var listPostComments = mutableListOf<FrontPagePostFacade>()
+
+			for (p in posts.drop(1)) {
+				listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p), p.createdAt))
+			}
+
+			return FrontPageFacade(post, listPostComments)
 		}
-
-		return FrontPageFacade(post, listPostComments)
 	}
 
 	fun goArticle(id: Long): PostAndCoverImageFacade {
@@ -124,6 +136,24 @@ class PostService {
 		return PageImpl(facadeList, pageable, pageable.pageSize.toLong())
 	}
 
+	fun brandNewPost(): Post {
+		var post = postRepository.save(Post())
+		val postImage = PostImage("${post.id}-coverimage.jpg","default cover image", postImageService.defaultCoverImage(post.title), true, post)
+		post.addPostImage(postImage)
+
+		val directory = blogUtils.getDirectoryNameFromPost(post)
+		logger.info("creating directory $directory")
+		val dirpath = blogUtils.appendToBlogDir(blogUtils.getDirectoryNameFromPost(post))
+		logger.info("creating dirpath $dirpath")
+		File("$dirpath").mkdirs()
+
+		logger.info("filename ${postImage.filename}")
+		val filepath = Paths.get("$dirpath/${postImage.filename}")
+		Files.write(filepath, postImage.image, StandardOpenOption.CREATE)
+
+		return postRepository.save(post)
+	}
+
 	fun createCoverImage(post: Post): String {
 		val directoryName = blogUtils.getDirectoryNameFromPost(post)
 		val imageName = postImageService.findCoverImage(post).filename
@@ -137,27 +167,16 @@ class PostService {
 		var post = findById(p.id)
 		post.title = p.title
 		post.text = p.text
+		post.isDraft = p.isDraft
 
 		return postToFacade(postRepository.save(post))
-	}
-
-	fun createCoverImagePath(post: Post): Path {
-		val directoryName = blogUtils.getDirectoryNameFromPost(post)
-		val imageName = postImageService.findCoverImage(post).filename
-
-		return Paths.get("$rootFolder/$directoryName/$imageName")
 	}
 
 	fun postToFacade(p: Post): PostFacade {
 		return PostFacade(p.id,
 				          p.title,
-						  p.text)
-	}
-
-	fun facadeToPost(pf: PostFacade) : Post {
-		return Post(pf.id,
-					pf.title,
-					pf.text)
+						  p.text,
+		                  p.isDraft)
 	}
 
 	private fun cleanHtml(posts: List<Post>) : List<Post> {

@@ -42,10 +42,13 @@
 				</div>
 
 				<div class="content-column w-col w-col-12">
-					<input type="hidden" id="postid" name="hidpost" th:value="${post.id}">
-					<input type="text" id="posttitle" name="txtTitle" th:value="${post.title}">
+					<input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
+					<input type="text" id="posttitle" name="txtTitle" th:field="${post.title}">
 
 					<div id="summernote" name="article"></div>
+
+					<p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
+
 					<p>
 						<input type="button" value="Save" id="executeForm" name="btnAction" onclick="updater();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="button" value="Return" id="btnReturn" name="btnReturn" onclick="goback();">
@@ -159,11 +162,13 @@
 			var postid = $('#postid').val();
 			var posttitle = $('#posttitle').val();
 			var posttext = $('#summernote').summernote('code');
+			var postdraft = $('#postdraft').is(':checked');
 
 			var post = {
 				id : postid,
 				title : posttitle,
-				text : posttext 
+				text : posttext, 
+				isDraft : postdraft
 			};
 
 			$.ajax({

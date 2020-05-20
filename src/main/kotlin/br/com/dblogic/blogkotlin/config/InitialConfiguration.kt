@@ -94,8 +94,8 @@ class InitialConfiguration {
 
 		logger.info("creating all data")
 
-		val maxPosts = 150
-		val maxUsers = 12
+		val maxPosts = 8
+		val maxUsers = 4
 		val users = createusers(maxUsers)
 		
 		val lorem = LoremIpsum.getInstance()
@@ -134,7 +134,7 @@ class InitialConfiguration {
 			val postImage = PostImage("${x+1}-coverimage.jpg", "", postImageService.defaultCoverImage("${x+1}: $title"), true, post)
 			post.addPostImage(postImage)
 
-			val p = postService.save(post)
+			postService.save(post)
 
 		}
 	}

@@ -11,7 +11,7 @@ data class Post(@Id
 				@GenericGenerator(name = "native", strategy = "native")
 				val id: Long = 0,
 
-				var title: String = "",
+				var title: String = "default title",
 
 				@Lob
 				var text: String = "",
@@ -24,7 +24,9 @@ data class Post(@Id
 				@OneToMany(mappedBy = "post",
 						   cascade = [CascadeType.ALL],
 						   orphanRemoval = true)
-				var comments: MutableList<Comment> = mutableListOf<Comment>()) : DateAudit() {
+				var comments: MutableList<Comment> = mutableListOf<Comment>(),
+
+				var isDraft: Boolean = true) : DateAudit() {
 
 	constructor(title: String): this() {
 		this.title = title
@@ -59,32 +61,6 @@ data class Post(@Id
 	fun removeComment(comment: Comment) {
 		comments.remove(comment)
 		comment.post = null
-	}
-
-	override fun toString(): String {
-		return super.toString()
-	}
-
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (javaClass != other?.javaClass) return false
-
-		other as Post
-
-		if (id != other.id) return false
-		if (title != other.title) return false
-		if (text != other.text) return false
-		if (comments != other.comments) return false
-
-		return true
-	}
-
-	override fun hashCode(): Int {
-		var result = id.hashCode()
-		result = 31 * result + title.hashCode()
-		result = 31 * result + text.hashCode()
-		result = 31 * result + comments.hashCode()
-		return result
 	}
 
 }
