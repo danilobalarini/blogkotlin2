@@ -6,22 +6,43 @@
 
         <div th:fragment="index" class="post-wrapper">
             <div class="post-content">
-                <a class="button w-button" th:href="@{/admin/compose}">Novo</a>
+                <a id="btnNewPost" class="button w-button" href="#">Novo</a>
                 <br /><br />
                 <div class="body-copy w-richtext">
                     <ul class="striped-list">
                         <li th:each="post: ${posts}">
-                            <span class="span-show-id" th:text="'id: ' + ${post.id}"></span>
+                            <span class="span-display-id" th:text="'id: ' + ${post.id}"></span>
                             <a th:href="@{/admin/deletepost(id=${post.id})}"><img th:src="@{../images/delete-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
                             <a th:href="@{/admin/updatepost(id=${post.id})}"><img th:src="@{../images/edit-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
                             <img th:src="@{../images/comments-icon.png}" width="16"><span th:text="'(' + ${#lists.size(post.comments)} + ')'"></span>&nbsp;&nbsp;&nbsp;
                             <span th:text="${post.title}"></span>
-                            <span class="span-show-createdat" th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy | HH:mm:ss')}"></span>
+                            <span class="span-display-createdat" th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy | HH:mm:ss')}"></span>
+                            <span class="span-display-draft" th:text="${#bools.isTrue(post.draft)}"></span>
                         </li>
                     </ul>
                 </div>
             </div>
-        </div>
+
+            <script th:inline="javascript">
+
+                $(document).ready(function() {
+    
+                    $("#btnNewPost").click(function() {                       
+                        $.ajax({
+                            type: "GET",
+                            url: "/admin/compose",
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function(post) {
+                                window.location.href = "/admin/updatepost?id=" + post.id;
+                            }
+                        });
+                    });
+                });
+            </script>
+
+        </div> <!-- end fragment -->
 
     </body>
 

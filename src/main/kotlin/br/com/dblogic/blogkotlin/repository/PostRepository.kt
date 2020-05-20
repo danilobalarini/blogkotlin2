@@ -17,8 +17,8 @@ interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<P
 	override fun findById(id: Long): Optional<Post>
 
 	override fun deleteById(id: Long)
-
-	fun findTop6ByOrderByCreatedAtDesc(): List<Post>
+	
+	fun findTop6ByIsDraftFalseOrderByCreatedAtDesc(): List<Post>
 
 	@Query(" SELECT new br.com.dblogic.blogkotlin.model.facade.FrontPagePostFacade(p.id, " +
 			"																		 p.title, " +

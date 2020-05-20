@@ -2508,17 +2508,23 @@ ul.striped-list>li:last-child {
 	border-bottom: none;
 }
 
-.span-show-id {
+.span-display-id {
 	display: inline-block;
 	width: 40px;
 	font-weight: bold;
 }
 
-.span-show-createdat {
+.span-display-createdat {
 	position: absolute;
-	right: 40px;
+	right: 90px;
 	/* must be equal to parent's right padding */
 }
+
+.span-display-draft {
+	position: absolute;
+	right: 40px;
+}
+
 .blog-page-image {
 	height: 290px;
 	border-top-left-radius: 5px;
