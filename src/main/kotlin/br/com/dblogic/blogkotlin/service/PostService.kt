@@ -9,6 +9,7 @@ import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.repository.CommentRepository
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.utils.BlogUtils
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -20,8 +21,10 @@ import org.springframework.stereotype.Service
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
 import java.time.Instant
+
 
 @Service
 class PostService {
@@ -61,6 +64,7 @@ class PostService {
 
 	fun frontPage() : FrontPageFacade {
 		logger.info("posts zero length? " + (postRepository.count() == 0L));
+		logger.info("posts length: ${postRepository.count()}");
 		val posts = cleanHtml(postRepository.findTop6ByIsDraftFalseOrderByCreatedAtDesc())
 		logger.info("### posts ###: " + posts.size)
 
@@ -165,11 +169,33 @@ class PostService {
 		logger.info("updateComposer: ${p.id}")
 
 		var post = findById(p.id)
-		post.title = p.title
-		post.text = p.text
+
+		if(!StringUtils.equals(post.title, p.title)) {
+			logger.info("the title has been changed")
+
+			val olddir = blogUtils.getDirectoryPathFromPost(post)
+			logger.info("olddir $olddir")
+
+			post.title = p.title
+			val newdir = blogUtils.getDirectoryPathFromPost(post)
+			logger.info("newdir $newdir")
+
+			logger.info("renaming directory")
+			Files.move(olddir, newdir, StandardCopyOption.REPLACE_EXISTING)
+
+			val oldTitle = StringUtils.difference(newdir.toString(), olddir.toString())
+			val newTitle = StringUtils.difference(olddir.toString(), newdir.toString())
+
+			post.text = StringUtils.replace(post.text, oldTitle, newTitle)
+		} else {
+			post.text = p.text
+		}
+
 		post.isDraft = p.isDraft
 
-		return postToFacade(postRepository.save(post))
+		val savepost = postRepository.save(post)
+
+		return postToFacade(savepost)
 	}
 
 	fun postToFacade(p: Post): PostFacade {
