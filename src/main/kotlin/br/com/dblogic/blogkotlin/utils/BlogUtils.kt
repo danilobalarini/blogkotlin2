@@ -75,6 +75,11 @@ class BlogUtils {
         return post.id.toString() + "-" + title + toDateString(post.createdAt)
     }
 
+    fun getDirectoryPathFromPost(p: Post): Path {
+        val dir = appendToBlogDir(getDirectoryNameFromPost(p))
+        return Paths.get("$dir")
+    }
+
     private fun toDateString(date: Instant) : String {
 
         val zone = ZoneOffset.UTC

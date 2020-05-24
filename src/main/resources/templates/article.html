@@ -21,7 +21,7 @@
 						<div th:replace="fragments/articlebody.html :: post"></div>
 
 						<div class="button-wrapper">
-							<a class="button w-button" href="http://denali-template.webflow.io/all-posts">←&nbsp;All posts</a>
+							<a class="button w-button" th:href="@{/home}">←&nbsp;All posts</a>
 						</div>
 
 						<div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div>
