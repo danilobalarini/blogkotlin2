@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.dblogic</groupId>
 	<artifactId>blogkotlin</artifactId>
-	<version>0.2.15-SNAPSHOT</version>
+	<version>0.2.16-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>blogkotlin</name>
@@ -89,7 +89,6 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.19</version>
 		</dependency>
 
 		<dependency>
@@ -153,18 +152,6 @@
 		    <groupId>org.webjars</groupId>
 		    <artifactId>bootstrap</artifactId>
 		    <version>4.3.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.9.2</version>
 		</dependency>
 
 		<dependency>
