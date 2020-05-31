@@ -109,10 +109,10 @@ class PostImageService {
 
         val image = BufferedImage(1300, 860, BufferedImage.TYPE_INT_RGB)
         val g2d: Graphics2D = image.createGraphics()
-        g2d.setColor(Color.WHITE)
+        g2d.color = Color.WHITE
         g2d.fillRect(0, 0, 1300, 860)
 
-        g2d.setColor(Color.BLACK)
+        g2d.color = Color.BLACK
         val font = Font("Georgia", Font.BOLD, 36);
         g2d.setFont(font);
         g2d.drawString(text, 200, 200)

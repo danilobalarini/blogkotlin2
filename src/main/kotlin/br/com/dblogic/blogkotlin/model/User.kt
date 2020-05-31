@@ -6,8 +6,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "tb_user")
 data class User (@Id
-		    	 @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-				 @GenericGenerator(name = "native", strategy = "native")
+		    	 @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_user")
+				 @GenericGenerator(name = "seq_user", strategy = "native")
 		   		 val id: Int = 0,
 
 				 @Column(nullable = false)

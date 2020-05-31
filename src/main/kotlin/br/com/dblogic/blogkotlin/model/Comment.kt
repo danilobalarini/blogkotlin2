@@ -7,8 +7,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "tb_comment")
 data class Comment(@Id
-		    	   @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-				   @GenericGenerator(name = "native", strategy = "native")
+		    	   @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_comment")
+				   @GenericGenerator(name = "seq_comment", strategy = "native")
 		   		   val id: Long = 0L,
 
 				   @Lob

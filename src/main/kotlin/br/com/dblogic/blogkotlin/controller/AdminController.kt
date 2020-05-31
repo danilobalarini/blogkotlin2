@@ -23,7 +23,7 @@ class AdminController {
 	@GetMapping("")
 	fun admin(model: Model) : String {
 
-		model.addAttribute("posts", postService.findAll())
+		model.addAttribute("posts", postService.returnAllFacades())
 
 		return "admindex"
 	}
