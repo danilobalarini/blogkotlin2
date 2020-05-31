@@ -14,7 +14,7 @@
                             <span class="span-display-id" th:text="'id: ' + ${post.id}"></span>
                             <a th:href="@{/admin/deletepost(id=${post.id})}"><img th:src="@{../images/delete-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
                             <a th:href="@{/admin/updatepost(id=${post.id})}"><img th:src="@{../images/edit-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
-                            <img th:src="@{../images/comments-icon.png}" width="16"><span th:text="'(' + ${#lists.size(post.comments)} + ')'"></span>&nbsp;&nbsp;&nbsp;
+                            <img th:src="@{../images/comments-icon.png}" width="16"><span th:text="'(' + ${post.comments} + ')'"></span>&nbsp;&nbsp;&nbsp;
                             <span th:text="${post.title}"></span>
                             <span class="span-display-createdat" th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy | HH:mm:ss')}"></span>
                             <span class="span-display-draft" th:text="${#bools.isTrue(post.draft)}"></span>

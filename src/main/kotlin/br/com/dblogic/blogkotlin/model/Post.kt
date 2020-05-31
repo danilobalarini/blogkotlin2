@@ -7,8 +7,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "tb_post")
 data class Post(@Id
-				@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-				@GenericGenerator(name = "native", strategy = "native")
+				@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_post")
+				@GenericGenerator(name = "seq_post", strategy = "native")
 				val id: Long = 0,
 
 				var title: String = "default title",

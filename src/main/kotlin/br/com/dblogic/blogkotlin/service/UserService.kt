@@ -11,7 +11,7 @@ class UserService {
 	@Autowired
 	lateinit var userRepository: UserRepository
 
-		fun findAll(): List<User> {
+	fun findAll(): List<User> {
 		return userRepository.findAll()
 	}
 	

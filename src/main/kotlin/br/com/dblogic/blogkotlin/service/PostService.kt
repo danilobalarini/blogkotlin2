@@ -25,7 +25,6 @@ import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
 import java.time.Instant
 
-
 @Service
 class PostService {
 
@@ -45,9 +44,19 @@ class PostService {
 
 	@Value("\${blog.directory.name}")
 	lateinit var rootFolder: String
-	
+
 	fun findAll(): List<Post> {
 		return postRepository.findAll()
+	}
+
+	fun returnAllFacades(): List<PostFacade> {
+		val facades = mutableListOf<PostFacade>()
+
+		for(p in postRepository.findAll()) {
+			facades.add(postToFacade(p))
+		}
+
+		return facades
 	}
 
 	fun findById(id: Long) : Post {
@@ -202,15 +211,15 @@ class PostService {
 		return PostFacade(p.id,
 				          p.title,
 						  p.text,
-		                  p.isDraft)
+		                  p.isDraft,
+						  p.createdAt,
+						  p.comments.size)
 	}
 
 	private fun cleanHtml(posts: List<Post>) : List<Post> {
 
 		var listPost = mutableListOf<Post>()
 		for(p in posts) {
-			// logger.info("antes: " + p.text)
-			// logger.info("depois: " + p.text.toString().replace("\\<.*?>".toRegex(),""))
 			p.text = p.text.replace("</p><p>", " ")
 			p.text = p.text.replace("<br/>", " ")
 			p.text = p.text.replace("<br>", " ")

@@ -94,8 +94,8 @@ class InitialConfiguration {
 
 		logger.info("creating all data")
 
-		val maxPosts = 8
-		val maxUsers = 4
+		val maxPosts = 5
+		val maxUsers = 2
 		val users = createusers(maxUsers)
 		
 		val lorem = LoremIpsum.getInstance()
