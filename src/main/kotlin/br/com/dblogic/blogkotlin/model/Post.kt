@@ -26,6 +26,11 @@ data class Post(@Id
 						   orphanRemoval = true)
 				var comments: MutableList<Comment> = mutableListOf<Comment>(),
 
+				@OneToMany(mappedBy = "post",
+						   cascade = [CascadeType.ALL],
+						   orphanRemoval = true)
+				var categories: MutableList<Comment> = mutableListOf<Comment>(),
+
 				var isDraft: Boolean = true) : DateAudit() {
 
 	constructor(title: String): this() {
