@@ -2278,7 +2278,7 @@ figcaption {
 	text-align: left;
 }
 
-.built-with-webflow {
+.based-on {
 	margin-bottom: 0px;
 	color: #aaa;
 	font-size: 10px;
@@ -2649,7 +2649,7 @@ html.w-mod-js *[data-ix="scale-on-scroll"] {
 		margin-top: 21px;
 		margin-bottom: 21px;
 	}
-	.built-with-webflow {
+	.based-on {
 		margin-bottom: 0px;
 	}
 	.post-wrapper {
