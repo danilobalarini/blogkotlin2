@@ -78,22 +78,41 @@ class PostService {
 		logger.info("### posts ###: " + posts.size)
 
 		if(posts.isEmpty()) {
+			val facade = PostFacade(0,
+								"Não temos posts. Volte outro dia. Teremos bolinhos.",
+								"",
+								false,
+								Instant.now(),
+								0,
+								"",
+								"")
 
-			val post = Post(0L, "Não temos posts. Volte outro dia. Teremos bolinhos.", "")
-
-			val fppf = FrontPagePostFacade(post, 0L, "", Instant.now())
-			return FrontPageFacade(fppf, mutableListOf<FrontPagePostFacade>())
+			return FrontPageFacade(facade, mutableListOf<PostFacade>())
 		} else {
 			val first = posts.first()
-			val post = FrontPagePostFacade(first, commentRepository.countByPost(first), createCoverImage(first), first.createdAt)
+			val facade = PostFacade(first.id,
+									first.title,
+									first.text,
+									first.isDraft,
+									first.createdAt,
+									first.comments.size,
+									first.tags.toString(),
+									createCoverImage(first))
 
-			var listPostComments = mutableListOf<FrontPagePostFacade>()
+			var listFacades = mutableListOf<PostFacade>()
 
 			for (p in posts.drop(1)) {
-				listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p), p.createdAt))
+				listFacades.add(PostFacade(p.id,
+						        		   p.title,
+										   p.text,
+										   p.isDraft,
+										   p.createdAt,
+						                   p.comments.size,
+										   p.tags.toString(),
+										   createCoverImage(p)))
 			}
 
-			return FrontPageFacade(post, listPostComments)
+			return FrontPageFacade(facade, listFacades)
 		}
 	}
 

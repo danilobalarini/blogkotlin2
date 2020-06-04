@@ -35,8 +35,14 @@
 					<div class="post-content">
 						<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
 							<input type="hidden" id="id" name="id" th:value="${post.id}">
+							<div class="w-col w-col-4 w-col-medium-4" style="border: 1px solid #000000;">
+								<span id="preview-cover-image" 
+									  class="blog-image w-inline-block"
+									  th:style="'background-image: url('+ ${post.coverImage} +');'">
+								</span>
+							</div>
 							<input type="file" name="coverImage" id="coverImage" />
-							<a class="button w-button" id="btnCoverImage">Upload Cover Image</a>
+							<a class="button w-button" id="btnCoverImage">Upload Imagem de Capa</a>
 						</form>
 					</div>
 				</div>
@@ -127,6 +133,7 @@
 					cache: false,
 					success: function () {
 						console.log("deu certo :-D");
+						
                     },
                     error : function(jqXHR, textStatus, errorThrown) {
                      	console.log("jqXHR: " + jqXHR.status);

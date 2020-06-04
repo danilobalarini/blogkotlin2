@@ -1,8 +1,8 @@
 package br.com.dblogic.blogkotlin.model
 
-import br.com.dblogic.blogkotlin.model.facade.FrontPagePostFacade
+import br.com.dblogic.blogkotlin.model.facade.PostFacade
 
-data class FrontPageFacade(val frontPagePost: FrontPagePostFacade,
-						   val frontPagePosts: List<FrontPagePostFacade>) {
+data class FrontPageFacade(val postFacade: PostFacade,
+						   val postFacades: List<PostFacade>) {
 			
 }

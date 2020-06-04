@@ -7,5 +7,7 @@ data class PostFacade(val id: Long = 0,
                       var text: String = "",
                       var isDraft: Boolean = true,
                       var createdAt: Instant = Instant.now(),
-                      var comments: Int = 0) {
+                      var comments: Int = 0,
+                      var tags: String = "",
+                      var coverImage: String = "") {
 }

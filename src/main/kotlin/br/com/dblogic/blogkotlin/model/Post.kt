@@ -29,7 +29,7 @@ data class Post(@Id
 				@OneToMany(mappedBy = "post",
 						   cascade = [CascadeType.ALL],
 						   orphanRemoval = true)
-				var categories: MutableList<Comment> = mutableListOf<Comment>(),
+				var tags: MutableList<Tag> = mutableListOf<Tag>(),
 
 				var isDraft: Boolean = true) : DateAudit() {
 

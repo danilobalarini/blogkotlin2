@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import java.time.Instant
 
 @Controller
 @RequestMapping("/admin")
@@ -45,8 +46,16 @@ class AdminController {
 	fun updatepost(@RequestParam id: Long, model : Model) : String {
 
 		val post = postService.findById(id)
-		post.text = StringUtils.replace(post.text, "\n", "<br/>")
-		model.addAttribute("post", post)
+		val facade = PostFacade(id,
+								post.title,
+								StringUtils.replace(post.text, "\n", "<br/>"),
+								post.isDraft,
+								Instant.now(),
+								0,
+								"",
+								"../${postService.createCoverImage(post)}")
+
+		model.addAttribute("post", facade)
 
 		return "compose"
 	}
