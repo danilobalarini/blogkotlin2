@@ -58,7 +58,7 @@ class PostImageService {
         return ""
     }
 
-    fun updateCoverImage(id: Long, coverImage: MultipartFile): PostImage {
+    fun updateCoverImage(id: Long, coverImage: MultipartFile): String {
 
         val post = postService.findById(id)
         val deleteImage = postImageRepository.findByPostAndIsCoverImageTrue(post)
@@ -81,7 +81,9 @@ class PostImageService {
         Files.write(imagepath, postImage.image, StandardOpenOption.CREATE)
         Files.delete(imagepathdelete)
 
-        return postImage
+        val url = "../${postService.createCoverImage(post)}"
+
+        return url
     }
 
     fun save(id: Long, multiPartFile: MultipartFile): String {
@@ -99,7 +101,7 @@ class PostImageService {
         logger.info("### path to be created: $newimage")
         Files.write(newimage, postImage.image, StandardOpenOption.CREATE)
 
-        val url = "../$blogDirectoryName/$title/$name"
+        val url = "../${postService.createCoverImage(post)}"
         logger.info("URL: $url")
 
         return url

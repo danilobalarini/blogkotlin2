@@ -38,7 +38,8 @@
 							<div class="w-col w-col-4 w-col-medium-4" style="border: 1px solid #000000;">
 								<span id="preview-cover-image" 
 									  class="blog-image w-inline-block"
-									  th:style="'background-image: url('+ ${post.coverImage} +');'">
+									  th:style="'background-image: url('+ ${post.coverImage} +');'"></span>
+									  <!-- th:style="'background-image: url('+ ${post.coverImage} +');'" --> 
 								</span>
 							</div>
 							<input type="file" name="coverImage" id="coverImage" />
@@ -131,9 +132,8 @@
 					contentType: false,
 					processData: false,
 					cache: false,
-					success: function () {
-						console.log("deu certo :-D");
-						
+					success: function (data) {
+						$("#preview-cover-image").css('background-image', 'url(' + data + ')');
                     },
                     error : function(jqXHR, textStatus, errorThrown) {
                      	console.log("jqXHR: " + jqXHR.status);

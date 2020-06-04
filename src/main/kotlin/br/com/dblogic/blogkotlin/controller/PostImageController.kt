@@ -20,7 +20,7 @@ class PostImageController {
     fun updateCoverImage(@ModelAttribute form: UploadForm) : ResponseEntity<String> {
 
         // postImageService.updateCoverImage(form.id, form.coverImage[0])
-        val url = postImageService.save(form.id, form.coverImage[0])
+        val url = postImageService.updateCoverImage(form.id, form.coverImage[0])
 
         return ResponseEntity(url, HttpStatus.OK)
     }
