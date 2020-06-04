@@ -41,31 +41,31 @@
 					
 					<div class="w-col w-col-4 w-col-medium-4">
 						<a class="blog-image w-inline-block"
-						   th:href="'/postid/' + ${fpp.post.id}"
+						   th:href="'/postid/' + ${fpp.id}"
 						   th:style="'background-image: url('+ ${fpp.coverImage} +');'">
 						</a>
 					</div>
 					
 					<div class="w-col w-col-8 w-col-medium-8">
 						
-						<a class="blog-title-link w-inline-block" th:href="'/postid/' + ${fpp.post.id}">
-							<h2 th:text="${fpp.post.title}" class="blog-title"></h2>
+						<a class="blog-title-link w-inline-block" th:href="'/postid/' + ${fpp.id}">
+							<h2 th:text="${fpp.title}" class="blog-title"></h2>
 						</a>
 						
 						<div class="details-wrapper">
 							<div class="post-info"
-								 th:with="date=${fpp.post.createdAt}"
+								 th:with="date=${fpp.createdAt}"
 								 th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
 							<div class="post-info">|</div>
-							<div class="post-info" th:text=" '(' + ${fpp.commentCount} + ') Comments'"></div>
+							<div class="post-info" th:text=" '(' + ${fpp.comments} + ') Comments'"></div>
 							<div class="post-info">|</div>
 							<a   class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
 						</div>
 						
 						<div class="post-summary-wrapper">
-							<p class="post-summary" th:if="${#strings.length(fpp.post.text) >= 130}" th:text="${#strings.substring(fpp.post.text, 0, 130)}"></p>
-							<p class="post-summary" th:unless="${#strings.length(fpp.post.text) >= 130}" th:text="${#strings.substring(fpp.post.text, 0, #strings.length(fpp.post.text))}"></p>
-							<a class="read-more-link" th:href="'/postid/' + ${fpp.post.id}">Saiba mais...</a>
+							<p class="post-summary" th:if="${#strings.length(fpp.text) >= 130}" th:text="${#strings.substring(fpp.text, 0, 130)}"></p>
+							<p class="post-summary" th:unless="${#strings.length(fpp.text) >= 130}" th:text="${#strings.substring(fpp.text, 0, #strings.length(fpp.text))}"></p>
+							<a class="read-more-link" th:href="'/postid/' + ${fpp.id}">Saiba mais...</a>
 						</div>
 					</div>
 				</div>
@@ -88,7 +88,7 @@
 					
 					<div class="w-col w-col-8 w-col-medium-8">
 						
-						<a class="blog-title-link w-inline-block" th:href="'/postid/' + ${fpp.post.id}">
+						<a class="blog-title-link w-inline-block" th:href="'/postid/' + ${fpp.id}">
 							<h2 th:text="${fpp.post.title}" class="blog-title"></h2>
 						</a>
 						
