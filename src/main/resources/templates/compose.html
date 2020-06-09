@@ -30,7 +30,6 @@
 			<div class="w-row">
 				
 				<!-- div th:replace="fragments/general.html :: sidebar_level_1"></div -->
-
 				<div class="post-wrapper">
 					<div class="post-content">
 						<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
@@ -39,33 +38,36 @@
 								<span id="preview-cover-image" 
 									  class="blog-image w-inline-block"
 									  th:style="'background-image: url('+ ${post.coverImage} +');'"></span>
-									  <!-- th:style="'background-image: url('+ ${post.coverImage} +');'" --> 
 								</span>
 							</div>
 							<input type="file" name="coverImage" id="coverImage" />
 							<a class="button w-button" id="btnCoverImage">Upload Imagem de Capa</a>
 						</form>
+
+						<br/><br/><br/><br/><br/><br/>
+
+						<div>
+							<input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
+							<input type="text" id="posttitle" name="txtTitle" th:field="${post.title}">
+
+							<br/><br/>
+
+							<div id="summernote" name="article"></div>
+
+							<p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
+
+							<p>
+								<input type="button" value="Save" id="executeForm" name="btnAction" onclick="updater();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="button" value="Return" id="btnReturn" name="btnReturn" onclick="goback();">
+							</p>
+
+							<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
+
+							<span id="spanPost" th:utext="${post.text}"></span>
+
+						</div>
 					</div>
-				</div>
-
-				<div class="content-column w-col w-col-12">
-					<input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
-					<input type="text" id="posttitle" name="txtTitle" th:field="${post.title}">
-
-					<div id="summernote" name="article"></div>
-
-					<p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
-
-					<p>
-						<input type="button" value="Save" id="executeForm" name="btnAction" onclick="updater();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="button" value="Return" id="btnReturn" name="btnReturn" onclick="goback();">
-					</p>
-
-					<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
-
-					<span id="spanPost" th:utext="${post.text}"></span>
-
-				</div>
+				</div> <!--post-wrapper -->
 			</div>
 		</div>
 	</div>

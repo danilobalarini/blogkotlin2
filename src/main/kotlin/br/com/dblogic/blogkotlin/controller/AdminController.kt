@@ -1,6 +1,7 @@
 package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.Post
+import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.service.PostService
 import org.apache.commons.lang3.StringUtils
@@ -52,7 +53,7 @@ class AdminController {
 								post.isDraft,
 								Instant.now(),
 								0,
-								"",
+								mutableSetOf<Tag>(),
 								"../${postService.createCoverImage(post)}")
 
 		model.addAttribute("post", facade)

@@ -3,6 +3,7 @@ package br.com.dblogic.blogkotlin.service
 import br.com.dblogic.blogkotlin.model.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostImage
+import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.FrontPagePostFacade
 import br.com.dblogic.blogkotlin.model.facade.PostAndCoverImageFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
@@ -84,7 +85,7 @@ class PostService {
 								false,
 								Instant.now(),
 								0,
-								"",
+								mutableSetOf<Tag>(),
 								"")
 
 			return FrontPageFacade(facade, mutableListOf<PostFacade>())
@@ -96,7 +97,7 @@ class PostService {
 									first.isDraft,
 									first.createdAt,
 									first.comments.size,
-									first.tags.toString(),
+									first.tags,
 									createCoverImage(first))
 
 			var listFacades = mutableListOf<PostFacade>()
@@ -108,7 +109,7 @@ class PostService {
 										   p.isDraft,
 										   p.createdAt,
 						                   p.comments.size,
-										   p.tags.toString(),
+										   p.tags,
 										   createCoverImage(p)))
 			}
 
