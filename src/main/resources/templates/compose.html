@@ -34,14 +34,15 @@
 					<div class="post-content">
 						<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
 							<input type="hidden" id="id" name="id" th:value="${post.id}">
+							<input type="file" name="coverImage" id="coverImage" />
+							<br/><br/>
 							<div class="w-col w-col-4 w-col-medium-4" style="border: 1px solid #000000;">
-								<span id="preview-cover-image" 
+								<div id="preview-cover-image" 
 									  class="blog-image w-inline-block"
 									  th:style="'background-image: url('+ ${post.coverImage} +');'"></span>
-								</span>
+								</div>
 							</div>
-							<input type="file" name="coverImage" id="coverImage" />
-							<a class="button w-button" id="btnCoverImage">Upload Imagem de Capa</a>
+							<a class="button" id="btnCoverImage">Upload Imagem de Capa</a>
 						</form>
 
 						<br/><br/><br/><br/><br/><br/>
