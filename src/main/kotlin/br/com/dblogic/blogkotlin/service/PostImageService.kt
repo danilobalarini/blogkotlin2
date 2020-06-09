@@ -101,7 +101,7 @@ class PostImageService {
         logger.info("### path to be created: $newimage")
         Files.write(newimage, postImage.image, StandardOpenOption.CREATE)
 
-        val url = "../${postService.createCoverImage(post)}"
+        val url = "../${postService.createImageURL(post, name)}"
         logger.info("URL: $url")
 
         return url

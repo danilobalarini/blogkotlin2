@@ -11,7 +11,7 @@ class WebConfiguration : WebMvcConfigurer {
 	private val logger = LoggerFactory.getLogger(WebConfiguration::class.java)
 	
 	override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
-	
+
 		logger.info("####### Entering ResourceHandlers configurations #######")
 		
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/")

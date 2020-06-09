@@ -1,4 +1,4 @@
-package br.com.dblogic.blogkotlin.model
+package br.com.dblogic.blogkotlin.model.facade
 
 import org.springframework.web.multipart.MultipartFile
 

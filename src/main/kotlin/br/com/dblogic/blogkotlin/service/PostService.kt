@@ -193,6 +193,11 @@ class PostService {
 		return "$rootFolder/$directoryName/$imageName"
 	}
 
+	fun createImageURL(post:Post, imageName: String): String {
+		val directoryName = blogUtils.getDirectoryNameFromPost(post)
+		return "$rootFolder/$directoryName/$imageName"
+	}
+
 	fun updateComposer(p: PostFacade): PostFacade {
 		logger.info("updateComposer: ${p.id}")
 

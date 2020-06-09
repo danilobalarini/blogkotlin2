@@ -1,6 +1,6 @@
 package br.com.dblogic.blogkotlin.controller
 
-import br.com.dblogic.blogkotlin.model.UploadForm
+import br.com.dblogic.blogkotlin.model.facade.UploadForm
 import br.com.dblogic.blogkotlin.service.PostImageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
