@@ -14,9 +14,25 @@
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.12/dist/summernote.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.12/dist/summernote.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.12/dist/lang/summernote-pt-BR.min.js"></script>
-
 	<script type="text/javascript" th:src="@{../javascript/summernote-ext-highlight.js}"></script>
-</head>
+
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../webjars/font-awesome/5.13.0/css/fontawesome.min.css}" />
+
+	<!-- multiple select -->
+	<link  th:href="@{../css/multi-select.css}" rel="stylesheet">
+	<script th:src="@{../javascript/jquery.multi-select.js}" type="text/javascript"></script>
+
+	<style>
+		#left {
+			width: 50%;
+			display: inline-block;
+		}
+		#right {
+			width: 50%;
+			display: inline-block;
+		}
+	</style>
+	</head>
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
@@ -27,49 +43,51 @@
 	
 	<div class="content-wrapper">
 		<div class="w-container">
-			<div class="w-row">
+			<div class="w-row" style="border: 1px dotted black; padding: 2px;">
 				
-				<!-- div th:replace="fragments/general.html :: sidebar_level_1"></div -->
-				<div class="post-wrapper">
-					<div class="post-content">
+				<div class="w-col" style="border: 1px dotted red;">
+					<div id="left" style="border: 1px dotted green;">
 						<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
 							<input type="hidden" id="id" name="id" th:value="${post.id}">
-							<input type="file" name="coverImage" id="coverImage" />
-							<br/><br/>
-							<div class="w-col w-col-4 w-col-medium-4" style="border: 1px solid #000000;">
-								<div id="preview-cover-image" 
-									  class="blog-image w-inline-block"
-									  th:style="'background-image: url('+ ${post.coverImage} +');'"></span>
+							<div class="w-col" style="border: 1px solid #000000;">
+								<div id="preview-cover-image"
+									class="blog-composer-coverimage w-inline-block"
+									th:style="'background-image: url('+ ${post.coverImage} +');'"></span>
 								</div>
 							</div>
-							<a class="button" id="btnCoverImage">Upload Imagem de Capa</a>
+							<input type="file" name="coverImage" id="coverImage" /> <br/>
+							&nbsp;&nbsp;&nbsp;<a class="button" id="btnCoverImage">Upload Imagem de Capa</a>
 						</form>
-
-						<br/><br/><br/><br/><br/><br/>
-
-						<div>
-							<input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
-							<input type="text" id="posttitle" name="txtTitle" th:field="${post.title}">
-
-							<br/><br/>
-
-							<div id="summernote" name="article"></div>
-
-							<p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
-
-							<p>
-								<input type="button" value="Save" id="executeForm" name="btnAction" onclick="updater();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<input type="button" value="Return" id="btnReturn" name="btnReturn" onclick="goback();">
-							</p>
-
-							<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
-
-							<span id="spanPost" th:utext="${post.text}"></span>
-
-						</div>
 					</div>
-				</div> <!--post-wrapper -->
+
+					<div id="right" style="border: 1px dotted violet; position: absolute;">
+						<select th:field="${post.tags}" multiple="multiple" id="tagsSelect" name="tagSelect">
+						</select>
+					</div>
+
+				</div>
+
+				<div class="w-col" style="border: 1px dotted blue; width: 100%;">
+					<input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
+					<br/>
+					<input type="text" id="posttitle" name="txtTitle" th:field="${post.title}" size="60">
+					<br/><br/>
+					<div id="summernote" name="article"></div>
+
+					<p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
+
+					<p>
+						<input type="button" value="Save" id="executeForm" name="btnAction" onclick="updater();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="button" value="Return" id="btnReturn" name="btnReturn" onclick="goback();">
+					</p>
+
+					<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
+
+					<span id="spanPost" th:utext="${post.text}"></span>
+
+				</div>
 			</div>
+
 		</div>
 	</div>
 
@@ -78,6 +96,8 @@
 	<script th:inline="javascript">
 
 		$(document).ready(function() {
+
+			$('#tagsSelect').multiSelect();
 
 			var autosave_timer = null
 

@@ -2395,7 +2395,6 @@ figcaption {
 	height: 180px;
 	margin-right: 20px;
 	border-radius: 3px;
-	background-image: url("../images/background-image.png");
 	background-position: 50% 50%;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -2405,6 +2404,17 @@ figcaption {
 
 .blog-image:hover {
 	opacity: 0.8;
+}
+
+.blog-composer-coverimage {
+	display: block;
+	height: 320px;
+	border-radius: 3px;
+	background-position: 50% 50%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	-webkit-transition: opacity 200ms ease;
+	transition: opacity 200ms ease;
 }
 
 .post-content {

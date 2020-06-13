@@ -26,9 +26,9 @@ data class Post(@Id
 						   orphanRemoval = true)
 				var comments: MutableList<Comment> = mutableListOf<Comment>(),
 
-				@OneToMany(mappedBy = "post",
-						   cascade = [CascadeType.ALL],
+				@OneToMany(cascade = [CascadeType.ALL],
 						   orphanRemoval = true)
+				@JoinColumn(name = "post")
 				var tags: MutableSet<Tag> = mutableSetOf<Tag>(),
 
 				var isDraft: Boolean = true) : DateAudit() {

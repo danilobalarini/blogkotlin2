@@ -10,8 +10,10 @@ data class Tag(@Id
                @GenericGenerator(name = "seq_tag", strategy = "native")
                val id: Int = 0,
 
-               var name: String = "",
+               var name: String = "") {
 
-               @ManyToOne(fetch = FetchType.LAZY)
-               @JoinColumn(name = "post_id")
-               var post: Post = Post())
+    constructor(name: String): this() {
+        this.name = name
+    }
+
+}

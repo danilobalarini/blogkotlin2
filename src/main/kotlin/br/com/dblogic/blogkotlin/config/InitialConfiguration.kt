@@ -1,16 +1,11 @@
 package br.com.dblogic.blogkotlin.config
 
-import br.com.dblogic.blogkotlin.model.Comment
-import br.com.dblogic.blogkotlin.model.Post
-import br.com.dblogic.blogkotlin.model.PostImage
-import br.com.dblogic.blogkotlin.model.User
-import br.com.dblogic.blogkotlin.service.CommentService
-import br.com.dblogic.blogkotlin.service.PostImageService
-import br.com.dblogic.blogkotlin.service.PostService
-import br.com.dblogic.blogkotlin.service.UserService
+import br.com.dblogic.blogkotlin.model.*
+import br.com.dblogic.blogkotlin.service.*
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import br.com.dblogic.blogkotlin.utils.DateUtils
 import com.thedeanda.lorem.LoremIpsum
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -39,6 +34,9 @@ class InitialConfiguration {
 
 	@Autowired
 	lateinit var postImageService: PostImageService
+
+	@Autowired
+	lateinit var tagService: TagService
 
 	@Autowired
 	lateinit var dateUtils: DateUtils
@@ -97,7 +95,7 @@ class InitialConfiguration {
 		val maxPosts = 5
 		val maxUsers = 2
 		val users = createusers(maxUsers)
-		
+
 		val lorem = LoremIpsum.getInstance()
 		
 		for(x in 0 until maxPosts) {
@@ -121,9 +119,9 @@ class InitialConfiguration {
 				logger.info("Comment " + y + " - instant: " + dateUtils.toLocalDate(plusInstantComment))
 				
 				val comment = Comment("" + y + ": " + lorem.getTitle(2, 4),
-									post,
-									users.get(ThreadLocalRandom.current().nextInt(0, maxUsers)),
-						 			plusInstantComment)
+									  post,
+									  users.get(ThreadLocalRandom.current().nextInt(0, maxUsers)),
+						 			  plusInstantComment)
 				
 				post.addComment(comment)
 				plusInstantComment = dateUtils.plusInstantUntilNow(plusInstantComment)
@@ -135,8 +133,14 @@ class InitialConfiguration {
 			post.addPostImage(postImage)
 
 			postService.save(post)
-
 		}
+
+		// tags // isso deveria ficar no application.properties e fazer update para não duplicar (Set?)
+		tagService.save(Tag(StringUtils.upperCase("geral")))
+		tagService.save(Tag(StringUtils.upperCase("java")))
+		tagService.save(Tag(StringUtils.upperCase("javascript")))
+		tagService.save(Tag(StringUtils.upperCase("linux")))
+		tagService.save(Tag(StringUtils.upperCase("off topic")))
 	}
 	
 	fun createusers(max: Int): List<User> {
