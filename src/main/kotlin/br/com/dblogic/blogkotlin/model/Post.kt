@@ -26,10 +26,11 @@ data class Post(@Id
 						   orphanRemoval = true)
 				var comments: MutableList<Comment> = mutableListOf<Comment>(),
 
-				@OneToMany(cascade = [CascadeType.ALL],
-						   orphanRemoval = true)
-				@JoinColumn(name = "post")
-				var tags: MutableSet<Tag> = mutableSetOf<Tag>(),
+				@ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
+				@JoinTable(name = "tb_post_tag",
+						   joinColumns = [JoinColumn(name = "post_id")],
+						   inverseJoinColumns = [JoinColumn(name = "tag_id")])
+				val tags: MutableSet<Tag> = mutableSetOf<Tag>(),
 
 				var isDraft: Boolean = true) : DateAudit() {
 
@@ -66,6 +67,16 @@ data class Post(@Id
 	fun removeComment(comment: Comment) {
 		comments.remove(comment)
 		comment.post = null
+	}
+
+	fun addTag(tag: Tag) {
+		tags.add(tag)
+		tag.posts.add(this)
+	}
+
+	fun removeTag(tag: Tag) {
+		tags.remove(tag)
+		tag.posts.remove(this)
 	}
 
 }

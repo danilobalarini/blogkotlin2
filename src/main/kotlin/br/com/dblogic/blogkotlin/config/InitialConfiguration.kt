@@ -136,11 +136,11 @@ class InitialConfiguration {
 		}
 
 		// tags // isso deveria ficar no application.properties e fazer update para não duplicar (Set?)
-		tagService.save(Tag(StringUtils.upperCase("geral")))
-		tagService.save(Tag(StringUtils.upperCase("java")))
-		tagService.save(Tag(StringUtils.upperCase("javascript")))
-		tagService.save(Tag(StringUtils.upperCase("linux")))
-		tagService.save(Tag(StringUtils.upperCase("off topic")))
+		// tagService.save(Tag(StringUtils.upperCase("geral")))
+		// tagService.save(Tag(StringUtils.upperCase("java")))
+		// tagService.save(Tag(StringUtils.upperCase("javascript")))
+		// tagService.save(Tag(StringUtils.upperCase("linux")))
+		// tagService.save(Tag(StringUtils.upperCase("off topic")))
 	}
 	
 	fun createusers(max: Int): List<User> {

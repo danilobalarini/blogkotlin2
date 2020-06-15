@@ -4,6 +4,7 @@ import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.service.PostService
+import br.com.dblogic.blogkotlin.service.TagService
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +22,9 @@ class AdminController {
 	@Autowired
 	lateinit var postService: PostService
 
+	@Autowired
+	lateinit var tagService: TagService
+
 	@GetMapping("")
 	fun admin(model: Model) : String {
 
@@ -29,9 +33,12 @@ class AdminController {
 		return "admindex"
 	}
 
-	@GetMapping("/reports")
-	fun reports() : String {
-		return "admindex"
+	@GetMapping("/tags")
+	fun tags(model: Model) : String {
+
+		model.addAttribute("tags", tagService.findAll())
+
+		return "managetags"
 	}
 
 	@ResponseBody

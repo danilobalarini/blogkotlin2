@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:spring="http://www.springframework.org/tags" 
+	  xmlns:form="http://www.springframework.org/tags/form">
+<head>
+	<title>Manage Tags</title>
+	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_level_1"> </th:block> /*/-->
+</head>
+
+<body>
+
+	<div th:replace="fragments/general.html :: header"></div>
+	
+	<div class="content-wrapper">
+		<div class="w-container">
+			<div class="w-row">
+
+				<div class="content-column w-col w-col-9">
+                
+                    <div th:replace="fragments/dynamic.html :: managetags"></div>
+
+                </div>
+                
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="fragments/general.html :: footerfiles"></div>
+
+</body>
+
+</html>

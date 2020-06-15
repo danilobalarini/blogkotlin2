@@ -112,6 +112,88 @@
 			</div>
 		</div>
 	</div>
-	
+
+	<!-- SHOW TAGS -->
+	<div th:fragment="managetags" class="post-wrapper">
+		<div class="post-content">
+			<div class="body-copy w-richtext">
+				<label for="tagName">Nome da Tag</label>
+				<input class="text-field w-input" data-name="TagName" id="tagName" maxlength="256" name="tagName" placeholder="Nome da Tag" type="text">
+				<input class="button w-button" data-wait="Por favor aguarde" type="submit" value="Criar" id="btnSave" name="btnSave">
+			</div>
+			<p>
+				<div>
+					<ul id="ulTags" class="striped-list">
+						<li th:each="tag: ${tags}"
+							th:id="'li' + ${tag.id}">
+							<span class="span-display-id" th:text="'id: ' + ${tag.id}"></span>
+							<img th:id="'image' + ${tag.id}" th:src="@{../images/delete-icon.png}" width="16" onclick="deleteTag(this);">&nbsp;&nbsp;
+							<span th:text="${tag.name}"></span>
+						</li>
+					</ul>
+				</div>
+			</p>
+			<input class="button w-button" data-wait="Por favor aguarde" type="button" value="Retornar" id="btnReturn" name="btnReturn">
+		</div>
+
+		<script th:inline="javascript">
+			// this assumes we're using JQuery, right?
+			$(document).ready(function() {
+				
+				$("#btnSave").click(function() {
+					var tagName = $("#tagName").val();
+					console.log("tagname: " + tagName);
+
+					var tag = {
+						name : tagName
+					}
+
+					$.ajax({
+						type: "POST",
+						url: "/tags/save",
+						data: JSON.stringify(tag),
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function(data) {
+							console.log("insert another: " + data);
+							$('ul#ulTags').append(	'<li id="li'+ data.id +'">' + 
+                          								'<span class="span-display-id">id: '+ data.id +'</span>' +
+                          								'<img id="image' + data.id + '" src="../images/delete-icon.png" width="16" onclick="deleteTag(this);">&nbsp;&nbsp;' +
+                          								'<span>'+ data.name +'</span>' +
+                      								'</li>');
+						}
+					});
+				});
+
+				$("#btnReturn").click(function() {
+					window.location.href = "/admin";
+				});
+
+			});
+
+			function deleteTag(data) {
+				var id = data.id.replace(/\D/g,'');
+				var urldelete = '/tags/delete?id=' + id;
+				var removeli = "#li" + id;
+
+				$.ajax({
+					data: data,
+					type: "GET",
+					url: urldelete,
+					cache: false,
+					contentType: false,
+					processData: false,
+					success: function() {
+						console.log("deu certo");
+						$(removeli).remove();
+					}
+				});
+
+			}
+
+		</script>
+
+	</div>
+		
 </body>
 </html>
