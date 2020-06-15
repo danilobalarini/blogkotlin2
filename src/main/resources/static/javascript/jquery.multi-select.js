@@ -111,7 +111,7 @@
       var selectableLi = $('<li '+attributes+'><span>'+that.escapeHTML($option.text())+'</span></li>'),
           selectedLi = selectableLi.clone(),
           value = $option.val(),
-          elementId = that.sanitize(value);
+          elementId = value;
 
       selectableLi
         .data('ms-value', value)
@@ -133,7 +133,7 @@
 
       if ($optgroup.length > 0){
         var optgroupLabel = $optgroup.attr('label'),
-            optgroupId = that.sanitize(optgroupLabel),
+            optgroupId = optgroupLabel,
             $selectableOptgroup = that.$selectableUl.find('#optgroup-selectable-'+optgroupId),
             $selectionOptgroup = that.$selectionUl.find('#optgroup-selection-'+optgroupId);
 
@@ -358,7 +358,7 @@
 
       var that = this,
           ms = this.$element,
-          msIds = $.map(value, function(val){ return(that.sanitize(val)); }),
+          msIds = $.map(value, function(val){ return(val); }),
           selectables = this.$selectableUl.find('#' + msIds.join('-selectable, #')+'-selectable').filter(':not(.'+that.options.disabledClass+')'),
           selections = this.$selectionUl.find('#' + msIds.join('-selection, #') + '-selection').filter(':not(.'+that.options.disabledClass+')'),
           options = ms.find('option:not(:disabled)').filter(function(){ return($.inArray(this.value, value) > -1); });
@@ -414,7 +414,7 @@
 
       var that = this,
           ms = this.$element,
-          msIds = $.map(value, function(val){ return(that.sanitize(val)); }),
+          msIds = $.map(value, function(val){ return(val); }),
           selectables = this.$selectableUl.find('#' + msIds.join('-selectable, #')+'-selectable'),
           selections = this.$selectionUl.find('#' + msIds.join('-selection, #')+'-selection').filter('.ms-selected').filter(':not(.'+that.options.disabledClass+')'),
           options = ms.find('option').filter(function(){ return($.inArray(this.value, value) > -1); });
@@ -483,19 +483,8 @@
       if (typeof this.options.afterDeselect === 'function') {
         this.options.afterDeselect.call(this, values);
       }
-    },
-
-    sanitize: function(value){
-      var hash = 0, i, character;
-      if (value.length == 0) return hash;
-      var ls = 0;
-      for (i = 0, ls = value.length; i < ls; i++) {
-        character  = value.charCodeAt(i);
-        hash  = ((hash<<5)-hash)+character;
-        hash |= 0; // Convert to 32bit integer
-      }
-      return hash;
     }
+
   };
 
   /* MULTISELECT PLUGIN DEFINITION

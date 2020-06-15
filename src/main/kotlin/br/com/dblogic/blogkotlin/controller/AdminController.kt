@@ -60,7 +60,7 @@ class AdminController {
 								post.isDraft,
 								Instant.now(),
 								0,
-								mutableSetOf<Tag>(),
+								HashSet(tagService.findAll()),
 								"../${postService.createCoverImage(post)}")
 
 		model.addAttribute("post", facade)

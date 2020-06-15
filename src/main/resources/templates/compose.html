@@ -52,7 +52,7 @@
 							<div class="w-col" style="border: 1px solid #000000;">
 								<div id="preview-cover-image"
 									class="blog-composer-coverimage w-inline-block"
-									th:style="'background-image: url('+ ${post.coverImage} +');'"></span>
+									th:style="'background-image: url('+ ${post.coverImage} +');'">
 								</div>
 							</div>
 							<input type="file" name="coverImage" id="coverImage" /> <br/>
@@ -61,11 +61,14 @@
 					</div>
 
 					<div id="right" style="border: 1px dotted violet; position: absolute;">
-						<select th:field="${post.tags}" multiple="multiple" id="tagsSelect" name="tagSelect">
+						<select multiple="multiple" id="tagsSelect" name="tagSelect">
+							<option th:each="tag: ${post.tags}" 
+									th:value="${tag.id}" 
+									th:text="${tag.name}">
+							</option>
 						</select>
-						<a class="navigation-link w-nav-link" th:href="@{/admin/tags}" >Gerenciar Tags</a>
+						<a class="navigation-link w-nav-link" th:href="@{/admin/tags}">Gerenciar Tags</a>
 					</div>
-
 				</div>
 
 				<div class="w-col" style="border: 1px dotted blue; width: 100%;">
@@ -84,7 +87,7 @@
 
 					<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
 
-					<span id="spanPost" th:utext="${post.text}"></span>
+					<span id="spanPost" th:utext="${post.text}"></span>				
 
 				</div>
 			</div>
