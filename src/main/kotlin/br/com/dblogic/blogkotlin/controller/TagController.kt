@@ -2,7 +2,6 @@ package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.TagFacade
-import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.service.TagService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

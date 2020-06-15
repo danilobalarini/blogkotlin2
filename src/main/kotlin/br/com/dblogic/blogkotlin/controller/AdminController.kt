@@ -1,7 +1,6 @@
 package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.Post
-import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.service.TagService
