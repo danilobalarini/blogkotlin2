@@ -9,7 +9,7 @@ import javax.persistence.*
 data class Tag(@Id
                @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_tag")
                @GenericGenerator(name = "seq_tag", strategy = "native")
-               val id: Int = 0,
+               val id: Long = 0,
 
                @NaturalId
                var name: String = "",
@@ -19,6 +19,28 @@ data class Tag(@Id
 
     constructor(name: String): this() {
         this.name = name
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Tag
+
+        if (id != other.id) return false
+        if (name != other.name) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + name.hashCode()
+        return result
+    }
+
+    override fun toString(): String {
+        return "Tag(id=$id, name='$name')"
     }
 
 }

@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.model
 
+import br.com.dblogic.blogkotlin.model.facade.FrontPagePostFacade
 import org.hibernate.annotations.GenericGenerator
 import java.time.Instant
 import javax.persistence.*
@@ -77,6 +78,36 @@ data class Post(@Id
 	fun removeTag(tag: Tag) {
 		tags.remove(tag)
 		tag.posts.remove(this)
+	}
+
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (javaClass != other?.javaClass) return false
+
+		other as Post
+
+		if (id != other.id) return false
+		if (title != other.title) return false
+		if (text != other.text) return false
+		if (postImages != other.postImages) return false
+		if (comments != other.comments) return false
+		if (isDraft != other.isDraft) return false
+
+		return true
+	}
+
+	override fun hashCode(): Int {
+		var result = id.hashCode()
+		result = 31 * result + title.hashCode()
+		result = 31 * result + text.hashCode()
+		result = 31 * result + postImages.hashCode()
+		result = 31 * result + comments.hashCode()
+		result = 31 * result + isDraft.hashCode()
+		return result
+	}
+
+	override fun toString(): String {
+		return "Post(id=$id, title='$title', text='$text', postImages=$postImages, comments=$comments, isDraft=$isDraft)"
 	}
 
 }

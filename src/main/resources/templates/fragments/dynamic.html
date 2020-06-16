@@ -148,6 +148,8 @@
 						name : tagName
 					}
 
+					console.log("tag: " + JSON.stringify(tag));
+
 					$.ajax({
 						type: "POST",
 						url: "/tags/save",
@@ -161,7 +163,12 @@
                           								'<img id="image' + data.id + '" src="../images/delete-icon.png" width="16" onclick="deleteTag(this);">&nbsp;&nbsp;' +
                           								'<span>'+ data.name +'</span>' +
                       								'</li>');
-						}
+						},
+                    	error : function(jqXHR, textStatus, errorThrown) {
+                     		console.log("jqXHR: " + jqXHR.status);
+                     		console.log("textStatus: " + textStatus);
+                     		console.log("errorThrown: " + errorThrown);
+                    	}
 					});
 				});
 
@@ -186,7 +193,12 @@
 					success: function() {
 						console.log("deu certo");
 						$(removeli).remove();
-					}
+					},
+                    error : function(jqXHR, textStatus, errorThrown) {
+                     	console.log("jqXHR: " + jqXHR.status);
+                     	console.log("textStatus: " + textStatus);
+                     	console.log("errorThrown: " + errorThrown);
+                    }
 				});
 
 			}

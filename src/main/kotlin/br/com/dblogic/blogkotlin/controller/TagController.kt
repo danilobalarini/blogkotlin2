@@ -28,8 +28,8 @@ class TagController {
     }
 
     @GetMapping("/delete")
-    fun delete(@RequestParam(defaultValue = "0") id: Int){
-        if(id != 0) {
+    fun delete(@RequestParam(defaultValue = "0") id: Long){
+        if(id != 0L) {
             tagService.delete(Tag(id))
         }
     }

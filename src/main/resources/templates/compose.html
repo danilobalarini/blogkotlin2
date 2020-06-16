@@ -61,18 +61,22 @@
 					</div>
 
 					<div id="right" style="border: 1px dotted violet; position: absolute;">
+						<a class="navigation-link w-nav-link" th:href="@{/admin/tags}">Gerenciar Tags</a>
 						<select multiple="multiple" id="tagsSelect" name="tagSelect">
-							<option th:each="tag: ${post.tags}" 
+							<option th:each="tag: ${alltags}" 
 									th:value="${tag.id}" 
 									th:text="${tag.name}">
 							</option>
 						</select>
-						<a class="navigation-link w-nav-link" th:href="@{/admin/tags}">Gerenciar Tags</a>
+						<br/>
+						<a class="button" id="btnSaveTags">Salvar Tags</a>
 					</div>
+
 				</div>
 
 				<div class="w-col" style="border: 1px dotted blue; width: 100%;">
 					<input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
+					<input type="hidden" id="hidtags" name="hidtags" th:value="${idtags}">
 					<br/>
 					<input type="text" id="posttitle" name="txtTitle" th:field="${post.title}" size="60">
 					<br/><br/>
@@ -87,7 +91,7 @@
 
 					<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
 
-					<span id="spanPost" th:utext="${post.text}"></span>				
+					<span id="spanPost" th:utext="${post.text}"></span>
 
 				</div>
 			</div>
@@ -102,6 +106,11 @@
 		$(document).ready(function() {
 
 			$('#tagsSelect').multiSelect();
+			console.log("tags: " + $('#hidtags').val())
+			var tags = $('#hidtags').val().split(',');
+			for(var x=0;x<tags.length;x++) {
+				$('#tagsSelect').multiSelect('select', tags[x]);
+			}
 
 			var autosave_timer = null
 
@@ -172,6 +181,61 @@
                     }
 				});
 			});
+
+			$("#btnSaveTags").click(function() {
+				console.log("valores selecionados: " + $("#tagsSelect").val())
+				console.log("post: "+ $('#postid').val());
+				
+				var idsInCsv = '' + $("#tagsSelect").val();
+				var ids = getFromCSV(idsInCsv);
+
+				var listTags = [];
+				for(var x=0;x<ids.length;x++) {
+					var tag = {
+						id:ids[x]
+					}
+					listTags.push(tag);
+				}
+
+				console.log("listTags.length: " +  listTags.length)
+
+				var obj = {
+						id:parseInt($('#postid').val()),
+						tags:listTags
+				}
+
+				console.log("obj: " + JSON.stringify(obj));
+								
+				$.ajax({
+					url: "/post/updatetags",
+					type: "POST",
+					data: JSON.stringify(obj),
+					contentType: "application/json; charset=utf-8",
+					cache: false,
+					processData: false,
+					success: function (data) {
+						console.log("resposta: " + data)
+						console.log("as tags foram atualizadas com sucesso!!!");
+                    },
+                    error : function(jqXHR, textStatus, errorThrown) {
+                     	console.log("jqXHR: " + jqXHR.status);
+                     	console.log("textStatus: " + textStatus);
+                     	console.log("errorThrown: " + errorThrown);
+                    }
+				});
+
+			});
+
+			function getFromCSV(data) {
+				var csv = data.split(",");
+				var ids = [];
+
+				for(var x=0;x<csv.length;x++) {
+					ids.push(parseInt(csv[x]));
+				}
+				return ids;
+			}
+
 		});
 
 		function sendFile(file) {
@@ -190,6 +254,11 @@
 				success: function(url) {
 					console.log("URL: " + url)
 					$('#summernote').summernote("insertImage", url);
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.log("jqXHR: " + jqXHR.status);
+					console.log("textStatus: " + textStatus);
+					console.log("errorThrown: " + errorThrown);
 				}
 			});
 		}
@@ -216,7 +285,15 @@
 				url: "/post/update",
 				data: JSON.stringify(post),
 				contentType: "application/json; charset=utf-8",
-				dataType: "json"
+				dataType: "json",
+				success: function (data) {
+						console.log("post atualizado com sucesso!!!");
+                },
+                error : function(jqXHR, textStatus, errorThrown) {
+					console.log("jqXHR: " + jqXHR.status);
+					console.log("textStatus: " + textStatus);
+					console.log("errorThrown: " + errorThrown);
+				}
 			});
 
 			// later record end time

@@ -5,6 +5,8 @@ import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.service.PostService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -39,6 +41,13 @@ class PostController {
 		logger.info("post.title: " + post.title)
 		logger.info("post.text: " + post.text)
 		return postService.save(post)
+	}
+
+	@PostMapping("/updatetags")
+	fun updateTags(@RequestBody postFacade: PostFacade): ResponseEntity<String> {
+		postService.updateTags(postFacade)
+
+		return ResponseEntity("ok", HttpStatus.OK)
 	}
 
 }
