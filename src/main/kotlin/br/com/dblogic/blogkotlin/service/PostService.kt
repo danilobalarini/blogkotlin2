@@ -65,6 +65,19 @@ class PostService {
 		return postRepository.findById(id).get()
 	}
 
+	fun findByTag(tagname: String): List<PostFacade> {
+
+		val tag = tagService.findByName(tagname)
+		val posts = postRepository.findAllByTags(tag)
+		val facades = mutableListOf<PostFacade>()
+
+		for(p in posts) {
+			facades.add(postToFacade(p))
+		}
+
+		return facades
+	}
+
 	fun save(post: Post) : Post {
 		return postRepository.save(post)
 	}

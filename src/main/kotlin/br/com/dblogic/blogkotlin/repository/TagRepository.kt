@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface TagRepository : JpaRepository<Tag, Long>, JpaSpecificationExecutor<Tag> {
 
+    fun findByName(name: String): Tag
+
 }

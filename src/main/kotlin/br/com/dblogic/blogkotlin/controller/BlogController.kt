@@ -52,6 +52,12 @@ class BlogController {
 		return "allposts"
 	}
 
+	@GetMapping("/tags/{tag}")
+	fun findByTag(@PathVariable tag: String, model: Model) : String {
+		model.addAttribute("posts", postService.findByTag(tag))
+		return "showbytag"
+	}
+
 	@GetMapping("/getall-posts")
 	fun getAllPosts(@RequestParam(defaultValue = "0") pagenumber: Int,
 					@RequestParam(defaultValue = "10") pageSize: Int,

@@ -13,7 +13,9 @@
                          th:with="date=${post.createdAt}"
                          th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
                     <div class="post-info">|</div>
-                    <a class="post-info when-link" href="/categories/art">Art</a>
+                    <a class="post-info when-link" th:each="tag: ${post.tags}" 
+                                                   th:href="'/tags/'+${tag.name}"
+                                                   th:text="${tag.name}"></a>
                 </div>
                 <div class="grey-rule"></div>
                 <div class="body-copy w-richtext" th:utext="${post.text}"></div>

@@ -1,6 +1,7 @@
 package br.com.dblogic.blogkotlin.repository
 
 import br.com.dblogic.blogkotlin.model.Post
+import br.com.dblogic.blogkotlin.model.Tag
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.repository.PagingAndSortingRepository
@@ -15,5 +16,7 @@ interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<P
 	override fun deleteById(id: Long)
 	
 	fun findTop6ByIsDraftFalseOrderByCreatedAtDesc(): List<Post>
+
+	fun findAllByTags(tag: Tag): List<Post>
 
 }

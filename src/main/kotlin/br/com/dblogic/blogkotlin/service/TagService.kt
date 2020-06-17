@@ -26,6 +26,10 @@ class TagService {
                             .orElse(Tag())
     }
 
+    fun findByName(tagname: String): Tag {
+        return tagRepository.findByName(tagname)
+    }
+
     fun save(tag: Tag) : Tag  {
         logger.info("bateu no service")
 

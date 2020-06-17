@@ -15,7 +15,9 @@
 				<div class="post-info">|</div>
 				<div class="post-info" th:text=" '(' + ${frontPageFacade.postFacade.comments} + ') Comments'"></div>
 				<div class="post-info">|</div>
-				<a   class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
+				<a class="post-info when-link" th:each="tag: ${frontPageFacade.postFacade.tags}" 
+											   th:href="'/tags/'+${tag.name}"
+											   th:text="${tag.name}"></a>
 			</div>
 			<div class="grey-rule"></div>
 			<div class="body-copy w-richtext">
@@ -59,7 +61,9 @@
 							<div class="post-info">|</div>
 							<div class="post-info" th:text=" '(' + ${fpp.comments} + ') Comments'"></div>
 							<div class="post-info">|</div>
-							<a   class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
+							<a class="post-info when-link" th:each="tag: ${fpp.tags}" 
+														   th:href="'/tags/'+${tag.name}"
+														   th:text="${tag.name}"></a>
 						</div>
 						
 						<div class="post-summary-wrapper">
@@ -99,7 +103,52 @@
 							<div class="post-info">|</div>
 							<div class="post-info" th:text=" '(' + ${post.comments} + ') Comments'"></div>
 							<div class="post-info">|</div>
-							<a   class="post-info when-link" href="http://denali-template.webflow.io/categories/art">Art</a>
+							<a class="post-info when-link" th:each="tag: ${post.tags}" 
+														   th:href="'/tags/'+${tag.name}"
+														   th:text="${tag.name}"></a>
+
+						</div>
+						
+						<div class="post-summary-wrapper">
+							<p class="post-summary" th:if="${#strings.length(post.text) >= 130}" th:text="${#strings.substring(post.text, 0, 130)}"></p>
+							<p class="post-summary" th:unless="${#strings.length(post.text) >= 130}" th:text="${#strings.substring(post.text, 0, #strings.length(post.text))}"></p>
+							<a class="read-more-link" th:href="'/postid/' + ${post.id}">Saiba mais...</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- SHOW BY TAG -->
+	<div th:fragment="showbytag" th:each="post: ${posts}" class="w-dyn-item">
+		<div class="post-wrapper">
+			<div class="post-content">
+				<div class="w-row">
+					
+					<div class="w-col w-col-4 w-col-medium-4">
+						<a class="blog-image w-inline-block"
+							th:href="'/postid/' + ${post.id}"
+							th:style="'background-image: url('+ ${post.coverImage} +');'">
+						</a>
+					</div>
+					
+					<div class="w-col w-col-8 w-col-medium-8">
+						
+						<a class="blog-title-link w-inline-block" th:href="'/postid/' + ${post.id}">
+							<h2 th:text="${post.title}" class="blog-title"></h2>
+						</a>
+						
+						<div class="details-wrapper">
+							<div class="post-info"
+									th:with="date=${post.createdAt}"
+									th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
+							<div class="post-info">|</div>
+							<div class="post-info" th:text=" '(' + ${post.comments} + ') Comments'"></div>
+							<div class="post-info">|</div>
+							<a class="post-info when-link" th:each="tag: ${post.tags}" 
+														   th:href="'/tags/'+${tag.name}"
+														   th:text="${tag.name}"></a>
 						</div>
 						
 						<div class="post-summary-wrapper">
