@@ -92,26 +92,12 @@ class PostService {
 			return FrontPageFacade(facade, mutableListOf<PostFacade>())
 		} else {
 			val first = posts.first()
-			val facade = PostFacade(first.id,
-									first.title,
-									first.text,
-									first.isDraft,
-									first.createdAt,
-									first.comments.size,
-									first.tags,
-									createCoverImage(first))
+			val facade = postToFacade(first)
 
 			var listFacades = mutableListOf<PostFacade>()
 
 			for (p in posts.drop(1)) {
-				listFacades.add(PostFacade(p.id,
-						        		   p.title,
-										   p.text,
-										   p.isDraft,
-										   p.createdAt,
-						                   p.comments.size,
-										   p.tags,
-										   createCoverImage(p)))
+				listFacades.add(postToFacade(p))
 			}
 
 			return FrontPageFacade(facade, listFacades)
@@ -123,51 +109,31 @@ class PostService {
 		return PostAndCoverImageFacade(post, createCoverImage(post))
 	}
 
-	fun allPosts(): List<FrontPagePostFacade> {
-		val posts = postRepository.findAll()
+	fun allPosts(): List<PostFacade> {
+		val posts = cleanHtml(postRepository.findAll())
 
-		var listPostComments = mutableListOf<FrontPagePostFacade>()
+		var listPostComments = mutableListOf<PostFacade>()
 
 		for (p in posts.drop(1)) {
-			listPostComments.add(FrontPagePostFacade(p, commentRepository.countByPost(p), createCoverImage(p), p.createdAt))
+			listPostComments.add(postToFacade(p))
 		}
 
 		return listPostComments
 
 	}
 
-	fun getAllPosts(pageNumber: Int = 0, pageSize: Int = 10): List<FrontPagePostFacade> {
+	fun getAllPosts(pageNumber: Int = 0, pageSize: Int = 10): List<PostFacade> {
 
 		val paging = PageRequest.of(pageNumber, pageSize)
-		val pagedResult = postRepository.findAllCustomBy(paging)
+		val pagedResult = postRepository.findAll(paging)
 
-		val listPostComments = mutableListOf<FrontPagePostFacade>()
-		if(pagedResult.isNotEmpty()) {
-			for(p in pagedResult.toList()) {
+		val posts = mutableListOf<PostFacade>()
 
-				val coverImage = "${blogUtils.getDirectoryName(p.post.id, p.post.title, p.createdAt)}/${p.coverImage}"
-
-				listPostComments.add(FrontPagePostFacade(Post(p.post.id, p.post.title, p.post.text),
-														 p.commentCount,
-														 coverImage,
-														 p.createdAt))
-			}
-		}
-		return listPostComments
-	}
-
-	fun getAllPageable(pageable: Pageable): Page<FrontPagePostFacade> {
-
-		val page = postRepository.findAllPageable(pageable)
-
-		val facadeList = mutableListOf<FrontPagePostFacade>()
-		for(f in page.content) {
-			val dirname = blogUtils.getDirectoryName(f.post.id, f.post.title, f.createdAt)
-			f.coverImage = "$dirname/${f.coverImage}"
-			facadeList.add(f)
+		for(p in pagedResult.toList()) {
+			posts.add(postToFacade(p))
 		}
 
-		return PageImpl(facadeList, pageable, pageable.pageSize.toLong())
+		return posts
 	}
 
 	fun brandNewPost(): Post {
@@ -250,11 +216,13 @@ class PostService {
 
 	fun postToFacade(p: Post): PostFacade {
 		return PostFacade(p.id,
-				          p.title,
+						  p.title,
 						  p.text,
-		                  p.isDraft,
+						  p.isDraft,
 						  p.createdAt,
-						  p.comments.size)
+						  p.comments.size,
+						  p.tags,
+						  createCoverImage(p))
 	}
 
 	private fun cleanHtml(posts: List<Post>) : List<Post> {

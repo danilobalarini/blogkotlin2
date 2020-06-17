@@ -1,6 +1,5 @@
 package br.com.dblogic.blogkotlin.model
 
-import br.com.dblogic.blogkotlin.model.facade.FrontPagePostFacade
 import org.hibernate.annotations.GenericGenerator
 import java.time.Instant
 import javax.persistence.*

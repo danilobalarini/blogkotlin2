@@ -63,12 +63,4 @@ class BlogController {
 		return "allposts"
 	}
 
-	@GetMapping("/findPageable")
-	fun getAllPageable(pageable: Pageable, model: Model): String {
-
-		model.addAttribute("allposts", postService.getAllPageable(pageable))
-
-		return "allpageable"
-	}
-
 }
