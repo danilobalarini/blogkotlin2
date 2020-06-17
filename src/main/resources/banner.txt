@@ -1,0 +1,6 @@
+${AnsiColor.BRIGHT_RED}  ___.     .__                       __              __    .__    .__
+${AnsiColor.BRIGHT_RED}  \_ |__   |  |     ____     ____   |  | __  ____  _/  |_  |  |   |__|   ____
+${AnsiColor.BRIGHT_RED}   | __ \  |  |    /  _ \   / ___\  |  |/ / /  _ \ \   __\ |  |   |  |  /    \
+${AnsiColor.BRIGHT_RED}   | \_\ \ |  |__ (  <_> ) / /_/  > |    < (  <_> ) |  |   |  |__ |  | |   |  \
+${AnsiColor.BRIGHT_RED}   |___  / |____/  \____/  \___  /  |__|_ \ \____/  |__|   |____/ |__| |___|  /
+${AnsiColor.BRIGHT_RED}       \/                 /_____/        \/                                 \/
