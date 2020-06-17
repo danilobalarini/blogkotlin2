@@ -104,9 +104,8 @@ class PostService {
 		}
 	}
 
-	fun goArticle(id: Long): PostAndCoverImageFacade {
-		val post = findById(id)
-		return PostAndCoverImageFacade(post, createCoverImage(post))
+	fun goArticle(id: Long): PostFacade {
+		return postToFacade(findById(id))
 	}
 
 	fun allPosts(): List<PostFacade> {

@@ -4,7 +4,6 @@ import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -33,7 +32,7 @@ class BlogController {
 
 	@GetMapping("/postid/{id}")
 	fun goArticle(@PathVariable id: Long, model: Model): String {
-		model.addAttribute("postFacade", postService.goArticle(id))
+		model.addAttribute("post", postService.goArticle(id))
 		return "article"
 	}
 
