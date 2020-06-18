@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:spring="http://www.springframework.org/tags" 
+	  xmlns:form="http://www.springframework.org/tags/form">
 <body>
 
 	<!-- FRONT ARTICLE -->
@@ -129,7 +131,7 @@
 					<div class="w-col w-col-4 w-col-medium-4">
 						<a class="blog-image w-inline-block"
 							th:href="'/postid/' + ${post.id}"
-							th:style="'background-image: url('+ ${post.coverImage} +');'">
+							th:style="'background-image: url(../'+ ${post.coverImage} +');'">
 						</a>
 					</div>
 					
@@ -149,6 +151,7 @@
 							<a class="post-info when-link" th:each="tag: ${post.tags}" 
 														   th:href="'/tags/'+${tag.name}"
 														   th:text="${tag.name}"></a>
+
 						</div>
 						
 						<div class="post-summary-wrapper">
