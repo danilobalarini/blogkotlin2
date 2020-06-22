@@ -2,6 +2,7 @@ package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.utils.BlogUtils
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam
 @Controller
 @RequestMapping("")
 class BlogController {
+
+	private val logger = LoggerFactory.getLogger(BlogController::class.java)
 	
 	@Autowired
 	lateinit var postService: PostService
@@ -23,6 +26,9 @@ class BlogController {
 
 	@Value("\${blog.directory.name}")
 	lateinit var rootFolder: String
+
+	@Value("\${google.recaptcha.key.site}")
+	lateinit var recaptchaKeySite: String
 
 	@GetMapping("", "/home", "/index")
 	fun goHome(model: Model) : String {
@@ -42,7 +48,9 @@ class BlogController {
 	}
 
 	@GetMapping("/contact")
-	fun contact() : String {
+	fun contact(model: Model) : String {
+		model.addAttribute("keysite", recaptchaKeySite)
+		logger.info("keysite: $recaptchaKeySite")
 		return "contact"
 	}
 
