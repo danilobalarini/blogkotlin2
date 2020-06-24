@@ -1,21 +1,17 @@
 package br.com.dblogic.blogkotlin.service
 
-import br.com.dblogic.blogkotlin.model.Comment
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostImage
 import br.com.dblogic.blogkotlin.model.Tag
-import br.com.dblogic.blogkotlin.model.facade.*
-import br.com.dblogic.blogkotlin.repository.CommentRepository
+import br.com.dblogic.blogkotlin.model.facade.FrontPageFacade
+import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.io.File
 import java.nio.file.Files
@@ -27,227 +23,224 @@ import java.time.Instant
 @Service
 class PostService {
 
-	private val logger = LoggerFactory.getLogger(PostService::class.java)
-	
-	@Autowired
-	lateinit var postRepository: PostRepository
-	
-	@Autowired
-	lateinit var commentRepository: CommentRepository
+    private val logger = LoggerFactory.getLogger(PostService::class.java)
 
-	@Autowired
-	lateinit var postImageService: PostImageService
+    @Autowired
+    lateinit var postRepository: PostRepository
 
-	@Autowired
-	lateinit var tagService: TagService
+    @Autowired
+    lateinit var postImageService: PostImageService
 
-	@Autowired
-	lateinit var blogUtils: BlogUtils
+    @Autowired
+    lateinit var tagService: TagService
 
-	@Value("\${blog.directory.name}")
-	lateinit var rootFolder: String
+    @Autowired
+    lateinit var blogUtils: BlogUtils
 
-	fun findAll(): List<Post> {
-		return postRepository.findAll()
-	}
+    @Value("\${blog.directory.name}")
+    lateinit var rootFolder: String
 
-	fun returnAllFacades(): List<PostFacade> {
-		val facades = mutableListOf<PostFacade>()
+    fun findAll(): List<Post> {
+        return postRepository.findAll()
+    }
 
-		for(p in postRepository.findAll()) {
-			facades.add(postToFacade(p))
-		}
+    fun returnAllFacades(): List<PostFacade> {
+        val facades = mutableListOf<PostFacade>()
 
-		return facades
-	}
+        for (p in postRepository.findAll()) {
+            facades.add(postToFacade(p))
+        }
 
-	fun findById(id: Long) : Post {
-		return postRepository.findById(id).get()
-	}
+        return facades
+    }
 
-	fun findByTag(tagname: String): List<PostFacade> {
+    fun findById(id: Long): Post {
+        return postRepository.findById(id).get()
+    }
 
-		val tag = tagService.findByName(tagname)
-		val posts = postRepository.findAllByTags(tag)
-		val facades = mutableListOf<PostFacade>()
+    fun findByTag(tagname: String): List<PostFacade> {
 
-		for(p in posts) {
-			facades.add(postToFacade(p))
-		}
+        val tag = tagService.findByName(tagname)
+        val posts = postRepository.findAllByTags(tag)
+        val facades = mutableListOf<PostFacade>()
 
-		return facades
-	}
+        for (p in posts) {
+            facades.add(postToFacade(p))
+        }
 
-	fun save(post: Post) : Post {
-		return postRepository.save(post)
-	}
+        return facades
+    }
 
-	fun deleteById(id: Long) {
-		postRepository.deleteById(id)
-	}
+    fun save(post: Post): Post {
+        return postRepository.save(post)
+    }
 
-	fun frontPage() : FrontPageFacade {
-		logger.info("posts zero length? " + (postRepository.count() == 0L));
-		logger.info("posts length: ${postRepository.count()}");
-		val posts = cleanHtml(postRepository.findTop6ByIsDraftFalseOrderByCreatedAtDesc())
-		logger.info("### posts ###: " + posts.size)
+    fun deleteById(id: Long) {
+        postRepository.deleteById(id)
+    }
 
-		if(posts.isEmpty()) {
-			val facade = PostFacade(0,
-								"Não temos posts. Volte outro dia. Teremos bolinhos.",
-								"",
-								false,
-								Instant.now(),
-								0,
-								mutableSetOf<Tag>(),
-								"")
+    fun frontPage(): FrontPageFacade {
+        logger.info("posts zero length? " + (postRepository.count() == 0L));
+        logger.info("posts length: ${postRepository.count()}");
+        val posts = cleanHtml(postRepository.findTop6ByIsDraftFalseOrderByCreatedAtDesc())
+        logger.info("### posts ###: " + posts.size)
 
-			return FrontPageFacade(facade, mutableListOf<PostFacade>())
-		} else {
-			val first = posts.first()
-			val facade = postToFacade(first)
+        if (posts.isEmpty()) {
+            val facade = PostFacade(0,
+                    "Não temos posts. Volte outro dia. Teremos bolinhos.",
+                    "",
+                    false,
+                    Instant.now(),
+                    0,
+                    mutableSetOf<Tag>(),
+                    "")
 
-			var listFacades = mutableListOf<PostFacade>()
+            return FrontPageFacade(facade, mutableListOf<PostFacade>())
+        } else {
+            val first = posts.first()
+            val facade = postToFacade(first)
 
-			for (p in posts.drop(1)) {
-				listFacades.add(postToFacade(p))
-			}
+            var listFacades = mutableListOf<PostFacade>()
 
-			return FrontPageFacade(facade, listFacades)
-		}
-	}
+            for (p in posts.drop(1)) {
+                listFacades.add(postToFacade(p))
+            }
 
-	fun goArticle(id: Long): PostFacade {
-		return postToFacade(findById(id))
-	}
+            return FrontPageFacade(facade, listFacades)
+        }
+    }
 
-	fun allPosts(): List<PostFacade> {
-		val posts = cleanHtml(postRepository.findAll())
+    fun goArticle(id: Long): PostFacade {
+        return postToFacade(findById(id))
+    }
 
-		var listPostComments = mutableListOf<PostFacade>()
+    fun allPosts(): List<PostFacade> {
+        val posts = cleanHtml(postRepository.findAll())
 
-		for (p in posts.drop(1)) {
-			listPostComments.add(postToFacade(p))
-		}
+        var listPostComments = mutableListOf<PostFacade>()
 
-		return listPostComments
+        for (p in posts.drop(1)) {
+            listPostComments.add(postToFacade(p))
+        }
 
-	}
+        return listPostComments
 
-	fun getAllPosts(pageNumber: Int = 0, pageSize: Int = 10): List<PostFacade> {
+    }
 
-		val paging = PageRequest.of(pageNumber, pageSize)
-		val pagedResult = postRepository.findAll(paging)
+    fun getAllPosts(pageNumber: Int = 0, pageSize: Int = 10): List<PostFacade> {
 
-		val posts = mutableListOf<PostFacade>()
+        val paging = PageRequest.of(pageNumber, pageSize)
+        val pagedResult = postRepository.findAll(paging)
 
-		for(p in pagedResult.toList()) {
-			posts.add(postToFacade(p))
-		}
+        val posts = mutableListOf<PostFacade>()
 
-		return posts
-	}
+        for (p in pagedResult.toList()) {
+            posts.add(postToFacade(p))
+        }
 
-	fun brandNewPost(): Post {
-		var post = postRepository.save(Post())
-		val postImage = PostImage("${post.id}-coverimage.jpg","default cover image", postImageService.defaultCoverImage(post.title), true, post)
-		post.addPostImage(postImage)
+        return posts
+    }
 
-		val directory = blogUtils.getDirectoryNameFromPost(post)
-		logger.info("creating directory $directory")
-		val dirpath = blogUtils.appendToBlogDir(blogUtils.getDirectoryNameFromPost(post))
-		logger.info("creating dirpath $dirpath")
-		File("$dirpath").mkdirs()
+    fun brandNewPost(): Post {
+        var post = postRepository.save(Post())
+        val postImage = PostImage("${post.id}-coverimage.jpg", "default cover image", postImageService.defaultCoverImage(post.title), true, post)
+        post.addPostImage(postImage)
 
-		logger.info("filename ${postImage.filename}")
-		val filepath = Paths.get("$dirpath/${postImage.filename}")
-		Files.write(filepath, postImage.image, StandardOpenOption.CREATE)
+        val directory = blogUtils.getDirectoryNameFromPost(post)
+        logger.info("creating directory $directory")
+        val dirpath = blogUtils.appendToBlogDir(blogUtils.getDirectoryNameFromPost(post))
+        logger.info("creating dirpath $dirpath")
+        File("$dirpath").mkdirs()
 
-		return postRepository.save(post)
-	}
+        logger.info("filename ${postImage.filename}")
+        val filepath = Paths.get("$dirpath/${postImage.filename}")
+        Files.write(filepath, postImage.image, StandardOpenOption.CREATE)
 
-	fun createCoverImage(post: Post): String {
-		val directoryName = blogUtils.getDirectoryNameFromPost(post)
-		val imageName = postImageService.findCoverImage(post).filename
+        return postRepository.save(post)
+    }
 
-		return "$rootFolder/$directoryName/$imageName"
-	}
+    fun createCoverImage(post: Post): String {
+        val directoryName = blogUtils.getDirectoryNameFromPost(post)
+        val imageName = postImageService.findCoverImage(post).filename
 
-	fun createImageURL(post:Post, imageName: String): String {
-		val directoryName = blogUtils.getDirectoryNameFromPost(post)
-		return "$rootFolder/$directoryName/$imageName"
-	}
+        return "$rootFolder/$directoryName/$imageName"
+    }
 
-	fun updateComposer(p: PostFacade): PostFacade {
-		logger.info("updateComposer: ${p.id}")
+    fun createImageURL(post: Post, imageName: String): String {
+        val directoryName = blogUtils.getDirectoryNameFromPost(post)
+        return "$rootFolder/$directoryName/$imageName"
+    }
 
-		var post = findById(p.id)
+    fun updateComposer(p: PostFacade): PostFacade {
+        logger.info("updateComposer: ${p.id}")
 
-		if(!StringUtils.equals(post.title, p.title)) {
-			logger.info("the title has been changed")
+        var post = findById(p.id)
 
-			val olddir = blogUtils.getDirectoryPathFromPost(post)
-			logger.info("olddir $olddir")
+        if (!StringUtils.equals(post.title, p.title)) {
+            logger.info("the title has been changed")
 
-			post.title = p.title
-			val newdir = blogUtils.getDirectoryPathFromPost(post)
-			logger.info("newdir $newdir")
+            val olddir = blogUtils.getDirectoryPathFromPost(post)
+            logger.info("olddir $olddir")
 
-			logger.info("renaming directory")
-			Files.move(olddir, newdir, StandardCopyOption.REPLACE_EXISTING)
+            post.title = p.title
+            val newdir = blogUtils.getDirectoryPathFromPost(post)
+            logger.info("newdir $newdir")
 
-			val oldTitle = StringUtils.difference(newdir.toString(), olddir.toString())
-			val newTitle = StringUtils.difference(olddir.toString(), newdir.toString())
+            logger.info("renaming directory")
+            Files.move(olddir, newdir, StandardCopyOption.REPLACE_EXISTING)
 
-			post.text = StringUtils.replace(post.text, oldTitle, newTitle)
-		} else {
-			post.text = p.text
-		}
+            val oldTitle = StringUtils.difference(newdir.toString(), olddir.toString())
+            val newTitle = StringUtils.difference(olddir.toString(), newdir.toString())
 
-		post.isDraft = p.isDraft
+            post.text = StringUtils.replace(post.text, oldTitle, newTitle)
+        } else {
+            post.text = p.text
+        }
 
-		val savepost = postRepository.save(post)
+        post.isDraft = p.isDraft
 
-		return postToFacade(savepost)
-	}
+        val savepost = postRepository.save(post)
 
-	fun updateTags(postFacade: PostFacade) {
-		logger.info("updating tags")
+        return postToFacade(savepost)
+    }
 
-		var post = findById(postFacade.id)
-		post.tags.clear()
-		post = save(post)
+    fun updateTags(postFacade: PostFacade) {
+        logger.info("updating tags")
 
-		for(t in postFacade.tags) {
-			post.addTag(tagService.findById(t.id))
-		}
+        var post = findById(postFacade.id)
+        post.tags.clear()
+        post = save(post)
 
-		logger.info("saving!!!")
-		save(post)
-	}
+        for (t in postFacade.tags) {
+            post.addTag(tagService.findById(t.id))
+        }
 
-	fun postToFacade(p: Post): PostFacade {
-		return PostFacade(p.id,
-						  p.title,
-						  p.text,
-						  p.isDraft,
-						  p.createdAt,
-						  p.comments.size,
-						  p.tags,
-						  createCoverImage(p))
-	}
+        logger.info("saving!!!")
+        save(post)
+    }
 
-	private fun cleanHtml(posts: List<Post>) : List<Post> {
+    fun postToFacade(p: Post): PostFacade {
+        return PostFacade(p.id,
+                p.title,
+                p.text,
+                p.isDraft,
+                p.createdAt,
+                p.comments.size,
+                p.tags,
+                createCoverImage(p))
+    }
 
-		var listPost = mutableListOf<Post>()
-		for(p in posts) {
-			p.text = p.text.replace("</p><p>", " ")
-			p.text = p.text.replace("<br/>", " ")
-			p.text = p.text.replace("<br>", " ")
-			p.text = p.text.replace("\\<.*?>".toRegex(),"")
-			listPost.add(p)
-		}
-		return posts;
-	}
+    private fun cleanHtml(posts: List<Post>): List<Post> {
+
+        var listPost = mutableListOf<Post>()
+        for (p in posts) {
+            p.text = p.text.replace("</p><p>", " ")
+            p.text = p.text.replace("<br/>", " ")
+            p.text = p.text.replace("<br>", " ")
+            p.text = p.text.replace("\\<.*?>".toRegex(), "")
+            listPost.add(p)
+        }
+        return posts;
+    }
 
 }

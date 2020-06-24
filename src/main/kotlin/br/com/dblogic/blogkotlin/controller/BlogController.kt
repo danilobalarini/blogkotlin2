@@ -1,5 +1,7 @@
 package br.com.dblogic.blogkotlin.controller
 
+import br.com.dblogic.blogkotlin.model.facade.ContactFacade
+import br.com.dblogic.blogkotlin.service.CaptchaService
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.slf4j.LoggerFactory
@@ -7,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("")
@@ -22,6 +22,9 @@ class BlogController {
 	lateinit var postService: PostService
 
 	@Autowired
+	lateinit var captchaService: CaptchaService
+
+	@Autowired
 	lateinit var blogUtils: BlogUtils
 
 	@Value("\${blog.directory.name}")
@@ -29,6 +32,9 @@ class BlogController {
 
 	@Value("\${google.recaptcha.key.site}")
 	lateinit var recaptchaKeySite: String
+
+	@Value("\${google.recaptcha.register.action}")
+	lateinit var registerAction: String
 
 	@GetMapping("", "/home", "/index")
 	fun goHome(model: Model) : String {
@@ -50,7 +56,23 @@ class BlogController {
 	@GetMapping("/contact")
 	fun contact(model: Model) : String {
 		model.addAttribute("keysite", recaptchaKeySite)
+		model.addAttribute("registerAction", registerAction)
 		logger.info("keysite: $recaptchaKeySite")
+		logger.info("registerAction: $registerAction")
+		return "contact"
+	}
+
+	@PostMapping("/getContact")
+	fun getContact(@RequestBody contactFacade: ContactFacade, model: Model): String {
+		logger.info("!!!! chegou no getContact !!!!")
+
+		logger.info("nome:  ${contactFacade.name}")
+		logger.info("email: ${contactFacade.email}")
+		logger.info("mensagem: ${contactFacade.message}")
+		logger.info("response: ${contactFacade.response}")
+
+		captchaService.processResponse(contactFacade.response, registerAction)
+
 		return "contact"
 	}
 

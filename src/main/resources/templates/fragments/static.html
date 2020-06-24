@@ -17,24 +17,23 @@
 	</div>
 
 	<div th:fragment="contact" class="post-wrapper">
-		<input id="escondido" type="hidden" th:value="${keysite}"/>
-		<script th:src="'https://www.google.com/recaptcha/api.js?render=' + ${keysite} + ''"></script>
+		<script th:src="|https://www.google.com/recaptcha/api.js?render=${keysite}"></script>
 		<div class="post-content">
 			<div class="body-copy w-richtext">
 				<h1>Entre em contato</h1>
-				<p></p>
 			</div>
 			
 			<!-- div class="form-wrapper w-form" not managed anymore -->
 			<div class="form-wrapper">
 				
-				<form data-name="Email Form" id="email-form" name="email-form">
+				<form id="email-form" data-name="Email Form" name="email-form">
 					<label for="Name">Name</label>
-					<input class="text-field w-input" data-name="Name" id="Name" maxlength="256" name="Name" placeholder="Enter your name" type="text">
-					<label for="Email">Email Address</label><input class="text-field w-input" data-name="Email" id="Email" maxlength="256" name="Email" placeholder="Enter your email address" required="required" type="email">
+					<input class="text-field w-input" data-name="Name" id="txtName" maxlength="256" name="txtName" placeholder="Enter your name" type="text">
+					<label for="Email">Email Address</label>
+					<input class="text-field w-input" data-name="Email" id="txtEmail" maxlength="256" name="txtEmail" placeholder="Enter your email address" required="required" type="email">
 					<label for="Message">Message</label>
-					<textarea class="text-area text-field w-input" data-name="Message" id="Message" maxlength="5000" name="Message" placeholder="Enter your message" required="required"></textarea>
-					<input class="button w-button" data-wait="Please wait..." type="submit" value="Submit">				
+					<textarea class="text-area text-field w-input" data-name="Message" id="txtMessage" maxlength="5000" name="txtMessage" placeholder="Enter your message" required="required"></textarea>
+					<input id="btnSubmit" class="button w-button" data-wait="Please wait..." type="button" value="Submit">
 				<div class="success-message w-form-done">
 					<p class="success-text">Thank you! Your submission has been received!</p>
 				</div>
@@ -42,7 +41,57 @@
 				<div class="w-form-fail">
 					<p>Oops! Something went wrong while submitting the form</p>
 				</div>
-				
+
+				<script th:inline="javascript">
+					var serverContext = [[@{/}]];
+
+					$(document).ready(function() {
+						
+						var keysite = [[${keysite}]];
+						var register_action = [[${registerAction}]];
+
+						$('#btnSubmit').click(function() {
+							console.log('keysite: ' + keysite);
+							console.log('typeof grecaptcha: ' + typeof grecaptcha !== 'undefined');
+							
+							grecaptcha.execute(keysite, {action : register_action}).then(function(response) { 
+								//$('#response').val(response);
+								
+								var facade = {
+									name:$('#txtName').val(),
+									email:$('#txtEmail').val(),
+									message:$('#txtMessage').val(),
+									response:response
+								}
+						
+								console.log('form data: ' + JSON.stringify(facade));
+								//console.log('response: ' + response);
+
+								$.ajax({
+									url: "/getContact",
+									type: "POST",
+									data: JSON.stringify(facade),
+									contentType: "application/json; charset=utf-8",
+									dataType: "json",
+									cache: false,
+									processData: false,
+									success: function (data) {
+										console.log("resposta: " + data)
+										console.log("tudo certo!!!");
+									},
+									error : function(jqXHR, textStatus, errorThrown) {
+										console.log("jqXHR: " + jqXHR.status);
+										console.log("textStatus: " + textStatus);
+										console.log("errorThrown: " + errorThrown);
+									}
+								});
+
+							});
+
+						});
+					});
+
+				</script>
 			</div>
 		</div>
 	</div>
