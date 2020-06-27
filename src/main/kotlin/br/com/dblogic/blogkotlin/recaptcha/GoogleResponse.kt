@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.recaptcha
 
+import br.com.dblogic.blogkotlin.model.Comment
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -21,7 +22,7 @@ data class GoogleResponse(@JsonProperty("success")
                           val action: String? = "",
 
                           @JsonProperty("error-codes")
-                          val errorCodes: Array<ErrorCode>?) {
+                          val errorCodes: MutableList<ErrorCode> = mutableListOf<ErrorCode>()) {
 
     enum class ErrorCode {
         MissingSecret, InvalidSecret, MissingResponse, InvalidResponse, BadRequest, TimeoutOrDuplicate;
@@ -59,6 +60,7 @@ data class GoogleResponse(@JsonProperty("success")
     }
 
     override fun toString(): String {
-        return "GoogleResponse{" + "success=" + success + ", challengeTs='" + challengeTs + '\'' + ", hostname='" + hostname + '\'' + ", score='" + score + '\'' + ", action='" + action + '\'' + ", errorCodes=" + Arrays.toString(errorCodes) + '}'
+        //return "GoogleResponse{" + "success=" + success + ", challengeTs='" + challengeTs + '\'' + ", hostname='" + hostname + '\'' + ", score='" + score + '\'' + ", action='" + action + '\'' + ", errorCodes=" + Arrays.toString(errorCodes) + '}'
+        return "GoogleResponse{success=$success, challengeTs='$challengeTs', hostname='$hostname', score='$score', action='$action'}"
     }
 }

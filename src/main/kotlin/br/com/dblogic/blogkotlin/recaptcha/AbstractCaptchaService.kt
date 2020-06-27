@@ -42,4 +42,5 @@ abstract class AbstractCaptchaService {
             val xfHeader = request!!.getHeader("X-Forwarded-For") ?: return request!!.remoteAddr
             return xfHeader.split(",").toTypedArray()[0]
     }
+
 }

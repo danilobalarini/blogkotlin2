@@ -26,7 +26,7 @@ class CaptchaService : AbstractCaptchaService() {
     lateinit var threshold: String
 
     @Throws(ReCaptchaInvalidException::class)
-    fun processResponse(response: String?, action: String) {
+    fun processResponse(response: String?, action: String): GoogleResponse {
 
         securityCheck(response)
         LOGGER.info("passou no securityCheck")
@@ -34,8 +34,10 @@ class CaptchaService : AbstractCaptchaService() {
         val verifyUri = URI.create(java.lang.String.format(RECAPTCHA_URL_TEMPLATE, keysecret, response, getClientIP()))
         LOGGER.info("verifyUri: $verifyUri")
 
+        var googleResponse = GoogleResponse();
+
         try {
-            val googleResponse = restTemplate.getForObject(verifyUri, GoogleResponse::class.java)!!
+            googleResponse = restTemplate.getForObject(verifyUri, GoogleResponse::class.java)!!
             LOGGER.info("googleResponse: $googleResponse")
 
             if (!googleResponse.success || googleResponse.action != action || googleResponse.score < threshold.toFloat()) {
@@ -44,13 +46,15 @@ class CaptchaService : AbstractCaptchaService() {
                 }
                 throw ReCaptchaInvalidException("reCaptcha was not successfully validated")
             }
+
         } catch (rce: RestClientException) {
             //throw ReCaptchaUnavailableException("Registration unavailable at this time.  Please try again later.", rce)
             LOGGER.info(rce.toString())
         }
 
-        LOGGER.info("parece que tudo deu certo, só falta um return")
         reCaptchaAttemptService?.reCaptchaSucceeded(getClientIP())
+
+        return googleResponse
     }
 
 }

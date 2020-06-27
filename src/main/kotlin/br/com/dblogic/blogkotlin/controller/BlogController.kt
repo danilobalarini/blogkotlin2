@@ -2,6 +2,7 @@ package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.facade.ContactFacade
 import br.com.dblogic.blogkotlin.service.CaptchaService
+import br.com.dblogic.blogkotlin.service.ContactService
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.slf4j.LoggerFactory
@@ -23,6 +24,9 @@ class BlogController {
 
 	@Autowired
 	lateinit var captchaService: CaptchaService
+
+	@Autowired
+	lateinit var contactService: ContactService
 
 	@Autowired
 	lateinit var blogUtils: BlogUtils
@@ -55,23 +59,22 @@ class BlogController {
 
 	@GetMapping("/contact")
 	fun contact(model: Model) : String {
+		logger.debug("keysite: $recaptchaKeySite")
+		logger.debug("registerAction: $registerAction")
 		model.addAttribute("keysite", recaptchaKeySite)
 		model.addAttribute("registerAction", registerAction)
-		logger.info("keysite: $recaptchaKeySite")
-		logger.info("registerAction: $registerAction")
 		return "contact"
 	}
 
 	@PostMapping("/getContact")
 	fun getContact(@RequestBody contactFacade: ContactFacade, model: Model): String {
 		logger.info("!!!! chegou no getContact !!!!")
-
 		logger.info("nome:  ${contactFacade.name}")
 		logger.info("email: ${contactFacade.email}")
 		logger.info("mensagem: ${contactFacade.message}")
 		logger.info("response: ${contactFacade.response}")
 
-		captchaService.processResponse(contactFacade.response, registerAction)
+		contactService.save(contactFacade)
 
 		return "contact"
 	}
