@@ -23,23 +23,25 @@
 				<h1>Entre em contato</h1>
 			</div>
 			
-			<!-- div class="form-wrapper w-form" not managed anymore -->
 			<div class="form-wrapper">
 				
 				<form id="email-form" data-name="Email Form" name="email-form">
-					<label for="Name">Name</label>
-					<input class="text-field w-input" data-name="Name" id="txtName" maxlength="256" name="txtName" placeholder="Enter your name" type="text">
-					<label for="Email">Email Address</label>
-					<input class="text-field w-input" data-name="Email" id="txtEmail" maxlength="256" name="txtEmail" placeholder="Enter your email address" required="required" type="email">
-					<label for="Message">Message</label>
-					<textarea class="text-area text-field w-input" data-name="Message" id="txtMessage" maxlength="5000" name="txtMessage" placeholder="Enter your message" required="required"></textarea>
+					<label for="Name">Nome</label>
+					<input class="text-field w-input" data-name="Name" id="txtName" maxlength="256" name="txtName" placeholder="Digite seu nome" type="text">
+					<label for="Email">E-Mail</label>
+					<input class="text-field w-input" data-name="Email" id="txtEmail" maxlength="256" name="txtEmail" placeholder="Digite seu endereço de e-mail" required="required" type="email">
+					<label for="Message">Mensagem</label>
+					<textarea class="text-area text-field w-input" data-name="Message" id="txtMessage" maxlength="5000" name="txtMessage" placeholder="Digite a mensagem" required="required"></textarea>
 					<input id="btnSubmit" class="button w-button" data-wait="Please wait..." type="button" value="Submit">
-				<div class="success-message w-form-done">
-					<p class="success-text">Thank you! Your submission has been received!</p>
+				</form>
+
+				<div id="divSuccess" class="success-message w-form-done">
+					<p class="success-text">Muito Obrigado! Sua mensagem foi enviada!</p>
+					<span id="spanTimeout"></span>
 				</div>
 								
-				<div class="w-form-fail">
-					<p>Oops! Something went wrong while submitting the form</p>
+				<div id="divFailure" class="w-form-fail">
+					<p>Ooopa! Aconteceu algo errado no envio da mensagem.</p>
 				</div>
 
 				<script th:inline="javascript">
@@ -54,7 +56,6 @@
 							console.log('typeof grecaptcha: ' + typeof grecaptcha !== 'undefined');
 							
 							grecaptcha.execute(keysite, {action : register_action}).then(function(response) { 
-								//$('#response').val(response);
 								
 								var facade = {
 									name:$('#txtName').val(),
@@ -64,19 +65,16 @@
 								}
 						
 								console.log('form data: ' + JSON.stringify(facade));
-								//console.log('response: ' + response);
 
 								$.ajax({
 									url: "/getContact",
 									type: "POST",
 									data: JSON.stringify(facade),
 									contentType: "application/json; charset=utf-8",
-									dataType: "json",
 									cache: false,
 									processData: false,
 									success: function (data) {
-										console.log("resposta: " + data)
-										console.log("tudo certo!!!");
+										redirect(data);
 									},
 									error : function(jqXHR, textStatus, errorThrown) {
 										console.log("jqXHR: " + jqXHR.status);
@@ -87,11 +85,24 @@
 
 							});
 						});
+
+						function redirect(data) {
+							console.log("resposta: " + data)
+							console.log("tudo certo!!!");
+							$('#divSuccess').show();
+							var i=10;
+							setInterval(function () {
+								$("#spanTimeout").html(i);
+								i--;
+							}, 3000)
+							window.location.href = "/contact";
+						}
+
 					});
 				</script>
 			</div>
 		</div>
 	</div>
-	
+
 </body>
 </html>

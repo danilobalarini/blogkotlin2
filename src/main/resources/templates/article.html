@@ -17,12 +17,18 @@
 				<div th:replace="fragments/general.html :: sidebar_level_1"></div>
 				
 					<div class="content-column w-col w-col-9">
-					
+
 						<div th:replace="fragments/articlebody.html :: post"></div>
 
 						<div class="button-wrapper">
 							<a class="button w-button" th:href="@{/home}">←&nbsp;All posts</a>
 						</div>
+
+						<br />
+
+						<div th:replace="fragments/articlebody.html :: comments"></div>
+
+						<div th:replace="fragments/articlebody.html :: add-comment"></div>
 
 						<div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div>
 

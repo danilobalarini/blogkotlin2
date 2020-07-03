@@ -3,24 +3,60 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
       
     <body>
-        
-        <div th:fragment="post" class="post-wrapper">
-            <div class="blog-page-image" th:style="'background-image: url(../' + ${post.coverImage} + ');'"></div>
-            <div class="post-content">
-                <h1 th:text="${post.title}"></h1>
-                <div class="details-wrapper">
-                    <div class="post-info"
-                         th:with="date=${post.createdAt}"
-                         th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
-                    <div class="post-info">|</div>
-                    <a class="post-info when-link" th:each="tag: ${post.tags}" 
-                                                   th:href="'/tags/'+${tag.name}"
-                                                   th:text="${tag.name}"></a>
-                </div>
-                <div class="grey-rule"></div>
-                <div class="body-copy w-richtext" th:utext="${post.text}"></div>
+
+    <div th:fragment="post" class="post-wrapper">
+        <div class="blog-page-image" th:style="'background-image: url(../' + ${post.coverImage} + ');'"></div>
+        <div class="post-content">
+            <h1 th:text="${post.title}"></h1>
+            <div class="details-wrapper">
+                <div class="post-info"
+                     th:with="date=${post.createdAt}"
+                     th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
+                <div class="post-info">|</div>
+                <a class="post-info when-link" th:each="tag: ${post.tags}"
+                   th:href="'/tags/'+${tag.name}"
+                   th:text="${tag.name}"></a>
             </div>
+            <div class="grey-rule"></div>
+            <div class="body-copy w-richtext" th:utext="${post.text}"></div>
         </div>
+    </div>
+
+    <div th:fragment="comments" class="post-wrapper">
+
+        <div class="post-content">
+            
+        </div>
+
+        <script th:inline="javascript">
+            $(document).ready(function() { 
+
+            });
+        </script>
+    </div>
+
+    <div th:fragment="add-comment" class="post-wrapper">
+
+        <h3>Deixe seu comentário!</h3>
+
+        <div class="post-content">
+            <form id="email-form" data-name="Email Form" name="email-form">
+                <label for="Name">Nome</label>
+                <input class="text-field w-input" data-name="Name" id="txtName" maxlength="256" name="txtName" placeholder="Digite seu nome" type="text">
+                <label for="Email">E-Mail</label>
+                <input class="text-field w-input" data-name="Email" id="txtEmail" maxlength="256" name="txtEmail" placeholder="Digite seu endereço de e-mail" required="required" type="email">
+                <label for="Message">Mensagem</label>
+                <textarea class="text-area text-field w-input" data-name="Message" id="txtMessage" maxlength="5000" name="txtMessage" placeholder="Digite a mensagem" required="required"></textarea>
+                <input id="btnSubmit" class="button w-button" data-wait="Please wait..." type="button" value="Submit">
+            </form>
+        </div>
+
+        <script th:inline="javascript">
+            $(document).ready(function() { 
+
+            });
+        </script>
+    </div>
 
     </body>
 

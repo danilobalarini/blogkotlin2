@@ -5,7 +5,6 @@ import br.com.dblogic.blogkotlin.service.*
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import br.com.dblogic.blogkotlin.utils.DateUtils
 import com.thedeanda.lorem.LoremIpsum
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
