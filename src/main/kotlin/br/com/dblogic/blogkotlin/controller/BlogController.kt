@@ -2,6 +2,7 @@ package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.facade.ContactFacade
 import br.com.dblogic.blogkotlin.service.CaptchaService
+import br.com.dblogic.blogkotlin.service.CommentService
 import br.com.dblogic.blogkotlin.service.ContactService
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.utils.BlogUtils
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("")
@@ -27,6 +27,9 @@ class BlogController {
 
 	@Autowired
 	lateinit var contactService: ContactService
+
+	@Autowired
+	lateinit var commentService: CommentService
 
 	@Autowired
 	lateinit var blogUtils: BlogUtils
@@ -48,7 +51,10 @@ class BlogController {
 
 	@GetMapping("/postid/{id}")
 	fun goArticle(@PathVariable id: Long, model: Model): String {
-		model.addAttribute("post", postService.goArticle(id))
+
+		val post = postService.findById(id)
+		model.addAttribute("post", postService.goArticle(post.id))
+		model.addAttribute("comments", commentService.findByPost(post))
 		return "article"
 	}
 
