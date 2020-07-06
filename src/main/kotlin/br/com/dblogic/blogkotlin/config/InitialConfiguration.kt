@@ -29,9 +29,6 @@ class InitialConfiguration {
 	lateinit var commentService: CommentService
 
 	@Autowired
-	lateinit var userService: UserService
-
-	@Autowired
 	lateinit var postImageService: PostImageService
 
 	@Autowired
@@ -92,8 +89,6 @@ class InitialConfiguration {
 		logger.info("creating all data")
 
 		val maxPosts = 5
-		val maxUsers = 2
-		val users = createusers(maxUsers)
 
 		val lorem = LoremIpsum.getInstance()
 		
@@ -117,11 +112,13 @@ class InitialConfiguration {
 
 				logger.info("Comment " + y + " - instant: " + dateUtils.toLocalDate(plusInstantComment))
 				
-				val comment = Comment("" + y + ": " + lorem.getTitle(2, 4),
-									  post,
-									  users.get(ThreadLocalRandom.current().nextInt(0, maxUsers)),
+				val comment = Comment(post,
+									  "" + y + ": " + lorem.getTitle(2, 4),
+									  "" + y + ": " + lorem.getTitle(2, 4),
+									  "" + y + ": " + lorem.getTitle(2, 4),
+									  false,
 						 			  plusInstantComment)
-				
+
 				post.addComment(comment)
 				plusInstantComment = dateUtils.plusInstantUntilNow(plusInstantComment)
 			}
@@ -140,18 +137,6 @@ class InitialConfiguration {
 		// tagService.save(Tag(StringUtils.upperCase("javascript")))
 		// tagService.save(Tag(StringUtils.upperCase("linux")))
 		// tagService.save(Tag(StringUtils.upperCase("off topic")))
-	}
-	
-	fun createusers(max: Int): List<User> {
-		
-		val lorem = LoremIpsum.getInstance()
-		var listUsers = mutableListOf<User>()
-		
-		for(x in 1..max) {
-			val user = User(x, lorem.getTitle(1, 3))
-			listUsers.add(userService.save(user))
-		}
-		return listUsers
 	}
 
 }

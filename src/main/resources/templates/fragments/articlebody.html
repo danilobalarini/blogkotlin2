@@ -24,8 +24,12 @@
 
     <div th:fragment="comments" class="post-wrapper">
 
-        <div class="post-content">
-            
+        <div class="post-content" th:each="comment : ${comments}">
+            <div th:text="${comment.name}"></div>
+            <div th:text="${comment.email}"></div>
+            <div th:text="${comment.text}"></div>
+            <div th:with="date=${comment.createdAt}"
+                 th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
         </div>
 
         <script th:inline="javascript">

@@ -11,40 +11,36 @@ data class Comment(@Id
 				   @GenericGenerator(name = "seq_comment", strategy = "native")
 		   		   val id: Long = 0L,
 
-				   @Lob
-		   		   var text: String = "",
-				   
 				   @ManyToOne(fetch = FetchType.LAZY)
 				   @JoinColumn(name = "post_id")
 				   var post: Post? = Post(),
 				   
-				   @ManyToOne(fetch = FetchType.LAZY)
-				   @JoinColumn(name = "user_id")
-				   var user: User = User()) : DateAudit() {
-	
-	constructor(text: String, post: Post, user: User): this() {
-		this.text = text
-		this.post = post
-		this.user = user
-	}
+				   var name: String = "",
 
-	constructor(text: String, post: Post, user: User, createdAt: Instant): this() {
-		this.text = text
+				   var email: String = "",
+
+				   @Lob
+				   var text: String = "",
+
+				   var isApproved: Boolean = false): DateAudit() {
+
+	constructor(post: Post, text: String, name: String, email: String, isApproved: Boolean, createdAt: Instant): this() {
 		this.post = post
-		this.user = user
+		this.text = text
+		this.name = name
+		this.email = email
+		this.isApproved = isApproved
 		this.createdAt = createdAt
 	}
-	
-	fun addComment(text: String, post: Post, user: User) {
+
+	fun addComment(text: String, post: Post) {
 		this.text = text
 		this.post = post
-		this.user = user
 	}
-	
-	fun removeComment(text: String, post: Post, user: User) {
+
+	fun removeComment(text: String, post: Post) {
 		this.text = text
 		this.post = post
-		this.user = user
 	}
 
 	override fun toString(): String {
