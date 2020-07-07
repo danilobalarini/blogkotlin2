@@ -45,7 +45,9 @@ class PostImageService {
 
     fun findCoverImage(post: Post): PostImage {
         logger.info("### findCoverImage post: ${post.id}")
-        return postImageRepository.findByPostAndIsCoverImageTrue(post)
+        val image = postImageRepository.findByPostAndIsCoverImageTrue(post)
+        logger.info("### findCoverImage ran successfully")
+        return image
     }
 
     private fun getName(multiPartFile: MultipartFile) : String {
@@ -59,6 +61,7 @@ class PostImageService {
     }
 
     fun updateCoverImage(id: Long, coverImage: MultipartFile): String {
+        logger.info("entrou no updateCoverImage")
 
         val post = postService.findById(id)
         val deleteImage = postImageRepository.findByPostAndIsCoverImageTrue(post)

@@ -5,6 +5,7 @@ import br.com.dblogic.blogkotlin.model.PostImage
 import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
+import br.com.dblogic.blogkotlin.model.facade.TagFacade
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.apache.commons.lang3.StringUtils
@@ -92,7 +93,7 @@ class PostService {
                     false,
                     Instant.now(),
                     0,
-                    mutableSetOf<Tag>(),
+                    mutableSetOf<TagFacade>(),
                     "")
 
             return FrontPageFacade(facade, mutableListOf<PostFacade>())
@@ -160,10 +161,16 @@ class PostService {
     }
 
     fun createCoverImage(post: Post): String {
+        logger.info("entering createCoverImage")
         val directoryName = blogUtils.getDirectoryNameFromPost(post)
+        logger.info("set up directoryName: $directoryName")
         val imageName = postImageService.findCoverImage(post).filename
+        logger.info("set up imageName: $imageName")
 
-        return "$rootFolder/$directoryName/$imageName"
+        val url = "$rootFolder/$directoryName/$imageName"
+        logger.info("set up url: $url")
+
+        return url
     }
 
     fun createImageURL(post: Post, imageName: String): String {
@@ -220,14 +227,17 @@ class PostService {
     }
 
     fun postToFacade(p: Post): PostFacade {
+
+        var tags = tagService.toSetFacade(p.tags)
+
         return PostFacade(p.id,
-                p.title,
-                p.text,
-                p.isDraft,
-                p.createdAt,
-                p.comments.size,
-                p.tags,
-                createCoverImage(p))
+                          p.title,
+                          p.text,
+                          p.isDraft,
+                          p.createdAt,
+                          p.comments.size,
+                          tags,
+                          createCoverImage(p))
     }
 
     private fun cleanHtml(posts: List<Post>): List<Post> {

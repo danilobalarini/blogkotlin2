@@ -59,14 +59,14 @@ class AdminController {
 								post.isDraft,
 								Instant.now(),
 								0,
-								post.tags,
+								tagService.toSetFacade(post.tags),
 								"../${postService.createCoverImage(post)}")
 
 		model.addAttribute("post", facade)
 		model.addAttribute("alltags", HashSet(tagService.findAll()))
 		model.addAttribute("idtags", tagService.onlyIds(post.tags))
 
-		logger.info("onlyids: " + tagService.onlyIds(facade.tags))
+		logger.info("onlyids: " + tagService.onlyIds(post.tags))
 
 		return "compose"
 	}

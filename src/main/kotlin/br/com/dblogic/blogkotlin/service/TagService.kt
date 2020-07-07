@@ -64,4 +64,13 @@ class TagService {
         return csv
     }
 
+    fun toSetFacade(tags: MutableSet<Tag>): MutableSet<TagFacade> {
+        val tagsFacade = mutableSetOf<TagFacade>()
+        for(t in tags) {
+            val facade = TagFacade(t.id, t.name, false)
+            tagsFacade.add(facade)
+        }
+        return tagsFacade
+    }
+
 }

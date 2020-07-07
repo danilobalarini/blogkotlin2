@@ -14,7 +14,7 @@ class CommentService {
 	lateinit var commentRepository: CommentRepository
 
 	fun count(): Long {
-		return commentRepository.count();
+		return commentRepository.count()
 	}
 	
 	fun findAll(): List<Comment> {
