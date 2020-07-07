@@ -9,6 +9,6 @@ data class PostFacade(val id: Long = 0,
                       var isDraft: Boolean = true,
                       var createdAt: Instant = Instant.now(),
                       var comments: Int = 0,
-                      var tags: MutableSet<Tag> = mutableSetOf<Tag>(),
+                      var tags: MutableSet<TagFacade> = mutableSetOf<TagFacade>(),
                       var coverImage: String = "") {
 }

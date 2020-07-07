@@ -24,35 +24,35 @@
 
     <div th:fragment="comments" class="post-wrapper">
 
+        <div th:fragment="add-comment" class="post-wrapper">
+
+            <h3>Deixe seu comentário!</h3>
+    
+            <div class="post-content">
+                <form id="email-form" data-name="Email Form" name="email-form">
+                    <label for="Name">Nome</label>
+                    <input class="text-field w-input" data-name="Name" id="txtName" maxlength="256" name="txtName" placeholder="Digite seu nome" type="text">
+                    <label for="Email">E-Mail</label>
+                    <input class="text-field w-input" data-name="Email" id="txtEmail" maxlength="256" name="txtEmail" placeholder="Digite seu endereço de e-mail" required="required" type="email">
+                    <label for="Message">Mensagem</label>
+                    <textarea class="text-area text-field w-input" data-name="Message" id="txtMessage" maxlength="5000" name="txtMessage" placeholder="Digite a mensagem" required="required"></textarea>
+                    <input id="btnSubmit" class="button w-button" data-wait="Please wait..." type="button" value="Submit">
+                </form>
+            </div>
+    
+            <script th:inline="javascript">
+                $(document).ready(function() { 
+                    
+                });
+            </script>
+        </div>
+
         <div class="post-content" th:each="comment : ${comments}">
             <div th:text="${comment.name}"></div>
             <div th:text="${comment.email}"></div>
             <div th:text="${comment.text}"></div>
             <div th:with="date=${comment.createdAt}"
                  th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
-        </div>
-
-        <script th:inline="javascript">
-            $(document).ready(function() { 
-
-            });
-        </script>
-    </div>
-
-    <div th:fragment="add-comment" class="post-wrapper">
-
-        <h3>Deixe seu comentário!</h3>
-
-        <div class="post-content">
-            <form id="email-form" data-name="Email Form" name="email-form">
-                <label for="Name">Nome</label>
-                <input class="text-field w-input" data-name="Name" id="txtName" maxlength="256" name="txtName" placeholder="Digite seu nome" type="text">
-                <label for="Email">E-Mail</label>
-                <input class="text-field w-input" data-name="Email" id="txtEmail" maxlength="256" name="txtEmail" placeholder="Digite seu endereço de e-mail" required="required" type="email">
-                <label for="Message">Mensagem</label>
-                <textarea class="text-area text-field w-input" data-name="Message" id="txtMessage" maxlength="5000" name="txtMessage" placeholder="Digite a mensagem" required="required"></textarea>
-                <input id="btnSubmit" class="button w-button" data-wait="Please wait..." type="button" value="Submit">
-            </form>
         </div>
 
         <script th:inline="javascript">

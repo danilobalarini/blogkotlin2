@@ -31,5 +31,4 @@ data class PostImage(@Id
         this.isCoverImage = isCoverImage
         this.post = post
     }
-
 }
