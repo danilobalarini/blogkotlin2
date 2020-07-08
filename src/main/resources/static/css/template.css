@@ -2421,6 +2421,13 @@ figcaption {
 	padding: 20px;
 }
 
+.post-comments {
+	padding-left: 20px;
+	padding-right: 20px;
+	/*padding-top: 20px;
+	padding-bottom: 20px; */
+}
+
 .post-summary {
 	display: inline;
 	color: #aaa;

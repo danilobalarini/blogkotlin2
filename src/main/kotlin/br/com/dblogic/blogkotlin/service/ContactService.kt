@@ -20,16 +20,10 @@ class ContactService {
     private val logger = LoggerFactory.getLogger(ContactService::class.java)
 
     @Autowired
-    lateinit var captchaService: CaptchaService
-
-    @Autowired
     lateinit var contactRepository: ContactRepository
 
     @Autowired
-    lateinit var captchaResponseRepository: CaptchaResponseRepository
-
-    @Value("\${google.recaptcha.register.action}")
-    lateinit var registerAction: String
+    lateinit var captchaService: CaptchaService
 
     fun save(contactFacade: ContactFacade) {
 
@@ -40,29 +34,9 @@ class ContactService {
             val c = facadeToContact(contactFacade)
             val contact = contactRepository.save(c)
 
-            val response = captchaService.processResponse(contactFacade.response, registerAction)
-            val captchaResponse = responseToCaptcha(response, contact)
-
             logger.info("saving captcha response of contact")
-            captchaResponseRepository.save(captchaResponse)
+            captchaService.save(contactFacade.response, CaptchaEvent.CONTACT, contact.id)
         }
-
-    }
-
-    private fun responseToCaptcha(googleResponse: GoogleResponse, contact: Contact) : CaptchaResponse {
-
-        val challengeTs = StringUtils.replace(StringUtils.defaultString(googleResponse.challengeTs), "Z", StringUtils.EMPTY)
-        val hostname = StringUtils.defaultString(googleResponse.hostname)
-        val action = StringUtils.defaultString(googleResponse.action)
-
-        return CaptchaResponse(0L,
-                               googleResponse.success,
-                               LocalDateTime.parse(challengeTs),
-                               hostname,
-                               googleResponse.score,
-                               action,
-                               CaptchaEvent.CONTACT,
-                               contact.id)
     }
 
     private fun facadeToContact(contactFacade: ContactFacade): Contact {

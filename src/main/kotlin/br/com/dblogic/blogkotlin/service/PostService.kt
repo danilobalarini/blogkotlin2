@@ -111,10 +111,6 @@ class PostService {
         }
     }
 
-    fun goArticle(id: Long): PostFacade {
-        return postToFacade(findById(id))
-    }
-
     fun allPosts(): List<PostFacade> {
         val posts = cleanHtml(postRepository.findAll())
 

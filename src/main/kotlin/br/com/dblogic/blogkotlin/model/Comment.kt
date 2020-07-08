@@ -24,6 +24,14 @@ data class Comment(@Id
 
 				   var isApproved: Boolean = false): DateAudit() {
 
+	constructor(post: Post, name: String, email: String, text: String, isApproved: Boolean): this() {
+		this.post = post
+		this.name = name
+		this.email = email
+		this.text = text
+		this.isApproved = isApproved
+	}
+
 	constructor(post: Post, text: String, name: String, email: String, isApproved: Boolean, createdAt: Instant): this() {
 		this.post = post
 		this.text = text

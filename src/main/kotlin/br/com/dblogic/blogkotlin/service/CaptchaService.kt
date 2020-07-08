@@ -1,20 +1,30 @@
 package br.com.dblogic.blogkotlin.service
 
+import br.com.dblogic.blogkotlin.model.CaptchaEvent
+import br.com.dblogic.blogkotlin.model.CaptchaResponse
+import br.com.dblogic.blogkotlin.model.Contact
 import br.com.dblogic.blogkotlin.recaptcha.AbstractCaptchaService
 import br.com.dblogic.blogkotlin.recaptcha.GoogleResponse
 import br.com.dblogic.blogkotlin.recaptcha.ReCaptchaInvalidException
+import br.com.dblogic.blogkotlin.repository.CaptchaResponseRepository
+import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import java.net.URI
+import java.time.LocalDateTime
 
 @Service
 class CaptchaService : AbstractCaptchaService() {
 
     @Autowired
     lateinit var restTemplate: RestTemplate
+
+    @Autowired
+    lateinit var captchaResponseRepository: CaptchaResponseRepository
 
     @Value("\${google.recaptcha.key.site}")
     lateinit var keysite: String
@@ -26,7 +36,7 @@ class CaptchaService : AbstractCaptchaService() {
     lateinit var threshold: String
 
     @Throws(ReCaptchaInvalidException::class)
-    fun processResponse(response: String?, action: String): GoogleResponse {
+    fun processResponse(response: String?, captchaEvent: CaptchaEvent): GoogleResponse {
 
         securityCheck(response)
         LOGGER.info("passou no securityCheck")
@@ -40,7 +50,7 @@ class CaptchaService : AbstractCaptchaService() {
             googleResponse = restTemplate.getForObject(verifyUri, GoogleResponse::class.java)!!
             LOGGER.info("googleResponse: $googleResponse")
 
-            if (!googleResponse.success || googleResponse.action != action || googleResponse.score < threshold.toFloat()) {
+            if (!googleResponse.success || googleResponse.action != captchaEvent.name || googleResponse.score < threshold.toFloat()) {
                 if (googleResponse.hasClientError()) {
                     reCaptchaAttemptService?.reCaptchaFailed(getClientIP())
                 }
@@ -55,6 +65,30 @@ class CaptchaService : AbstractCaptchaService() {
         reCaptchaAttemptService?.reCaptchaSucceeded(getClientIP())
 
         return googleResponse
+    }
+
+    fun save(captchaResponse: String, captchaEvent: CaptchaEvent, id: Long): CaptchaResponse {
+
+        val response = processResponse(captchaResponse, captchaEvent)
+        val cr = responseToCaptcha(response, id)
+
+        return captchaResponseRepository.save(cr)
+    }
+
+    fun responseToCaptcha(googleResponse: GoogleResponse, id: Long) : CaptchaResponse {
+
+        val challengeTs = StringUtils.replace(StringUtils.defaultString(googleResponse.challengeTs), "Z", StringUtils.EMPTY)
+        val hostname = StringUtils.defaultString(googleResponse.hostname)
+        val action = StringUtils.defaultString(googleResponse.action)
+
+        return CaptchaResponse(0L,
+                               googleResponse.success,
+                               LocalDateTime.parse(challengeTs),
+                               hostname,
+                               googleResponse.score,
+                               action,
+                               CaptchaEvent.CONTACT,
+                               id)
     }
 
 }
