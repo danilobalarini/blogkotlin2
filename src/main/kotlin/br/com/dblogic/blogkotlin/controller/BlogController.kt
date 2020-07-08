@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.controller
 
+import br.com.dblogic.blogkotlin.model.CaptchaEvent
 import br.com.dblogic.blogkotlin.model.facade.ContactFacade
 import br.com.dblogic.blogkotlin.service.CaptchaService
 import br.com.dblogic.blogkotlin.service.CommentService
@@ -40,9 +41,6 @@ class BlogController {
 	@Value("\${google.recaptcha.key.site}")
 	lateinit var recaptchaKeySite: String
 
-	@Value("\${google.recaptcha.register.action}")
-	lateinit var registerAction: String
-
 	@GetMapping("", "/home", "/index")
 	fun goHome(model: Model) : String {
 		model.addAttribute("frontPageFacade", postService.frontPage())
@@ -51,10 +49,11 @@ class BlogController {
 
 	@GetMapping("/postid/{id}")
 	fun goArticle(@PathVariable id: Long, model: Model): String {
-
 		val post = postService.findById(id)
-		model.addAttribute("post", postService.goArticle(post.id))
+		model.addAttribute("post", postService.postToFacade(post))
 		model.addAttribute("comments", commentService.findByPost(post))
+		model.addAttribute("keysite", recaptchaKeySite)
+		model.addAttribute("commentAction", CaptchaEvent.COMMENT)
 		return "article"
 	}
 
@@ -66,9 +65,9 @@ class BlogController {
 	@GetMapping("/contact")
 	fun contact(model: Model) : String {
 		logger.debug("keysite: $recaptchaKeySite")
-		logger.debug("registerAction: $registerAction")
+		logger.debug("registerAction: ${CaptchaEvent.CONTACT}")
 		model.addAttribute("keysite", recaptchaKeySite)
-		model.addAttribute("registerAction", registerAction)
+		model.addAttribute("registerAction", CaptchaEvent.CONTACT)
 		return "contact"
 	}
 
