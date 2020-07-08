@@ -57,7 +57,7 @@
                                     post:$('#postid').val(),
 									name:$('#txtName').val(),
 									email:$('#txtEmail').val(),
-									message:$('#txtMessage').val(),
+									text:$('#txtMessage').val(),
 									response:response
 								}
                                 
@@ -80,21 +80,17 @@
 										console.log("errorThrown: " + errorThrown);
 									}
 								});
-
 							});
 						});
-
-
                 });
             </script>
         </div>
 
         <div class="post-comments" th:each="comment : ${comments}">
-            <div th:text="${comment.name}"></div>
-            <div th:text="${comment.email}"></div>
-            <div th:text="${comment.text}"></div>
-            <div th:with="date=${comment.createdAt}"
+            <div class="comments-author" th:text="${comment.name}"></div>
+            <div class="comments-date" th:with="date=${comment.createdAt}"
                  th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
+            <p class="comments-content" th:text="${comment.text}"></p>
             <div class="grey-rule"></div>
         </div>
         <br />
