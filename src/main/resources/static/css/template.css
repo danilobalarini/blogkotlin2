@@ -2453,6 +2453,26 @@ figcaption {
 	color: #333;
 }
 
+.comments-author {
+	text-transform: uppercase;
+	font-size: 14px;
+	font-weight: bold;
+	color: #6B6B6B;
+}
+
+.comments-date {
+	font-size: 12px;
+	color: darkblue;
+	font-weight: bold;
+}
+
+.comments-content {
+	color: #6B6B6B;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
 .blog-title-link {
 	-webkit-transition: opacity 200ms ease;
 	transition: opacity 200ms ease;
