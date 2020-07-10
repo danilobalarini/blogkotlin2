@@ -36,13 +36,12 @@
             var options = context.options;
             var lang = options.langInfo;
 
-
             // add button
 
             context.memo('button.highlight', function () {
                 // create button
                 var button = ui.button({
-                    contents: '<i class="fa fa-file-code-o"></i>',
+                    contents: '<i class="fa-file-code"></i>',
                     tooltip: 'highlight',
                     click: function () {
                         self.show()
