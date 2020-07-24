@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.util.FileSystemUtils
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -52,9 +53,15 @@ class InitialConfiguration {
 			logger.info("opa e ae")
 		}
 
+		clearBlogDirectory();
+
 		checkPosts()
 
 		logger.info("Comment Count: " + commentService.count())
+	}
+
+	private fun clearBlogDirectory() {
+		FileSystemUtils.deleteRecursively(blogUtils.getBlogDir())
 	}
 
 	fun checkPosts() {

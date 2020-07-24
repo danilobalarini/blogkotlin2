@@ -22,6 +22,11 @@ class BlogUtils {
     @Value("\${blog.root.folder}")
     lateinit var blogFolderName: String
 
+    fun getBlogDir(): Path? {
+        val blogdir: Path = Paths.get("").toAbsolutePath()
+        return Paths.get("$blogdir/$blogFolderName").toAbsolutePath()
+    }
+
     fun appendToBlogDir(pathToAdd: String): String {
 
         val currentWorkingDir: Path = Paths.get("").toAbsolutePath()
