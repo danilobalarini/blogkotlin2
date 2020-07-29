@@ -121,7 +121,6 @@ class PostService {
         }
 
         return listPostComments
-
     }
 
     fun getAllPosts(pageNumber: Int = 0, pageSize: Int = 10): List<PostFacade> {
@@ -220,6 +219,19 @@ class PostService {
 
         logger.info("saving!!!")
         save(post)
+    }
+
+    fun sumPageView(id: Long) {
+        postRepository.sumPageView(id)
+    }
+
+    fun mostVisitedPosts(): List<PostFacade> {
+
+        val facades = mutableListOf<PostFacade>()
+        for(p in postRepository.findTop2ByOrderByPageviewDesc()) {
+            facades.add(postToFacade(p))
+        }
+        return facades
     }
 
     fun postToFacade(p: Post): PostFacade {

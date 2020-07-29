@@ -13,12 +13,9 @@
 		<div class="grey-rule-sidebar"></div>
 		<h2 class="small-heading">Posts em alta:</h2>
 		<div class="feature-posts-list w-dyn-list">
-			<div class="w-dyn-items">
+			<div th:each="post: ${mostvisited}" class="w-dyn-items">
 				<div class="w-dyn-item">
-					<a class="small-post-link" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino">According a funnily until pre-set or arrogant well cheerful</a>
-				</div>
-				<div class="w-dyn-item">
-					<a class="small-post-link" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait">Overlaid the jeepers uselessly much excluding</a>
+					<a class="small-post-link" th:href="'/postid/' + ${post.id}" th:text="${post.title}"></a>
 				</div>
 			</div>
 		</div>
@@ -53,12 +50,9 @@
 		<div class="grey-rule-sidebar"></div>
 		<h2 class="small-heading">Posts em alta:</h2>
 		<div class="feature-posts-list w-dyn-list">
-			<div class="w-dyn-items">
+			<div th:each="post: ${mostvisited}" class="w-dyn-items">
 				<div class="w-dyn-item">
-					<a class="small-post-link" href="http://denali-template.webflow.io/posts/half-and-half-variety-milk-viennese-body-cappuccino">According a funnily until pre-set or arrogant well cheerful</a>
-				</div>
-				<div class="w-dyn-item">
-					<a class="small-post-link" href="http://denali-template.webflow.io/posts/steamed-siphon-froth-mazagran-cafe-au-lait">Overlaid the jeepers uselessly much excluding</a>
+					<a class="small-post-link" th:href="'/postid/' + ${post.id}" th:text="${post.title}"></a>
 				</div>
 			</div>
 		</div>

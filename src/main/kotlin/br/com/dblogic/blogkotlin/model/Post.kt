@@ -32,7 +32,9 @@ data class Post(@Id
 						   inverseJoinColumns = [JoinColumn(name = "tag_id")])
 				val tags: MutableSet<Tag> = mutableSetOf<Tag>(),
 
-				var isDraft: Boolean = true) : DateAudit() {
+				var isDraft: Boolean = true,
+
+				var pageview: Long = 0L) : DateAudit() {
 
 	constructor(title: String): this() {
 		this.title = title
@@ -78,4 +80,9 @@ data class Post(@Id
 		tags.remove(tag)
 		tag.posts.remove(this)
 	}
+
+	override fun toString(): String {
+		return "Post(id=$id, title='$title', text='$text', tags=$tags, isDraft=$isDraft, pageview=$pageview)"
+	}
+
 }

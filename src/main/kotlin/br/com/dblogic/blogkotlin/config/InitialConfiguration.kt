@@ -53,7 +53,7 @@ class InitialConfiguration {
 			logger.info("opa e ae")
 		}
 
-		clearBlogDirectory();
+		clearBlogDirectory()
 
 		checkPosts()
 
