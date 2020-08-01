@@ -8,11 +8,13 @@
 
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" media="all" th:href="@{css/template.css}" />
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{webjars/cookieconsent/3.1.1/build/cookieconsent.min.css}">
 	
 	<!-- JAVASCRIPT -->
 	<script type="text/javascript" th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{webjars/modernizr/2.8.3/modernizr.min.js}"></script>
 	<script type="text/javascript" th:src="@{javascript/webflow.js}"></script>
+	<script type="text/javascript" th:src="@{webjars/cookieconsent/3.1.1/build/cookieconsent.min.js}"></script>
 	
 	<!-- FAVICON -->
 	<link rel="apple-touch-icon" sizes="180x180" th:href="@{images/favicon/apple-touch-icon.png}">
@@ -32,6 +34,7 @@
 	<!-- CSS -->
 	<!-- link rel="stylesheet" type="text/css" media="all" th:href="@{../css/style.css}" -->
 	<link rel="stylesheet" type="text/css" media="all" th:href="@{../css/template.css}">
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../webjars/cookieconsent/3.1.1/cookieconsent.min.css}">
 	
 	<!-- JAVASCRIPT -->
 	<script type="text/javascript" th:src="@{../webjars/jquery/3.4.1/jquery.min.js}"></script>
@@ -69,6 +72,27 @@
 			</div>
 		</div>
 		<div class="w-nav-overlay" data-wf-ignore=""></div>
+
+		<script>
+			window.cookieconsent.initialise({
+				container: document.getElementById("content"),
+				palette:{
+					popup: {
+						background: "#fff"
+					},
+					button: {
+						background: "#aa0000"
+					},
+				},
+				content: {
+					message: 'Este website utiliza cookies para melhorar sua experiência.',
+					dismiss: 'Tudo bem.',
+					link:	 'Saiba mais',
+					href:	 'https://www.tecmundo.com.br/web/1069-o-que-sao-cookies-.htm',
+				},
+			});
+		</script>
+
 	</div>
 
 	<!-- <SIDEBAR> -->
