@@ -7,7 +7,7 @@
 	<!-- FRONT ARTICLE -->
 	<div th:fragment="frontArticle" class="post-wrapper">
 		<a th:href="'/postid/' + ${frontPageFacade.postFacade.id}">
-			<div class="blog-page-image" th:style="'background:url(' + ${frontPageFacade.postFacade.coverImage} + ');'"></div>
+			<div class="blog-page-image" th:style="'background-image:url(' + ${frontPageFacade.postFacade.coverImage} + ');'"></div>
 		</a>
 		<div class="post-content">
 			<a th:href="'/postid/' + ${frontPageFacade.postFacade.id}" style="text-decoration: none;color: #000000;"><h1 th:text="${frontPageFacade.postFacade.title}"></h1></a>
