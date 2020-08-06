@@ -1,7 +1,6 @@
 package br.com.dblogic.blogkotlin.model
 
 import org.hibernate.annotations.GenericGenerator
-import org.springframework.lang.Nullable
 import javax.persistence.*
 
 @Entity

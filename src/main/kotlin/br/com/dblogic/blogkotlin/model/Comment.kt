@@ -19,7 +19,7 @@ data class Comment(@Id
 
 				   var email: String = "",
 
-				   @Lob
+				   @Column(columnDefinition = "text")
 				   var text: String = "",
 
 				   var isApproved: Boolean = false): DateAudit() {

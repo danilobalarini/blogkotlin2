@@ -13,8 +13,8 @@ data class Post(@Id
 
 				var title: String = "default title",
 
-				@Lob
-				var text: String = "",
+				@Column(columnDefinition = "text")
+				var review: String = "",
 
 				@OneToMany(mappedBy = "post",
 						   cascade = [CascadeType.ALL],
@@ -40,14 +40,14 @@ data class Post(@Id
 		this.title = title
 	}
 
-	constructor(title: String, text: String): this() {
+	constructor(title: String, review: String): this() {
 		this.title = title
-		this.text = text
+		this.review = review
 	}
 
-	constructor(title: String, text: String, createdAt: Instant): this() {
+	constructor(title: String, review: String, createdAt: Instant): this() {
 		this.title = title
-		this.text = text
+		this.review = review
 		this.createdAt = createdAt
 	}
 
@@ -82,7 +82,7 @@ data class Post(@Id
 	}
 
 	override fun toString(): String {
-		return "Post(id=$id, title='$title', text='$text', tags=$tags, isDraft=$isDraft, pageview=$pageview)"
+		return "Post(id=$id, title='$title', review='$review', tags=$tags, isDraft=$isDraft, pageview=$pageview)"
 	}
 
 }

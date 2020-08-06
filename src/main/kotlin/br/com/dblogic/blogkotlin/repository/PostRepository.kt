@@ -2,6 +2,7 @@ package br.com.dblogic.blogkotlin.repository
 
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.Tag
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Modifying
@@ -22,6 +23,10 @@ interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<P
 
 	fun findTop2ByOrderByPageviewDesc(): List<Post>
 
+	fun findByIsDraftFalseOrderByCreatedAtDesc(): List<Post>
+
+	fun findByIsDraftFalseOrderByCreatedAtDesc(paging: PageRequest): List<Post>
+
 	fun findAllByTags(tag: Tag): List<Post>
 
 	@Query(" UPDATE Post p " +
@@ -30,5 +35,13 @@ interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<P
 	@Modifying
 	@Transactional
 	fun sumPageView(id: Long)
+
+	@Query(" SELECT p" +
+			" FROM Post p" +
+			" WHERE p.title LIKE ':title'" +
+			" OR 	p.review LIKE ':review'" +
+			" ORDER BY p.createdAt" +
+			" DESC")
+	fun findByTitleOrReviewOrderByNewer(id: Long, title: String, review: String): List<Post>
 
 }

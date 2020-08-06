@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.dblogic</groupId>
 	<artifactId>blogkotlin</artifactId>
-	<version>0.3.8.1-SNAPSHOT</version>
+	<version>0.3.8.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>blogkotlin</name>
@@ -147,15 +147,15 @@
 			<artifactId>font-awesome</artifactId>
 			<version>5.13.1</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>summernote</artifactId>
-		    <version>0.8.12</version>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>summernote</artifactId>
+			<version>0.8.18</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.webjars</groupId>
+			<groupId>org.webjars.npm</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>3.4.1</version>
 		</dependency>
