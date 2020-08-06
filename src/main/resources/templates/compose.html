@@ -89,7 +89,7 @@
 
 					<!-- div th:replace="fragments/general.html :: mobile-sidebar_level_1"></div -->
 
-					<span id="spanPost" th:utext="${post.text}"></span>
+					<span id="spanPost" th:utext="${post.review}"></span>
 
 				</div>
 			</div>
@@ -276,7 +276,7 @@ $(document).ready(function() {
 			var post = {
 				id : postid,
 				title : posttitle,
-				text : posttext, 
+				review : posttext, 
 				isDraft : postdraft
 			};
 

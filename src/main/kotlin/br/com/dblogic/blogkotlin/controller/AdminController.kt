@@ -52,10 +52,10 @@ class AdminController {
 	fun updatepost(@RequestParam id: Long, model : Model) : String {
 
 		val post = postService.findById(id)
-		logger.info("post.text: >>>>>>>>> ${post.text}")
+		logger.info("post.review: >>>>>>>>> ${post.review}")
 		val facade = PostFacade(id,
 								post.title,
-								StringUtils.replace(post.text, "\n", "<br/>"),
+								StringUtils.replace(post.review, "\n", "<br/>"),
 								post.isDraft,
 								Instant.now(),
 								0,

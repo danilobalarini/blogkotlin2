@@ -27,6 +27,13 @@ class PostController {
 	fun findAll(): List<Post> {
 		return postService.findAll()
 	}
+
+	@PostMapping("/findByTitleAndReview")
+	fun findByTitleAndReview(@RequestBody post: Post): List<PostFacade> {
+		logger.info("post.title: ${post.title}")
+		logger.info("post.review: ${post.review}")
+		return postService.findByTitleOrReviewOrderByCreatedAt(post)
+	}
 	
 	@GetMapping("/findById")
 	fun findById(@RequestParam id: Long): Post {
@@ -37,14 +44,14 @@ class PostController {
 	fun update(@RequestBody postFacade: PostFacade): PostFacade {
 		logger.info("post.id: " + postFacade.id)
 		logger.info("post.title: " + postFacade.title)
-		logger.info("post.text: " + postFacade.text)
+		logger.info("post.review: " + postFacade.review)
 		return postService.updateComposer(postFacade)
 	}
 
 	@PostMapping("/save")
 	fun save(@RequestBody post: Post): Post {
 		logger.info("post.title: " + post.title)
-		logger.info("post.text: " + post.text)
+		logger.info("post.review: " + post.review)
 		return postService.save(post)
 	}
 

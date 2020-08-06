@@ -1,41 +1,39 @@
 package br.com.dblogic.blogkotlin.repository.specification
 
 import br.com.dblogic.blogkotlin.model.Post
+import org.apache.commons.lang3.StringUtils
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Component
 import java.time.Instant
-import javax.persistence.criteria.CriteriaUpdate
 import javax.persistence.criteria.Order
 import javax.persistence.criteria.Predicate
-import javax.persistence.criteria.Root
+
 
 @Component
 class PostSpecification {
 
-	fun sumPageView(post: Post) {
-//		return Specification { root, query, cb ->
-//			val predicates = mutableListOf<Predicate>()
-//
-//			val pageviews = post.pageview++
-//
-////			val criteriaUpdate: CriteriaUpdate<Post> = cb.createCriteriaUpdate(Post::class.java)
-//
-//			cb.createCriteriaUpdate(Post::class.java).set("pageviews", "1")
-//													 .where(cb.equal(root.get<Long>("id"), post.id))
-//
-//
-////			cb.createCriteriaUpdate(Post::class.java).set(root.get<Long>("pageviews"), "1")
-////													 .where(cb.equal(root.get<Long>("id"), post.id))
-//
-////			val employeeRoot: Root<Employee> = criteriaUpdate.from(Employee::class.java)
-////			criteriaUpdate.set(employeeRoot.get(Employee_.salary),
-////					criteriaBuilder.sum(employeeRoot.get(Employee_.salary), 500.0))
-////					.where(criteriaBuilder.equal(employeeRoot.get(Employee_.DEPT), "IT"))
-//
-//
-//		}
+	fun findByTitleOrReviewOrderByCreatedAt(post: Post?): Specification<Post?>? {
+		return Specification { root, query, cb ->
+
+			val predicates = mutableListOf<Predicate>()
+			val title = root.get<String>("title")
+			val review = root.get<String>("review")
+			val createdAt = root.get<Instant>("createdAt")
+
+			if(post != null) {
+				if(StringUtils.isNotBlank(post.title)) {
+					predicates.add(cb.like(title, "%${post.title}%"));
+				}
+
+				if(StringUtils.isNotBlank(post.review)) {
+					predicates.add(cb.like(review, "%${post.review}%"));
+				}
+			}
+			query.orderBy(cb.desc(createdAt))
+			cb.or(*predicates.toTypedArray())
+		}
 	}
-	
+
 	fun frontPage2(): Specification<Post> {
 		return Specification { root, query, cb ->
 

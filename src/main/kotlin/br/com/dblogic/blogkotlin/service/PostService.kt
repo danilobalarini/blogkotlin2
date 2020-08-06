@@ -2,11 +2,11 @@ package br.com.dblogic.blogkotlin.service
 
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostImage
-import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.model.facade.TagFacade
 import br.com.dblogic.blogkotlin.repository.PostRepository
+import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
@@ -30,6 +30,9 @@ class PostService {
     lateinit var postRepository: PostRepository
 
     @Autowired
+    lateinit var postSpecification: PostSpecification
+
+    @Autowired
     lateinit var postImageService: PostImageService
 
     @Autowired
@@ -46,13 +49,7 @@ class PostService {
     }
 
     fun returnAllFacades(): List<PostFacade> {
-        val facades = mutableListOf<PostFacade>()
-
-        for (p in postRepository.findAll()) {
-            facades.add(postToFacade(p))
-        }
-
-        return facades
+        return postToFacade(postRepository.findAll())
     }
 
     fun findById(id: Long): Post {
@@ -60,16 +57,18 @@ class PostService {
     }
 
     fun findByTag(tagname: String): List<PostFacade> {
-
         val tag = tagService.findByName(tagname)
-        val posts = postRepository.findAllByTags(tag)
-        val facades = mutableListOf<PostFacade>()
+        return postToFacade(postRepository.findAllByTags(tag))
+    }
 
-        for (p in posts) {
-            facades.add(postToFacade(p))
-        }
+    fun findByTitleOrReviewOrderByCreatedAt(post: Post): List<PostFacade> {
+        val specification = postSpecification.findByTitleOrReviewOrderByCreatedAt(post)
+        val all = postRepository.findAll(specification)
 
-        return facades
+//        return postToFacade(postRepository.findByTitleOrReviewOrderByNewer(post.id,
+//                                                                           post.title,
+//                                                                           post.review))
+        return postToFacade(all)
     }
 
     fun save(post: Post): Post {
@@ -88,58 +87,37 @@ class PostService {
 
         if (posts.isEmpty()) {
             val facade = PostFacade(0,
-                    "Não temos posts. Volte outro dia. Teremos bolinhos.",
-                    "",
-                    false,
-                    Instant.now(),
-                    0,
-                    mutableSetOf<TagFacade>(),
-                    "")
+                                "Não temos posts. Volte outro dia. Teremos bolinhos.",
+                                "",
+                                false,
+                                Instant.now(),
+                                0,
+                                mutableSetOf<TagFacade>(),
+                                "")
 
             return FrontPageFacade(facade, mutableListOf<PostFacade>())
         } else {
-            val first = posts.first()
-            val facade = postToFacade(first)
-
-            var listFacades = mutableListOf<PostFacade>()
-
-            for (p in posts.drop(1)) {
-                listFacades.add(postToFacade(p))
-            }
-
-            return FrontPageFacade(facade, listFacades)
+            return FrontPageFacade(postToFacade(posts.first()),
+                                   postToFacade(posts.drop(1)))
         }
     }
 
     fun allPosts(): List<PostFacade> {
-        val posts = cleanHtml(postRepository.findAll())
-
-        var listPostComments = mutableListOf<PostFacade>()
-
-        for (p in posts.drop(1)) {
-            listPostComments.add(postToFacade(p))
-        }
-
-        return listPostComments
+        val posts = cleanHtml(postRepository.findByIsDraftFalseOrderByCreatedAtDesc())
+        return postToFacade(posts)
     }
 
     fun getAllPosts(pageNumber: Int = 0, pageSize: Int = 10): List<PostFacade> {
-
         val paging = PageRequest.of(pageNumber, pageSize)
-        val pagedResult = postRepository.findAll(paging)
-
-        val posts = mutableListOf<PostFacade>()
-
-        for (p in pagedResult.toList()) {
-            posts.add(postToFacade(p))
-        }
-
-        return posts
+        return postToFacade(postRepository.findByIsDraftFalseOrderByCreatedAtDesc(paging))
     }
 
     fun brandNewPost(): Post {
         var post = postRepository.save(Post())
-        val postImage = PostImage("${post.id}-coverimage.jpg", "default cover image", postImageService.defaultCoverImage(post.title), true, post)
+        val postImage = PostImage("${post.id}-coverimage.jpg",
+                        "default cover image",
+                                  postImageService.defaultCoverImage(post.title),
+                       true, post)
         post.addPostImage(postImage)
 
         val directory = blogUtils.getDirectoryNameFromPost(post)
@@ -194,9 +172,9 @@ class PostService {
             val oldTitle = StringUtils.difference(newdir.toString(), olddir.toString())
             val newTitle = StringUtils.difference(olddir.toString(), newdir.toString())
 
-            post.text = StringUtils.replace(post.text, oldTitle, newTitle)
+            post.review = StringUtils.replace(post.review, oldTitle, newTitle)
         } else {
-            post.text = p.text
+            post.review = p.review
         }
 
         post.isDraft = p.isDraft
@@ -226,12 +204,7 @@ class PostService {
     }
 
     fun mostVisitedPosts(): List<PostFacade> {
-
-        val facades = mutableListOf<PostFacade>()
-        for(p in postRepository.findTop2ByOrderByPageviewDesc()) {
-            facades.add(postToFacade(p))
-        }
-        return facades
+        return postToFacade(postRepository.findTop2ByOrderByPageviewDesc())
     }
 
     fun postToFacade(p: Post): PostFacade {
@@ -239,23 +212,38 @@ class PostService {
         var tags = tagService.toSetFacade(p.tags)
 
         return PostFacade(p.id,
-                          p.title,
-                          p.text,
-                          p.isDraft,
-                          p.createdAt,
-                          p.comments.size,
-                          tags,
-                          createCoverImage(p))
+                p.title,
+                p.review,
+                p.isDraft,
+                p.createdAt,
+                p.comments.size,
+                tags,
+                createCoverImage(p))
+    }
+
+    fun postToFacade(posts: List<Post>): List<PostFacade> {
+        val postList = mutableListOf<PostFacade>()
+        for (p in posts) {
+            postList.add(PostFacade(p.id,
+                                    p.title,
+                                    p.review,
+                                    p.isDraft,
+                                    p.createdAt,
+                                    p.comments.size,
+                                    tagService.toSetFacade(p.tags),
+                                    createCoverImage(p)))
+        }
+        return postList
     }
 
     private fun cleanHtml(posts: List<Post>): List<Post> {
 
         var listPost = mutableListOf<Post>()
         for (p in posts) {
-            p.text = p.text.replace("</p><p>", " ")
-            p.text = p.text.replace("<br/>", " ")
-            p.text = p.text.replace("<br>", " ")
-            p.text = p.text.replace("\\<.*?>".toRegex(), "")
+            p.review = p.review.replace("</p><p>", " ")
+            p.review = p.review.replace("<br/>", " ")
+            p.review = p.review.replace("<br>", " ")
+            p.review = p.review.replace("\\<.*?>".toRegex(), "")
             listPost.add(p)
         }
         return posts;
