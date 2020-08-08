@@ -2,7 +2,6 @@ package br.com.dblogic.blogkotlin.service
 
 import br.com.dblogic.blogkotlin.model.CaptchaEvent
 import br.com.dblogic.blogkotlin.model.CaptchaResponse
-import br.com.dblogic.blogkotlin.model.Contact
 import br.com.dblogic.blogkotlin.recaptcha.AbstractCaptchaService
 import br.com.dblogic.blogkotlin.recaptcha.GoogleResponse
 import br.com.dblogic.blogkotlin.recaptcha.ReCaptchaInvalidException
@@ -10,7 +9,6 @@ import br.com.dblogic.blogkotlin.repository.CaptchaResponseRepository
 import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
@@ -49,6 +47,9 @@ class CaptchaService : AbstractCaptchaService() {
         try {
             googleResponse = restTemplate.getForObject(verifyUri, GoogleResponse::class.java)!!
             LOGGER.info("googleResponse: $googleResponse")
+
+            LOGGER.info("googleResponse.action: ${googleResponse.action}")
+            LOGGER.info("captchaEvent.name: ${captchaEvent.name}")
 
             if (!googleResponse.success || googleResponse.action != captchaEvent.name || googleResponse.score < threshold.toFloat()) {
                 if (googleResponse.hasClientError()) {

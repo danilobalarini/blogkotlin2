@@ -28,13 +28,6 @@ class PostController {
 		return postService.findAll()
 	}
 
-	@PostMapping("/findByTitleAndReview")
-	fun findByTitleAndReview(@RequestBody post: Post): List<PostFacade> {
-		logger.info("post.title: ${post.title}")
-		logger.info("post.review: ${post.review}")
-		return postService.findByTitleOrReviewOrderByCreatedAt(post)
-	}
-	
 	@GetMapping("/findById")
 	fun findById(@RequestParam id: Long): Post {
 		return findById(id)

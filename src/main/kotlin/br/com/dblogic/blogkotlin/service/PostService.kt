@@ -1,9 +1,11 @@
 package br.com.dblogic.blogkotlin.service
 
+import br.com.dblogic.blogkotlin.model.CaptchaEvent
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostImage
 import br.com.dblogic.blogkotlin.model.facade.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
+import br.com.dblogic.blogkotlin.model.facade.PostSearchFacade
 import br.com.dblogic.blogkotlin.model.facade.TagFacade
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
@@ -41,6 +43,9 @@ class PostService {
     @Autowired
     lateinit var blogUtils: BlogUtils
 
+    @Autowired
+    lateinit var captchaService: CaptchaService
+
     @Value("\${blog.directory.name}")
     lateinit var rootFolder: String
 
@@ -61,14 +66,13 @@ class PostService {
         return postToFacade(postRepository.findAllByTags(tag))
     }
 
-    fun findByTitleOrReviewOrderByCreatedAt(post: Post): List<PostFacade> {
-        val specification = postSpecification.findByTitleOrReviewOrderByCreatedAt(post)
-        val all = postRepository.findAll(specification)
+    fun findByTitleOrReviewOrderByCreatedAt(postSearchFacade: PostSearchFacade): List<PostFacade> {
+        logger.info("saving captcha response of search")
+        captchaService.save(postSearchFacade.response, CaptchaEvent.SEARCH, 0)
 
-//        return postToFacade(postRepository.findByTitleOrReviewOrderByNewer(post.id,
-//                                                                           post.title,
-//                                                                           post.review))
-        return postToFacade(all)
+        val post = Post(postSearchFacade.title, postSearchFacade.review)
+        val specification = postSpecification.findByTitleOrReviewOrderByCreatedAt(post)
+        return postToFacade(postRepository.findAll(specification))
     }
 
     fun save(post: Post): Post {

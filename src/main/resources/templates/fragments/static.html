@@ -103,6 +103,73 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- ARCHIVES SEARCH BOX -->
+	<div th:fragment="archives-searchbox" class="post-wrapper">
+		<script th:src="|https://www.google.com/recaptcha/api.js?render=${keysite}"></script>
+		<div class="post-content">
+			<div class="body-copy w-richtext">
+				<h1>Faça a pesquisa</h1>
+			</div>
+			
+			<div class="form-wrapper">
+				
+				<form th:action="@{/searcharchives}" th:object="${postSearchFacade}" id="search-box" data-name="Search Form" name="search-box" method="POST">
+					<input th:field="*{response}" type="hidden" id="hidResponse" name="hidResponse" />
+					<label for="Title">Texto no título</label>
+					<input th:field="*{title}" class="text-field w-input" data-name="Title" id="txtTitle" maxlength="256" name="txtTitle" placeholder="Texto no título" type="text">
+					<label for="Review">Texto dentro do post</label>
+					<input th:field="*{review}" class="text-field w-input" data-name="Review" id="txtReview" maxlength="256" name="txtReview" placeholder="Texto dentro do post">
+					<input id="btnSearch" class="button w-button" data-wait="Por favor aguarde..." type="button" value="Procurar">
+				</form>
+
+			</div>
+		</div>
+
+		<script th:inline="javascript">
+
+			$(document).ready(function() {
+
+				console.log('entrou no js do searchbox');
+				
+				var keysite = [[${keysite}]];
+				var register_action = [[${registerAction}]];
+
+				$('#btnSearch').click(function() {
+					console.log('keysite: ' + keysite);
+					console.log('typeof grecaptcha: ' + typeof grecaptcha !== 'undefined');
+					
+					grecaptcha.execute(keysite, {action : register_action}).then(function(response) { 
+
+						console.log('response: ' + response);
+						$('#hidResponse').val(response);
+
+						console.log('response valor: ' + $('#hidResponse').val());
+						$('#search-box').submit();
+						
+//						var facade = {
+//							title:$('#txtTitle').val(),
+//							review:$('#txtReview').val(),
+//							response:response
+//						}
+				
+//						console.log('form data: ' + JSON.stringify(facade));
+
+//						$.post({
+//							url: '/searcharchives',
+//							type: 'POST',
+//							data: JSON.stringify(facade),
+//							contentType: 'application/json',
+//							dataType: 'json',
+//						});
+
+					});
+				});
+
+			});
+		</script>
+
+	</div>
 
 </body>
 </html>

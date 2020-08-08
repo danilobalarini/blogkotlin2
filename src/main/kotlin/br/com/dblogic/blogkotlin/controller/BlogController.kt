@@ -1,18 +1,23 @@
 package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.CaptchaEvent
+import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.facade.ContactFacade
-import br.com.dblogic.blogkotlin.service.*
+import br.com.dblogic.blogkotlin.model.facade.PostFacade
+import br.com.dblogic.blogkotlin.model.facade.PostSearchFacade
+import br.com.dblogic.blogkotlin.service.BlogService
+import br.com.dblogic.blogkotlin.service.CommentService
+import br.com.dblogic.blogkotlin.service.ContactService
+import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.utils.BlogUtils
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
+
 
 @Controller
 @RequestMapping("")
@@ -77,9 +82,9 @@ class BlogController {
 	@GetMapping("/contact")
 	fun contact(model: Model) : String {
 		logger.debug("keysite: $recaptchaKeySite")
-		logger.debug("registerAction: ${CaptchaEvent.CONTACT}")
+		logger.debug("registerAction: ${CaptchaEvent.SEARCH}")
 		model.addAttribute("keysite", recaptchaKeySite)
-		model.addAttribute("registerAction", CaptchaEvent.CONTACT)
+		model.addAttribute("registerAction", CaptchaEvent.SEARCH)
 		model.addAttribute("mostvisited", postService.mostVisitedPosts())
 		return "contact"
 	}
@@ -119,6 +124,28 @@ class BlogController {
 		model.addAttribute("allposts", postService.getAllPosts(pagenumber, pageSize))
 
 		return "allposts"
+	}
+
+	@GetMapping("/archives")
+	fun goArchives(model: Model) : String {
+		model.addAttribute("keysite", recaptchaKeySite)
+		model.addAttribute("registerAction", CaptchaEvent.SEARCH)
+		model.addAttribute("posts", mutableListOf<PostFacade>())
+		model.addAttribute("postSearchFacade", PostSearchFacade())
+
+		return "archives"
+	}
+
+	@PostMapping("/searcharchives")
+	fun searchArchives(postSearchFacade: PostSearchFacade, model: Model) : String {
+		logger.info("postSearchFacade.title: ${postSearchFacade.title}")
+		logger.info("postSearchFacade.review ${postSearchFacade.review}")
+		logger.info("postSearchFacade.response ${postSearchFacade.response}")
+		model.addAttribute("keysite", recaptchaKeySite)
+		model.addAttribute("registerAction", CaptchaEvent.SEARCH)
+		model.addAttribute("postSearchFacade", postSearchFacade)
+		model.addAttribute("posts", postService.findByTitleOrReviewOrderByCreatedAt(postSearchFacade))
+		return "archives"
 	}
 
 }
