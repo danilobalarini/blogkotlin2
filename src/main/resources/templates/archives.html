@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Index</title>
+	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles"> </th:block> /*/-->
+</head>
+
+<body>
+
+	<div th:replace="fragments/general.html :: header"></div>
+	
+	<div class="content-wrapper">
+		<div class="w-container">
+			<div class="w-row">
+						
+				<div class="content-column w-col w-col-9">
+				
+					<div th:replace="fragments/static.html :: archives-searchbox"></div>
+				
+					<div class="w-dyn-list">
+						<div class="w-dyn-items">
+							<div th:replace="fragments/dynamic.html :: archives-posts"></div>
+						</div>
+					</div>
+					
+					<div class="button-wrapper">
+						<a class="button w-button" th:href="@{/all-posts}">Mais postagens&nbsp;&rarr;</a>
+					</div>
+										
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="fragments/general.html :: footerfiles"></div>
+
+</body>
+
+</html>

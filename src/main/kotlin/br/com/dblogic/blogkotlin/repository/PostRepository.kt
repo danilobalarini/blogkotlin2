@@ -36,12 +36,4 @@ interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<P
 	@Transactional
 	fun sumPageView(id: Long)
 
-	@Query(" SELECT p" +
-			" FROM Post p" +
-			" WHERE p.title LIKE ':title'" +
-			" OR 	p.review LIKE ':review'" +
-			" ORDER BY p.createdAt" +
-			" DESC")
-	fun findByTitleOrReviewOrderByNewer(id: Long, title: String, review: String): List<Post>
-
 }

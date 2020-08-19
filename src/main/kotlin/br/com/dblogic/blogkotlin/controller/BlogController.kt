@@ -2,17 +2,21 @@ package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.CaptchaEvent
 import br.com.dblogic.blogkotlin.model.facade.ContactFacade
-import br.com.dblogic.blogkotlin.service.*
+import br.com.dblogic.blogkotlin.model.facade.PostFacade
+import br.com.dblogic.blogkotlin.model.facade.PostSearchFacade
+import br.com.dblogic.blogkotlin.service.BlogService
+import br.com.dblogic.blogkotlin.service.CommentService
+import br.com.dblogic.blogkotlin.service.ContactService
+import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.utils.BlogUtils
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
+
 
 @Controller
 @RequestMapping("")
@@ -77,9 +81,9 @@ class BlogController {
 	@GetMapping("/contact")
 	fun contact(model: Model) : String {
 		logger.debug("keysite: $recaptchaKeySite")
-		logger.debug("registerAction: ${CaptchaEvent.CONTACT}")
+		logger.debug("registerAction: ${CaptchaEvent.SEARCH}")
 		model.addAttribute("keysite", recaptchaKeySite)
-		model.addAttribute("registerAction", CaptchaEvent.CONTACT)
+		model.addAttribute("registerAction", CaptchaEvent.SEARCH)
 		model.addAttribute("mostvisited", postService.mostVisitedPosts())
 		return "contact"
 	}
@@ -112,13 +116,39 @@ class BlogController {
 	}
 
 	@GetMapping("/getall-posts")
-	fun getAllPosts(@RequestParam(defaultValue = "0") pagenumber: Int,
+	fun getAllPosts(@RequestParam(defaultValue = "0") pageNumber: Int,
 					@RequestParam(defaultValue = "10") pageSize: Int,
 					model: Model) : String {
 
-		model.addAttribute("allposts", postService.getAllPosts(pagenumber, pageSize))
+		logger.info("pagenumber: ${pageNumber}")
+		logger.info("pageSize: ${pageSize}")
+
+		model.addAttribute("allposts", postService.getAllPosts(pageNumber, pageSize))
 
 		return "allposts"
+	}
+
+	@GetMapping("/archives")
+	fun goArchives(model: Model) : String {
+		model.addAttribute("keysite", recaptchaKeySite)
+		model.addAttribute("registerAction", CaptchaEvent.SEARCH)
+		model.addAttribute("postSearchFacade", PostSearchFacade())
+		model.addAttribute("posts", mutableListOf<PostFacade>())
+
+		return "archives"
+	}
+
+	@PostMapping("/searcharchives")
+	fun searchArchives(postSearchFacade: PostSearchFacade,
+					   model: Model) : String {
+
+		val searchFacade = postService.findByTitleOrReviewOrderByCreatedAt(postSearchFacade)
+		model.addAttribute("keysite", recaptchaKeySite)
+		model.addAttribute("registerAction", CaptchaEvent.SEARCH)
+		model.addAttribute("postSearchFacade", blogUtils.postSearchFacadeWithoutList(searchFacade))
+		model.addAttribute("posts", searchFacade.posts)
+
+		return "archives"
 	}
 
 }

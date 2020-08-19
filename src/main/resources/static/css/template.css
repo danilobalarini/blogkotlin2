@@ -2058,7 +2058,7 @@ textarea.w-select {
 
 body {
 	background-color: #f0f0f0;
-	font-family: Lato, sans-serif;
+	font-family: Roboto, sans-serif;
 	color: #333;
 	font-size: 14px;
 	line-height: 135%;
@@ -2115,7 +2115,7 @@ h6 {
 p {
 	margin-top: 0px;
 	margin-bottom: 20px;
-	font-family: Lato, sans-serif;
+	font-family: Roboto, sans-serif;
 	line-height: 160%;
 }
 
@@ -2134,7 +2134,7 @@ ol {
 	margin-top: 0px;
 	margin-bottom: 10px;
 	padding-left: 40px;
-	font-family: Lato, sans-serif;
+	font-family: Roboto, sans-serif;
 }
 
 img {
@@ -2310,7 +2310,7 @@ figcaption {
 	padding-left: 0px;
 	-webkit-transition: color 200ms ease;
 	transition: color 200ms ease;
-	font-family: Lato, sans-serif;
+	font-family: Roboto, sans-serif;
 	color: #aaa;
 	font-size: 12px;
 	font-weight: 700;
@@ -2530,7 +2530,7 @@ figcaption {
 	margin-left: 8px;
 	-webkit-transition: color 200ms ease;
 	transition: color 200ms ease;
-	font-family: Lato, sans-serif;
+	font-family: Roboto, sans-serif;
 	color: #aaa;
 	font-size: 14px;
 	line-height: 22%;
