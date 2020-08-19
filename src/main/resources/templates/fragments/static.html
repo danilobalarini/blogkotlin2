@@ -115,6 +115,12 @@
 			<div class="form-wrapper">
 				
 				<form th:action="@{/searcharchives}" th:object="${postSearchFacade}" id="search-box" data-name="Search Form" name="search-box" method="POST">
+
+					<input th:field="*{pagenumber}" type="hidden" id="hidPagenumber" name="hidPagenumber">
+					<input th:field="*{first}" type="hidden" id="hidFirst" name="hidFirst">
+					<input th:field="*{last}" type="hidden" id="hidLast" name="hidLast">
+					<input th:field="*{totalPages}" type="hidden" id="hidTotalPages" name="hidTotalPages">
+
 					<input th:field="*{response}" type="hidden" id="hidResponse" name="hidResponse" />
 					<label for="Title">Texto no título</label>
 					<input th:field="*{title}" class="text-field w-input" data-name="Title" id="txtTitle" maxlength="256" name="txtTitle" placeholder="Texto no título" type="text">
@@ -122,6 +128,15 @@
 					<input th:field="*{review}" class="text-field w-input" data-name="Review" id="txtReview" maxlength="256" name="txtReview" placeholder="Texto dentro do post">
 					<input id="btnSearch" class="button w-button" data-wait="Por favor aguarde..." type="button" value="Procurar">
 				</form>
+				
+				<p>
+					<div>
+						<input id="btnFirst"   value="&lt;&lt;" class="button w-button" type="button">
+						<input id="btnBack"    value="&lt;"     class="button w-button" type="button">
+						<input id="btnForward" value="&gt;"     class="button w-button" type="button">
+						<input id="btnLast"    value="&gt;&gt;" class="button w-button" type="button">
+					</div>
+				</p>
 
 			</div>
 		</div>
@@ -129,42 +144,92 @@
 		<script th:inline="javascript">
 
 			$(document).ready(function() {
-
-				console.log('entrou no js do searchbox');
 				
 				var keysite = [[${keysite}]];
 				var register_action = [[${registerAction}]];
 
+				searchbar();
+
 				$('#btnSearch').click(function() {
-					console.log('keysite: ' + keysite);
-					console.log('typeof grecaptcha: ' + typeof grecaptcha !== 'undefined');
-					
-					grecaptcha.execute(keysite, {action : register_action}).then(function(response) { 
-
-						console.log('response: ' + response);
-						$('#hidResponse').val(response);
-
-						console.log('response valor: ' + $('#hidResponse').val());
-						$('#search-box').submit();
-						
-//						var facade = {
-//							title:$('#txtTitle').val(),
-//							review:$('#txtReview').val(),
-//							response:response
-//						}
-				
-//						console.log('form data: ' + JSON.stringify(facade));
-
-//						$.post({
-//							url: '/searcharchives',
-//							type: 'POST',
-//							data: JSON.stringify(facade),
-//							contentType: 'application/json',
-//							dataType: 'json',
-//						});
-
-					});
+					$('#hidPagenumber').val(0);
+					submitForm();
 				});
+
+				$('#btnFirst').click(function() {
+					$('#hidPagenumber').val(0);
+					submitForm();
+				});
+
+				$('#btnBack').click(function() {
+					var pagenumber = Number($('#hidPagenumber').val());
+					$('#hidPagenumber').val(pagenumber - 1);
+					submitForm();
+				});
+
+				$('#btnForward').click(function() {
+					var pagenumber = Number($('#hidPagenumber').val());
+					$('#hidPagenumber').val(pagenumber + 1);
+					submitForm();
+				});
+
+				$('#btnLast').click(function() {
+					var total = $('#hidTotalPages').val();
+					$('#hidPagenumber').val(total);
+					submitForm();
+				});
+
+				function submitForm() {
+					grecaptcha.execute(keysite, {action : register_action}).then(function(response) {
+						$('#hidResponse').val(response);
+						$('#search-box').submit();
+					});
+				}
+
+				function searchbar() {
+					var pagenumber = $('#hidPagenumber').val();
+					var first = $('#hidFirst').val();
+					var last = $('#hidLast').val();
+
+					if(pagenumber == 0 && first == 'false' && last == 'false') {
+						disableFirst();
+						disableBack();
+						disableForward();
+						disableLast();
+					} else {
+						if(first == 'true') {
+							disableFirst();
+							disableBack();
+						}
+
+						if(last == 'true') {
+							disableForward();
+							disableLast();
+						}
+					}	
+				}
+
+				function disableFirst() {
+					$('#btnFirst').prop("disabled",true);
+					$('#btnFirst').css("background-color","#F0F0F0");
+				}
+
+				function disableBack() {
+					$('#btnBack').prop("disabled",true);
+					$('#btnBack').css("background-color","#F0F0F0");
+				}
+
+				function disableForward() {
+					$('#btnForward').prop("disabled",true);
+					$('#btnForward').css("background-color","#F0F0F0");
+				}
+
+				function disableLast() {
+					$('#btnLast').prop("disabled",true);
+					$('#btnLast').css("background-color","#F0F0F0");
+				}
+
+
+
 
 			});
 		</script>

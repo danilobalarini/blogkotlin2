@@ -1,7 +1,6 @@
 package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.CaptchaEvent
-import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.facade.ContactFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.model.facade.PostSearchFacade
@@ -117,11 +116,14 @@ class BlogController {
 	}
 
 	@GetMapping("/getall-posts")
-	fun getAllPosts(@RequestParam(defaultValue = "0") pagenumber: Int,
+	fun getAllPosts(@RequestParam(defaultValue = "0") pageNumber: Int,
 					@RequestParam(defaultValue = "10") pageSize: Int,
 					model: Model) : String {
 
-		model.addAttribute("allposts", postService.getAllPosts(pagenumber, pageSize))
+		logger.info("pagenumber: ${pageNumber}")
+		logger.info("pageSize: ${pageSize}")
+
+		model.addAttribute("allposts", postService.getAllPosts(pageNumber, pageSize))
 
 		return "allposts"
 	}
@@ -130,21 +132,22 @@ class BlogController {
 	fun goArchives(model: Model) : String {
 		model.addAttribute("keysite", recaptchaKeySite)
 		model.addAttribute("registerAction", CaptchaEvent.SEARCH)
-		model.addAttribute("posts", mutableListOf<PostFacade>())
 		model.addAttribute("postSearchFacade", PostSearchFacade())
+		model.addAttribute("posts", mutableListOf<PostFacade>())
 
 		return "archives"
 	}
 
 	@PostMapping("/searcharchives")
-	fun searchArchives(postSearchFacade: PostSearchFacade, model: Model) : String {
-		logger.info("postSearchFacade.title: ${postSearchFacade.title}")
-		logger.info("postSearchFacade.review ${postSearchFacade.review}")
-		logger.info("postSearchFacade.response ${postSearchFacade.response}")
+	fun searchArchives(postSearchFacade: PostSearchFacade,
+					   model: Model) : String {
+
+		val searchFacade = postService.findByTitleOrReviewOrderByCreatedAt(postSearchFacade)
 		model.addAttribute("keysite", recaptchaKeySite)
 		model.addAttribute("registerAction", CaptchaEvent.SEARCH)
-		model.addAttribute("postSearchFacade", postSearchFacade)
-		model.addAttribute("posts", postService.findByTitleOrReviewOrderByCreatedAt(postSearchFacade))
+		model.addAttribute("postSearchFacade", blogUtils.postSearchFacadeWithoutList(searchFacade))
+		model.addAttribute("posts", searchFacade.posts)
+
 		return "archives"
 	}
 

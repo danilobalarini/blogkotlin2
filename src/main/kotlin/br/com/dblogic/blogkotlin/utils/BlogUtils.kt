@@ -1,6 +1,8 @@
 package br.com.dblogic.blogkotlin.utils
 
 import br.com.dblogic.blogkotlin.model.Post
+import br.com.dblogic.blogkotlin.model.facade.PostFacade
+import br.com.dblogic.blogkotlin.model.facade.PostSearchFacade
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -50,21 +52,6 @@ class BlogUtils {
         return "$id-$title${toDateString(createdAt)}"
     }
 
-    fun getDirectoryName(id: Long, blogtitle: String, createdAt: Instant): String {
-        // always put the date in the last part
-        // id-title-date
-        // date=YYYYMMDD
-        // this is documentation
-        val titleWithoutAccents = StringUtils.stripAccents(blogtitle)
-        var title = ""
-
-        for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
-            title = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
-        }
-
-        return "$blogDirName/$id-$title${toDateString(createdAt)}"
-    }
-
     fun getDirectoryNameFromPost(post: Post): String {
         // always put the date in the last part
         // id-title-date
@@ -83,6 +70,17 @@ class BlogUtils {
     fun getDirectoryPathFromPost(p: Post): Path {
         val dir = appendToBlogDir(getDirectoryNameFromPost(p))
         return Paths.get("$dir")
+    }
+
+    fun postSearchFacadeWithoutList(facade: PostSearchFacade): PostSearchFacade {
+        return PostSearchFacade(facade.title,
+                facade.review,
+                facade.response,
+                facade.pagenumber,
+                facade.isFirst,
+                facade.isLast,
+                if(facade.totalPages > 0) (facade.totalPages-1) else 0,
+                mutableListOf<PostFacade>())
     }
 
     private fun toDateString(date: Instant) : String {

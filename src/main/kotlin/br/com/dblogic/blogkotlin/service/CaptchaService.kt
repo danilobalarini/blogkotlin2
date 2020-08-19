@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.service
 
+import br.com.dblogic.blogkotlin.controller.BlogController
 import br.com.dblogic.blogkotlin.model.CaptchaEvent
 import br.com.dblogic.blogkotlin.model.CaptchaResponse
 import br.com.dblogic.blogkotlin.recaptcha.AbstractCaptchaService
@@ -7,6 +8,7 @@ import br.com.dblogic.blogkotlin.recaptcha.GoogleResponse
 import br.com.dblogic.blogkotlin.recaptcha.ReCaptchaInvalidException
 import br.com.dblogic.blogkotlin.repository.CaptchaResponseRepository
 import org.apache.commons.lang3.StringUtils
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -17,6 +19,8 @@ import java.time.LocalDateTime
 
 @Service
 class CaptchaService : AbstractCaptchaService() {
+
+    private val logger = LoggerFactory.getLogger(CaptchaService::class.java)
 
     @Autowired
     lateinit var restTemplate: RestTemplate
@@ -68,17 +72,20 @@ class CaptchaService : AbstractCaptchaService() {
         return googleResponse
     }
 
-    fun save(captchaResponse: String, captchaEvent: CaptchaEvent, id: Long): CaptchaResponse {
-
+    fun save(captchaResponse: String, captchaEvent: CaptchaEvent, id: Long) {
         val response = processResponse(captchaResponse, captchaEvent)
-        val cr = responseToCaptcha(response, id)
-
-        return captchaResponseRepository.save(cr)
+        if(StringUtils.isNotBlank(response.challengeTs)) {
+            val cr = responseToCaptcha(response, id)
+            captchaResponseRepository.save(cr)
+        }
     }
 
     fun responseToCaptcha(googleResponse: GoogleResponse, id: Long) : CaptchaResponse {
 
+        logger.info("googleResponse.challengeTs: ${googleResponse.challengeTs}")
         val challengeTs = StringUtils.replace(StringUtils.defaultString(googleResponse.challengeTs), "Z", StringUtils.EMPTY)
+        logger.info("challengeTs: $challengeTs")
+
         val hostname = StringUtils.defaultString(googleResponse.hostname)
         val action = StringUtils.defaultString(googleResponse.action)
 

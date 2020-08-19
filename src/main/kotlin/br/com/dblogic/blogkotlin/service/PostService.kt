@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.io.File
@@ -49,6 +50,9 @@ class PostService {
     @Value("\${blog.directory.name}")
     lateinit var rootFolder: String
 
+    @Value("\${blog.archive.pagesize}")
+    var pagesize: Int = 0
+
     fun findAll(): List<Post> {
         return postRepository.findAll()
     }
@@ -66,13 +70,23 @@ class PostService {
         return postToFacade(postRepository.findAllByTags(tag))
     }
 
-    fun findByTitleOrReviewOrderByCreatedAt(postSearchFacade: PostSearchFacade): List<PostFacade> {
+    fun findByTitleOrReviewOrderByCreatedAt(postSearchFacade: PostSearchFacade): PostSearchFacade {
         logger.info("saving captcha response of search")
         captchaService.save(postSearchFacade.response, CaptchaEvent.SEARCH, 0)
 
+        val pageable = PageRequest.of(postSearchFacade.pagenumber, pagesize);
         val post = Post(postSearchFacade.title, postSearchFacade.review)
         val specification = postSpecification.findByTitleOrReviewOrderByCreatedAt(post)
-        return postToFacade(postRepository.findAll(specification))
+        val all = postRepository.findAll(specification, pageable)
+
+        return PostSearchFacade(postSearchFacade.title,
+                                postSearchFacade.review,
+                                "",
+                                postSearchFacade.pagenumber,
+                                all.isFirst,
+                                all.isLast,
+                                all.totalPages,
+                                postToFacade(all) as MutableList<PostFacade>)
     }
 
     fun save(post: Post): Post {
@@ -112,6 +126,9 @@ class PostService {
     }
 
     fun getAllPosts(pageNumber: Int = 0, pageSize: Int = 10): List<PostFacade> {
+        logger.info("entering getAllPosts")
+        logger.info("pageNumber: ${pageNumber}")
+        logger.info("pageSize: ${pageSize}")
         val paging = PageRequest.of(pageNumber, pageSize)
         return postToFacade(postRepository.findByIsDraftFalseOrderByCreatedAtDesc(paging))
     }
@@ -213,19 +230,32 @@ class PostService {
 
     fun postToFacade(p: Post): PostFacade {
 
-        var tags = tagService.toSetFacade(p.tags)
-
         return PostFacade(p.id,
-                p.title,
-                p.review,
-                p.isDraft,
-                p.createdAt,
-                p.comments.size,
-                tags,
-                createCoverImage(p))
+                          p.title,
+                          p.review,
+                          p.isDraft,
+                          p.createdAt,
+                          p.comments.size,
+                          tagService.toSetFacade(p.tags),
+                          createCoverImage(p))
     }
 
     fun postToFacade(posts: List<Post>): List<PostFacade> {
+        val postList = mutableListOf<PostFacade>()
+        for (p in posts) {
+            postList.add(PostFacade(p.id,
+                                    p.title,
+                                    p.review,
+                                    p.isDraft,
+                                    p.createdAt,
+                                    p.comments.size,
+                                    tagService.toSetFacade(p.tags),
+                                    createCoverImage(p)))
+        }
+        return postList
+    }
+
+    private fun postToFacade(posts: Page<Post>): List<PostFacade> {
         val postList = mutableListOf<PostFacade>()
         for (p in posts) {
             postList.add(PostFacade(p.id,

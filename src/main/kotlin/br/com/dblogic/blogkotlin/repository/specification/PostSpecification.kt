@@ -8,7 +8,6 @@ import java.time.Instant
 import javax.persistence.criteria.Order
 import javax.persistence.criteria.Predicate
 
-
 @Component
 class PostSpecification {
 
