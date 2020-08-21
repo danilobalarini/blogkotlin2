@@ -89,6 +89,22 @@ class PostService {
                                 postToFacade(all) as MutableList<PostFacade>)
     }
 
+    fun findAllCreatedAt(postSearchFacade: PostSearchFacade): PostSearchFacade {
+        logger.info("find by findAllCreatedAt")
+
+        val pageable = PageRequest.of(postSearchFacade.pagenumber, pagesize);
+        val all = postRepository.findAll(pageable)
+
+        return PostSearchFacade(postSearchFacade.title,
+                                postSearchFacade.review,
+                                "",
+                                postSearchFacade.pagenumber,
+                                all.isFirst,
+                                all.isLast,
+                                all.totalPages,
+                                postToFacade(all) as MutableList<PostFacade>)
+    }
+
     fun save(post: Post): Post {
         return postRepository.save(post)
     }
