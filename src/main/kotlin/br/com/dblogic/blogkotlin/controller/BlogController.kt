@@ -103,8 +103,21 @@ class BlogController {
 
 	@GetMapping("/all-posts")
 	fun allPosts(model: Model) : String {
-		model.addAttribute("allposts", postService.allPosts())
-		model.addAttribute("mostvisited", postService.mostVisitedPosts())
+
+		val searchFacade = postService.findAllCreatedAt(PostSearchFacade())
+		model.addAttribute("postSearchFacade", blogUtils.postSearchFacadeWithoutList(searchFacade))
+		model.addAttribute("posts", searchFacade.posts)
+
+		return "allposts"
+	}
+
+	@PostMapping("/all-posts")
+	fun allPostsPagination(postSearchFacade: PostSearchFacade, model: Model) : String {
+
+		val searchFacade = postService.findAllCreatedAt(postSearchFacade)
+		model.addAttribute("postSearchFacade", blogUtils.postSearchFacadeWithoutList(searchFacade))
+		model.addAttribute("posts", searchFacade.posts)
+
 		return "allposts"
 	}
 

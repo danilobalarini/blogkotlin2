@@ -103,6 +103,114 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- ALL POSTS PAGINATION BOX -->
+	<div th:fragment="all-posts-box" class="post-wrapper">
+		<div class="post-content">
+			<div class="body-copy w-richtext">
+				<h1>Todos os posts</h1>
+			</div>
+			
+			<div class="form-wrapper">
+				
+				<form th:action="@{/all-posts}" th:object="${postSearchFacade}" id="pagination-box" data-name="Todos posts" name="pagination-box" method="POST">
+					<input th:field="*{pagenumber}" type="hidden" id="hidPagenumber" name="hidPagenumber">
+					<input th:field="*{first}" type="hidden" id="hidFirst" name="hidFirst">
+					<input th:field="*{last}" type="hidden" id="hidLast" name="hidLast">
+					<input th:field="*{totalPages}" type="hidden" id="hidTotalPages" name="hidTotalPages">
+				</form>
+				
+				<p>
+					<div>
+						<input id="btnFirst"   value="&lt;&lt;" class="button w-button" type="button">
+						<input id="btnBack"    value="&lt;"     class="button w-button" type="button">
+						<input id="btnForward" value="&gt;"     class="button w-button" type="button">
+						<input id="btnLast"    value="&gt;&gt;" class="button w-button" type="button">
+					</div>
+				</p>
+
+			</div>
+		</div>
+
+		<script th:inline="javascript">
+
+			$(document).ready(function() {
+				
+				paginationbar();
+
+				$('#btnFirst').click(function() {
+					$('#hidPagenumber').val(0);
+					submitForm();
+				});
+
+				$('#btnBack').click(function() {
+					var pagenumber = Number($('#hidPagenumber').val());
+					$('#hidPagenumber').val(pagenumber - 1);
+					submitForm();
+				});
+
+				$('#btnForward').click(function() {
+					var pagenumber = Number($('#hidPagenumber').val());
+					$('#hidPagenumber').val(pagenumber + 1);
+					submitForm();
+				});
+
+				$('#btnLast').click(function() {
+					var total = $('#hidTotalPages').val();
+					$('#hidPagenumber').val(total);
+					submitForm();
+				});
+
+				function submitForm() {
+					$('#pagination-box').submit();
+				}
+
+				function paginationbar() {
+					var pagenumber = $('#hidPagenumber').val();
+					var first = $('#hidFirst').val();
+					var last = $('#hidLast').val();
+
+					if(pagenumber == 0 && first == 'false' && last == 'false') {
+						disableFirst();
+						disableBack();
+						disableForward();
+						disableLast();
+					} else {
+						if(first == 'true') {
+							disableFirst();
+							disableBack();
+						}
+
+						if(last == 'true') {
+							disableForward();
+							disableLast();
+						}
+					}	
+				}
+
+				function disableFirst() {
+					$('#btnFirst').prop("disabled",true);
+					$('#btnFirst').css("background-color","#F0F0F0");
+				}
+
+				function disableBack() {
+					$('#btnBack').prop("disabled",true);
+					$('#btnBack').css("background-color","#F0F0F0");
+				}
+
+				function disableForward() {
+					$('#btnForward').prop("disabled",true);
+					$('#btnForward').css("background-color","#F0F0F0");
+				}
+
+				function disableLast() {
+					$('#btnLast').prop("disabled",true);
+					$('#btnLast').css("background-color","#F0F0F0");
+				}
+			});
+		</script>
+
+	</div>
 	
 	<!-- ARCHIVES SEARCH BOX -->
 	<div th:fragment="archives-searchbox" class="post-wrapper">
@@ -115,7 +223,6 @@
 			<div class="form-wrapper">
 				
 				<form th:action="@{/searcharchives}" th:object="${postSearchFacade}" id="search-box" data-name="Search Form" name="search-box" method="POST">
-
 					<input th:field="*{pagenumber}" type="hidden" id="hidPagenumber" name="hidPagenumber">
 					<input th:field="*{first}" type="hidden" id="hidFirst" name="hidFirst">
 					<input th:field="*{last}" type="hidden" id="hidLast" name="hidLast">
@@ -227,10 +334,6 @@
 					$('#btnLast').prop("disabled",true);
 					$('#btnLast').css("background-color","#F0F0F0");
 				}
-
-
-
-
 			});
 		</script>
 

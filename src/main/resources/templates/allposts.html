@@ -13,25 +13,17 @@
 	<div class="content-wrapper">
 		<div class="w-container">
 			<div class="w-row">
-			
-				<div th:replace="fragments/general.html :: sidebar"></div>
-				
+						
 				<div class="content-column w-col w-col-9">
 				
-					<h1 class="white-bg-heading">All Posts</h1>
+					<div th:replace="fragments/static.html :: all-posts-box"></div>
 				
 					<div class="w-dyn-list">
 						<div class="w-dyn-items">
-							<div th:replace="fragments/dynamic.html :: allposts"></div>
+							<div th:replace="fragments/dynamic.html :: archives-posts"></div>
 						</div>
-					</div>
-					
-					<div class="button-wrapper">
-						<a class="button w-button" th:href="@{/all-posts}">Mais postagens&nbsp;&rarr;</a>
-					</div>
-					
-					<div th:replace="fragments/general.html :: mobile-sidebar"></div>
-					
+					</div>				
+									
 				</div>
 			</div>
 		</div>
