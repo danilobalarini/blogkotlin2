@@ -10,6 +10,7 @@ import br.com.dblogic.blogkotlin.model.facade.TagFacade
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
 import br.com.dblogic.blogkotlin.utils.BlogUtils
+import org.apache.commons.lang3.RegExUtils
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,6 +24,8 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
 import java.time.Instant
+
+import org.jsoup.Jsoup
 
 @Service
 class PostService {
@@ -53,6 +56,9 @@ class PostService {
     @Value("\${blog.archive.pagesize}")
     var pagesize: Int = 0
 
+    @Value("\${blog.all.pagesize}")
+    var pagesizeAll: Int = 0
+
     fun findAll(): List<Post> {
         return postRepository.findAll()
     }
@@ -81,7 +87,7 @@ class PostService {
 
         return PostSearchFacade(postSearchFacade.title,
                                 postSearchFacade.review,
-                                "",
+                        "",
                                 postSearchFacade.pagenumber,
                                 all.isFirst,
                                 all.isLast,
@@ -92,17 +98,17 @@ class PostService {
     fun findAllCreatedAt(postSearchFacade: PostSearchFacade): PostSearchFacade {
         logger.info("find by findAllCreatedAt")
 
-        val pageable = PageRequest.of(postSearchFacade.pagenumber, pagesize);
+        val pageable = PageRequest.of(postSearchFacade.pagenumber, pagesizeAll);
         val all = postRepository.findAll(pageable)
 
         return PostSearchFacade(postSearchFacade.title,
                                 postSearchFacade.review,
-                                "",
-                                postSearchFacade.pagenumber,
-                                all.isFirst,
-                                all.isLast,
-                                all.totalPages,
-                                postToFacade(all) as MutableList<PostFacade>)
+                               "",
+                               postSearchFacade.pagenumber,
+                               all.isFirst,
+                               all.isLast,
+                               all.totalPages,
+                               postToFacade(all) as MutableList<PostFacade>)
     }
 
     fun save(post: Post): Post {
@@ -119,20 +125,20 @@ class PostService {
         val posts = cleanHtml(postRepository.findTop6ByIsDraftFalseOrderByCreatedAtDesc())
         logger.info("### posts ###: " + posts.size)
 
-        if (posts.isEmpty()) {
+        if(posts.isEmpty()) {
             val facade = PostFacade(0,
-                                "Não temos posts. Volte outro dia. Teremos bolinhos.",
-                                "",
-                                false,
-                                Instant.now(),
-                                0,
-                                mutableSetOf<TagFacade>(),
-                                "")
+                    "Não temos posts. Volte outro dia. Teremos bolinhos.",
+                    "",
+                    false,
+                    Instant.now(),
+                    0,
+                    mutableSetOf<TagFacade>(),
+                    "")
 
             return FrontPageFacade(facade, mutableListOf<PostFacade>())
         } else {
             return FrontPageFacade(postToFacade(posts.first()),
-                                   postToFacade(posts.drop(1)))
+                    postToFacade(posts.drop(1)))
         }
     }
 
@@ -152,9 +158,9 @@ class PostService {
     fun brandNewPost(): Post {
         var post = postRepository.save(Post())
         val postImage = PostImage("${post.id}-coverimage.jpg",
-                        "default cover image",
-                                  postImageService.defaultCoverImage(post.title),
-                       true, post)
+                "default cover image",
+                postImageService.defaultCoverImage(post.title),
+                true, post)
         post.addPostImage(postImage)
 
         val directory = blogUtils.getDirectoryNameFromPost(post)
@@ -247,26 +253,26 @@ class PostService {
     fun postToFacade(p: Post): PostFacade {
 
         return PostFacade(p.id,
-                          p.title,
-                          p.review,
-                          p.isDraft,
-                          p.createdAt,
-                          p.comments.size,
-                          tagService.toSetFacade(p.tags),
-                          createCoverImage(p))
+                p.title,
+                p.review,
+                p.isDraft,
+                p.createdAt,
+                p.comments.size,
+                tagService.toSetFacade(p.tags),
+                createCoverImage(p))
     }
 
     fun postToFacade(posts: List<Post>): List<PostFacade> {
         val postList = mutableListOf<PostFacade>()
         for (p in posts) {
             postList.add(PostFacade(p.id,
-                                    p.title,
-                                    p.review,
-                                    p.isDraft,
-                                    p.createdAt,
-                                    p.comments.size,
-                                    tagService.toSetFacade(p.tags),
-                                    createCoverImage(p)))
+                    p.title,
+                    p.review,
+                    p.isDraft,
+                    p.createdAt,
+                    p.comments.size,
+                    tagService.toSetFacade(p.tags),
+                    createCoverImage(p)))
         }
         return postList
     }
@@ -275,13 +281,13 @@ class PostService {
         val postList = mutableListOf<PostFacade>()
         for (p in posts) {
             postList.add(PostFacade(p.id,
-                                    p.title,
-                                    p.review,
-                                    p.isDraft,
-                                    p.createdAt,
-                                    p.comments.size,
-                                    tagService.toSetFacade(p.tags),
-                                    createCoverImage(p)))
+                    p.title,
+                    Jsoup.parse(p.review).text(),
+                    p.isDraft,
+                    p.createdAt,
+                    p.comments.size,
+                    tagService.toSetFacade(p.tags),
+                    createCoverImage(p)))
         }
         return postList
     }
@@ -290,10 +296,7 @@ class PostService {
 
         var listPost = mutableListOf<Post>()
         for (p in posts) {
-            p.review = p.review.replace("</p><p>", " ")
-            p.review = p.review.replace("<br/>", " ")
-            p.review = p.review.replace("<br>", " ")
-            p.review = p.review.replace("\\<.*?>".toRegex(), "")
+            p.review = Jsoup.parse(p.review).text()
             listPost.add(p)
         }
         return posts;
