@@ -4,6 +4,10 @@
 <head>
 	<title>Article</title>
 	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_level_1"> </th:block> /*/-->
+	
+	<link th:href="@{../webjars/prettify/4-Mar-2013/prettify.css}" rel="stylesheet">
+	<script th:src="@{../webjars/prettify/4-Mar-2013/prettify.js}"></script>
+
 </head>
 
 <body>
@@ -21,7 +25,7 @@
 						<div th:replace="fragments/articlebody.html :: post"></div>
 
 						<div class="button-wrapper">
-							<a class="button w-button" th:href="@{/home}">←&nbsp;All posts</a>
+							<a class="button w-button" th:href="@{/all-posts}">←&nbsp;Todos posts</a>
 						</div>
 
 						<br />

@@ -253,26 +253,26 @@ class PostService {
     fun postToFacade(p: Post): PostFacade {
 
         return PostFacade(p.id,
-                p.title,
-                p.review,
-                p.isDraft,
-                p.createdAt,
-                p.comments.size,
-                tagService.toSetFacade(p.tags),
-                createCoverImage(p))
+                          p.title,
+                          p.review,
+                          p.isDraft,
+                          p.createdAt,
+                          p.comments.size,
+                          tagService.toSetFacade(p.tags),
+                          createCoverImage(p))
     }
 
     fun postToFacade(posts: List<Post>): List<PostFacade> {
         val postList = mutableListOf<PostFacade>()
         for (p in posts) {
             postList.add(PostFacade(p.id,
-                    p.title,
-                    p.review,
-                    p.isDraft,
-                    p.createdAt,
-                    p.comments.size,
-                    tagService.toSetFacade(p.tags),
-                    createCoverImage(p)))
+                         p.title,
+                         p.review,
+                         p.isDraft,
+                         p.createdAt,
+                         p.comments.size,
+                         tagService.toSetFacade(p.tags),
+                         createCoverImage(p)))
         }
         return postList
     }
@@ -281,13 +281,13 @@ class PostService {
         val postList = mutableListOf<PostFacade>()
         for (p in posts) {
             postList.add(PostFacade(p.id,
-                    p.title,
-                    Jsoup.parse(p.review).text(),
-                    p.isDraft,
-                    p.createdAt,
-                    p.comments.size,
-                    tagService.toSetFacade(p.tags),
-                    createCoverImage(p)))
+                         p.title,
+                         Jsoup.parse(p.review).text(),
+                         p.isDraft,
+                         p.createdAt,
+                         p.comments.size,
+                         tagService.toSetFacade(p.tags),
+                         createCoverImage(p)))
         }
         return postList
     }
