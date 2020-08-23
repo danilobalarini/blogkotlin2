@@ -4,6 +4,7 @@ import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostImage
 import br.com.dblogic.blogkotlin.repository.PostImageRepository
 import br.com.dblogic.blogkotlin.utils.BlogUtils
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -68,7 +69,7 @@ class PostImageService {
         val deleteFilename = deleteImage.filename
         logger.info("deleteFilename: $deleteFilename")
 
-        val name = getName(coverImage)
+        val name = StringUtils.stripAccents(getName(coverImage))
         val image = if (coverImage.bytes.isNotEmpty()) coverImage.bytes else byteArrayOf(0)
 
         val postImage = postImageRepository.save(PostImage(name, "", image,  true, post))
@@ -84,15 +85,13 @@ class PostImageService {
         Files.write(imagepath, postImage.image, StandardOpenOption.CREATE)
         Files.delete(imagepathdelete)
 
-        val url = "../${postService.createCoverImage(post)}"
-
-        return url
+        return "../${postService.createCoverImage(post)}"
     }
 
     fun save(id: Long, multiPartFile: MultipartFile): String {
 
         val post = postService.findById(id)
-        val name = getName(multiPartFile)
+        val name = StringUtils.stripAccents(getName(multiPartFile))
         val image = if (multiPartFile.bytes.isNotEmpty()) multiPartFile.bytes else byteArrayOf(0)
 
         val postImage = postImageRepository.save(PostImage(name, "", image, false, post))
