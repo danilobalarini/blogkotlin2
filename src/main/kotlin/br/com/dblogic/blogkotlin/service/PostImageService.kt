@@ -4,6 +4,7 @@ import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostImage
 import br.com.dblogic.blogkotlin.repository.PostImageRepository
 import br.com.dblogic.blogkotlin.utils.BlogUtils
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -50,16 +51,6 @@ class PostImageService {
         return image
     }
 
-    private fun getName(multiPartFile: MultipartFile) : String {
-
-        if(!multiPartFile.isEmpty) {
-            if(multiPartFile.originalFilename?.isNotBlank()!!) {
-                return multiPartFile.originalFilename!!
-            }
-        }
-        return ""
-    }
-
     fun updateCoverImage(id: Long, coverImage: MultipartFile): String {
         logger.info("entrou no updateCoverImage")
 
@@ -84,9 +75,7 @@ class PostImageService {
         Files.write(imagepath, postImage.image, StandardOpenOption.CREATE)
         Files.delete(imagepathdelete)
 
-        val url = "../${postService.createCoverImage(post)}"
-
-        return url
+        return "../${postService.createCoverImage(post)}"
     }
 
     fun save(id: Long, multiPartFile: MultipartFile): String {
@@ -118,8 +107,7 @@ class PostImageService {
         g2d.fillRect(0, 0, 1300, 860)
 
         g2d.color = Color.BLACK
-        val font = Font("Georgia", Font.BOLD, 36);
-        g2d.setFont(font);
+        g2d.font = Font("Georgia", Font.BOLD, 36)
         g2d.drawString(text, 200, 200)
 
         val baos = ByteArrayOutputStream();
@@ -134,5 +122,16 @@ class PostImageService {
     fun findByPost(post: Post): List<PostImage> {
         return postImageRepository.findByPost(post)
     }
+
+    private fun getName(multiPartFile: MultipartFile) : String {
+
+        if(!multiPartFile.isEmpty) {
+            if(multiPartFile.originalFilename?.isNotBlank()!!) {
+                return StringUtils.stripAccents(multiPartFile.originalFilename!!)
+            }
+        }
+        return ""
+    }
+
 
 }

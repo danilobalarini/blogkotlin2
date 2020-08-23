@@ -289,9 +289,6 @@
 				isDraft : postdraft
 			};
 
-			// record start time
-			var startTime = new Date();
-
 			$.ajax({
 				type: "POST",
 				url: "/post/update",
@@ -308,20 +305,6 @@
 					console.log("errorThrown: " + errorThrown);
 				}
 			});
-
-			// later record end time
-			var endTime = new Date();
-
-			// time difference in ms
-			var timeDiff = endTime - startTime;
-
-			// strip the ms
-			timeDiff /= 1000;
-			console.log("timeDiff: " + timeDiff);
-
-			// get seconds (Original had 'round' which incorrectly counts 0:28, 0:29, 1:30 ... 1:59, 1:0)
-			var seconds = Math.round(timeDiff % 60);
-			console.log("seconds: " + seconds);
 
 		}
 
