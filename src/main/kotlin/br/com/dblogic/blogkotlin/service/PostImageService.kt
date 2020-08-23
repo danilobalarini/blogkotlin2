@@ -51,16 +51,6 @@ class PostImageService {
         return image
     }
 
-    private fun getName(multiPartFile: MultipartFile) : String {
-
-        if(!multiPartFile.isEmpty) {
-            if(multiPartFile.originalFilename?.isNotBlank()!!) {
-                return multiPartFile.originalFilename!!
-            }
-        }
-        return ""
-    }
-
     fun updateCoverImage(id: Long, coverImage: MultipartFile): String {
         logger.info("entrou no updateCoverImage")
 
@@ -69,7 +59,7 @@ class PostImageService {
         val deleteFilename = deleteImage.filename
         logger.info("deleteFilename: $deleteFilename")
 
-        val name = StringUtils.stripAccents(getName(coverImage))
+        val name = getName(coverImage)
         val image = if (coverImage.bytes.isNotEmpty()) coverImage.bytes else byteArrayOf(0)
 
         val postImage = postImageRepository.save(PostImage(name, "", image,  true, post))
@@ -91,7 +81,7 @@ class PostImageService {
     fun save(id: Long, multiPartFile: MultipartFile): String {
 
         val post = postService.findById(id)
-        val name = StringUtils.stripAccents(getName(multiPartFile))
+        val name = getName(multiPartFile)
         val image = if (multiPartFile.bytes.isNotEmpty()) multiPartFile.bytes else byteArrayOf(0)
 
         val postImage = postImageRepository.save(PostImage(name, "", image, false, post))
@@ -117,8 +107,7 @@ class PostImageService {
         g2d.fillRect(0, 0, 1300, 860)
 
         g2d.color = Color.BLACK
-        val font = Font("Georgia", Font.BOLD, 36);
-        g2d.setFont(font);
+        g2d.font = Font("Georgia", Font.BOLD, 36)
         g2d.drawString(text, 200, 200)
 
         val baos = ByteArrayOutputStream();
@@ -133,5 +122,16 @@ class PostImageService {
     fun findByPost(post: Post): List<PostImage> {
         return postImageRepository.findByPost(post)
     }
+
+    private fun getName(multiPartFile: MultipartFile) : String {
+
+        if(!multiPartFile.isEmpty) {
+            if(multiPartFile.originalFilename?.isNotBlank()!!) {
+                return StringUtils.stripAccents(multiPartFile.originalFilename!!)
+            }
+        }
+        return ""
+    }
+
 
 }
