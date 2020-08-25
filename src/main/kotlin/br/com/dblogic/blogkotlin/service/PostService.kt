@@ -80,14 +80,14 @@ class PostService {
         logger.info("saving captcha response of search")
         captchaService.save(postSearchFacade.response, CaptchaEvent.SEARCH, 0)
 
-        val pageable = PageRequest.of(postSearchFacade.pagenumber, pagesize);
+        val pageable = PageRequest.of(postSearchFacade.pagenumber, pagesize)
         val post = Post(postSearchFacade.title, postSearchFacade.review)
         val specification = postSpecification.findByTitleOrReviewOrderByCreatedAt(post)
         val all = postRepository.findAll(specification, pageable)
 
         return PostSearchFacade(postSearchFacade.title,
                                 postSearchFacade.review,
-                        "",
+                                "",
                                 postSearchFacade.pagenumber,
                                 all.isFirst,
                                 all.isLast,
@@ -98,17 +98,17 @@ class PostService {
     fun findAllCreatedAt(postSearchFacade: PostSearchFacade): PostSearchFacade {
         logger.info("find by findAllCreatedAt")
 
-        val pageable = PageRequest.of(postSearchFacade.pagenumber, pagesizeAll);
-        val all = postRepository.findAll(pageable)
+        val pageable = PageRequest.of(postSearchFacade.pagenumber, pagesizeAll)
+        val all = postRepository.findByIsDraftFalseOrderByCreatedAtDesc(pageable)
 
         return PostSearchFacade(postSearchFacade.title,
                                 postSearchFacade.review,
-                               "",
-                               postSearchFacade.pagenumber,
-                               all.isFirst,
-                               all.isLast,
-                               all.totalPages,
-                               postToFacade(all) as MutableList<PostFacade>)
+                                "",
+                                postSearchFacade.pagenumber,
+                                all.isFirst,
+                                all.isLast,
+                                all.totalPages,
+                                postToFacade(all) as MutableList<PostFacade>)
     }
 
     fun save(post: Post): Post {
@@ -127,32 +127,19 @@ class PostService {
 
         if(posts.isEmpty()) {
             val facade = PostFacade(0,
-                    "Não temos posts. Volte outro dia. Teremos bolinhos.",
-                    "",
-                    false,
-                    Instant.now(),
-                    0,
-                    mutableSetOf<TagFacade>(),
-                    "")
+                                    "Não temos posts. Volte outro dia. Teremos bolinhos.",
+                                    "",
+                                    false,
+                                    Instant.now(),
+                                    0,
+                                    mutableSetOf<TagFacade>(),
+                                    "")
 
             return FrontPageFacade(facade, mutableListOf<PostFacade>())
         } else {
             return FrontPageFacade(postToFacade(posts.first()),
-                    postToFacade(posts.drop(1)))
+                                   postToFacade(posts.drop(1)))
         }
-    }
-
-    fun allPosts(): List<PostFacade> {
-        val posts = cleanHtml(postRepository.findByIsDraftFalseOrderByCreatedAtDesc())
-        return postToFacade(posts)
-    }
-
-    fun getAllPosts(pageNumber: Int = 0, pageSize: Int = 10): List<PostFacade> {
-        logger.info("entering getAllPosts")
-        logger.info("pageNumber: ${pageNumber}")
-        logger.info("pageSize: ${pageSize}")
-        val paging = PageRequest.of(pageNumber, pageSize)
-        return postToFacade(postRepository.findByIsDraftFalseOrderByCreatedAtDesc(paging))
     }
 
     fun brandNewPost(): Post {

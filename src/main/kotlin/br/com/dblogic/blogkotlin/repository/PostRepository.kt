@@ -2,7 +2,9 @@ package br.com.dblogic.blogkotlin.repository
 
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.Tag
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Modifying
@@ -25,7 +27,7 @@ interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<P
 
 	fun findByIsDraftFalseOrderByCreatedAtDesc(): List<Post>
 
-	fun findByIsDraftFalseOrderByCreatedAtDesc(paging: PageRequest): List<Post>
+	fun findByIsDraftFalseOrderByCreatedAtDesc(pageable: Pageable): Page<Post>
 
 	fun findAllByTags(tag: Tag): List<Post>
 

@@ -128,19 +128,6 @@ class BlogController {
 		return "showbytag"
 	}
 
-	@GetMapping("/getall-posts")
-	fun getAllPosts(@RequestParam(defaultValue = "0") pageNumber: Int,
-					@RequestParam(defaultValue = "10") pageSize: Int,
-					model: Model) : String {
-
-		logger.info("pagenumber: ${pageNumber}")
-		logger.info("pageSize: ${pageSize}")
-
-		model.addAttribute("allposts", postService.getAllPosts(pageNumber, pageSize))
-
-		return "allposts"
-	}
-
 	@GetMapping("/archives")
 	fun goArchives(model: Model) : String {
 		model.addAttribute("keysite", recaptchaKeySite)

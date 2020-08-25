@@ -18,16 +18,20 @@ class PostSpecification {
 			val title = root.get<String>("title")
 			val review = root.get<String>("review")
 			val createdAt = root.get<Instant>("createdAt")
+			val isDraft = root.get<Boolean>("isDraft")
 
 			if(post != null) {
 				if(StringUtils.isNotBlank(post.title)) {
-					predicates.add(cb.like(title, "%${post.title}%"));
+					predicates.add(cb.like(title, "%${post.title}%"))
 				}
 
 				if(StringUtils.isNotBlank(post.review)) {
-					predicates.add(cb.like(review, "%${post.review}%"));
+					predicates.add(cb.like(review, "%${post.review}%"))
 				}
 			}
+
+			predicates.add(cb.not(isDraft))
+
 			query.orderBy(cb.desc(createdAt))
 			cb.or(*predicates.toTypedArray())
 		}
