@@ -24,11 +24,7 @@
 
 						<div th:replace="fragments/articlebody.html :: post"></div>
 
-						<div class="button-wrapper">
-							<a class="button w-button" th:href="@{/all-posts}">←&nbsp;Todos posts</a>
-						</div>
-
-						<br />
+						<div th:replace="fragments/articlebody.html :: addCommentBox"></div>
 
 						<div th:replace="fragments/articlebody.html :: comments"></div>
 

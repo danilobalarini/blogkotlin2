@@ -22,90 +22,82 @@
         </div>
     </div>
 
-    <div th:fragment="comments" class="post-wrapper">
+    <div th:fragment="addCommentBox" class="post-wrapper">
         <script th:src="|https://www.google.com/recaptcha/api.js?render=${keysite}"></script>
-        <div th:fragment="add-comment" class="post-wrapper">
+            
+        <div class="post-content">
 
-            <h3>Deixe seu comentário!</h3>
-    
-            <div class="post-content">
-                <form id="email-form" data-name="Email Form" name="email-form">
-                    <input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
-                    <label for="Name">Nome</label>
-                    <input class="text-field w-input" data-name="Name" id="txtName" maxlength="255" name="txtName" placeholder="Digite seu nome" type="text">
-                    <label for="Email">E-Mail</label>
-                    <input class="text-field w-input" data-name="Email" id="txtEmail" maxlength="255" name="txtEmail" placeholder="Digite seu endereço de e-mail" required="required" type="email">
-                    <label for="Message">Mensagem</label>
-                    <textarea class="text-area text-field w-input" data-name="Message" id="txtMessage" maxlength="5000" name="txtMessage" placeholder="Digite seu comentário" required="required"></textarea>
-                    <input id="btnSubmit" class="button w-button" data-wait="Please wait..." type="button" value="Submit">
-                </form>
-            </div>
-    
-            <script th:inline="javascript">
+            <h2 style="margin-top: 1px;">Deixe seu comentário!</h2>
 
-                $(document).ready(function() {
-
-                    var keysite = [[${keysite}]];
-					var comment_action = [[${commentAction}]];
-
-                    $('#btnSubmit').click(function() {
-							console.log('keysite: ' + keysite);
-							console.log('typeof grecaptcha: ' + typeof grecaptcha !== 'undefined');
-							
-							grecaptcha.execute(keysite, {action : comment_action}).then(function(response) { 
-								
-								var facade = {
-                                    post:$('#postid').val(),
-									name:$('#txtName').val(),
-									email:$('#txtEmail').val(),
-									text:$('#txtMessage').val(),
-									response:response
-								}
-                                
-								console.log('form data: ' + JSON.stringify(facade));
-                                
-								$.ajax({
-									url: "/comment/save",
-									type: "POST",
-									data: JSON.stringify(facade),
-									contentType: "application/json; charset=utf-8",
-									cache: false,
-									processData: false,
-									success: function (data) {
-                                        console.log("comentário: " + data);
-                                        console.log("comentário adicionado com sucesso");
-									},
-									error : function(jqXHR, textStatus, errorThrown) {
-										console.log("jqXHR: " + jqXHR.status);
-										console.log("textStatus: " + textStatus);
-										console.log("errorThrown: " + errorThrown);
-									}
-								});
-							});
-						});
-                });
-
-                prettyPrint();
-                
-            </script>
+            <form id="email-form" data-name="Email Form" name="email-form">
+                <input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
+                <label for="Name">Nome</label>
+                <input class="text-field w-input" data-name="Name" id="txtName" maxlength="255" name="txtName" placeholder="Digite seu nome" type="text">
+                <label for="Email">E-Mail</label>
+                <input class="text-field w-input" data-name="Email" id="txtEmail" maxlength="255" name="txtEmail" placeholder="Digite seu endereço de e-mail" required="required" type="email">
+                <label for="Message">Mensagem</label>
+                <textarea class="text-area text-field w-input" data-name="Message" id="txtMessage" maxlength="5000" name="txtMessage" placeholder="Digite seu comentário" required="required"></textarea>
+                <input id="btnSubmit" class="button w-button" data-wait="Please wait..." type="button" value="Enviar">
+            </form>
         </div>
-
-        <div class="post-comments" th:each="comment : ${comments}">
-            <div class="comments-author" th:text="${comment.name}"></div>
-            <div class="comments-date" th:with="date=${comment.createdAt}"
-                 th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
-            <p class="comments-content" th:text="${comment.text}"></p>
-            <div class="grey-rule"></div>
-        </div>
-        <br />
-
         <script th:inline="javascript">
-            $(document).ready(function() { 
 
+            $(document).ready(function() {
+
+                var keysite = [[${keysite}]];
+                var comment_action = [[${commentAction}]];
+
+                $('#btnSubmit').click(function() {
+                    console.log('keysite: ' + keysite);
+                    console.log('typeof grecaptcha: ' + typeof grecaptcha !== 'undefined');
+                    
+                    grecaptcha.execute(keysite, {action : comment_action}).then(function(response) { 
+                        
+                        var facade = {
+                            post:$('#postid').val(),
+                            name:$('#txtName').val(),
+                            email:$('#txtEmail').val(),
+                            text:$('#txtMessage').val(),
+                            response:response
+                        }
+                        
+                        console.log('form data: ' + JSON.stringify(facade));
+                        
+                        $.ajax({
+                            url: "/comment/save",
+                            type: "POST",
+                            data: JSON.stringify(facade),
+                            contentType: "application/json; charset=utf-8",
+                            cache: false,
+                            processData: false,
+                            success: function (data) {
+                                console.log("comentário: " + data);
+                                console.log("comentário adicionado com sucesso");
+                            },
+                            error : function(jqXHR, textStatus, errorThrown) {
+                                console.log("jqXHR: " + jqXHR.status);
+                                console.log("textStatus: " + textStatus);
+                                console.log("errorThrown: " + errorThrown);
+                            }
+                        });
+                    });
+                });
             });
         </script>
     </div>
 
+    <div th:fragment="comments" class="post-wrapper">
+        <div class="post-content">
+            <div class="post-comments" th:each="comment : ${comments}">
+                <div class="comments-author" th:text="${comment.name}"></div>
+                <div class="comments-date" th:with="date=${comment.createdAt}"
+                     th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
+                <p class="comments-content" th:text="${comment.text}"></p>
+                <div class="grey-rule"></div>
+            </div>
+            <br />
+        </div>
+    </div>
     </body>
 
 </html>
