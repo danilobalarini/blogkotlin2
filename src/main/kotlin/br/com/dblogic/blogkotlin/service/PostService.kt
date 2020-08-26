@@ -234,7 +234,7 @@ class PostService {
     }
 
     fun mostVisitedPosts(): List<PostFacade> {
-        return postToFacade(postRepository.findTop2ByOrderByPageviewDesc())
+        return postToFacade(postRepository.findTop2ByIsDraftFalseOrderByPageviewDesc())
     }
 
     fun postToFacade(p: Post): PostFacade {
