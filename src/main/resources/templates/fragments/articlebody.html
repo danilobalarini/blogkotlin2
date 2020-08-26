@@ -42,7 +42,15 @@
             </form>
         </div>
         <style>
-            .prettyprint ol.linenums > li { list-style-type: decimal; }
+            .prettyprint ol.linenums > li { 
+                list-style-type: decimal;
+            }
+
+            .prettyprint {
+			    overflow-x: auto;
+        	    white-space: pre-wrap;
+                font-size: 12px;
+		    }
         </style>  
         <script th:inline="javascript">
 
@@ -153,9 +161,9 @@
         </script>
     </div>
     
-    <div th:fragment="comments" class="post-wrapper">
+    <div th:fragment="comments" class="post-wrapper" th:each="comment : ${comments}">
         <div class="post-content">
-            <div class="post-comments" th:each="comment : ${comments}">
+            <div class="post-comments">
                 <div class="comments-author" th:text="${comment.name}"></div>
                 <div class="comments-date" th:with="date=${comment.createdAt}"
                      th:text="${#dates.day(date) + ' ' + #dates.monthName(date) + ' ' + #dates.year(date)}"></div>
