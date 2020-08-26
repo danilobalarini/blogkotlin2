@@ -38,7 +38,7 @@
                 <label for="Message">Mensagem</label>
                 <textarea class="text-area text-field w-input" data-name="Message" id="txtMessage" maxlength="5000" name="txtMessage" placeholder="Digite seu comentário" required="required"></textarea>
                 <input id="btnSubmit" class="button w-button" data-wait="Please wait..." type="button" value="Enviar">
-                <div id="successBox" style="visibility: hidden;"></div>
+                <div id="successBox"></div>
             </form>
         </div>
         <script th:inline="javascript">
@@ -50,9 +50,6 @@
 
                 $('#btnSubmit').click(function() {
                     freezeForm();
-                    $('#txtName').attr('readonly', true);
-                    $('#txtEmail').attr('readonly', true);
-                    $('#txtMessage').attr('readonly', true);
 
                     if(validCommentForm()) {
                         console.log('keysite: ' + keysite);
@@ -142,8 +139,7 @@
                 }
 
                 function showSuccessBox() { 
-                    $('#successBox').css('border', '2px solid green');
-                    $('#successBox').append('<h3 style="color: green;">Obrigado pelo comentário! Iremos publicá-lo assim que passar pela moderação.</h3>');
+                    $('#successBox').append('<p class="success-text">Muito Obrigado! Seu comentário foi enviado!</p>');
                     $('#successBox').css('visibility', 'visible');
                 }
 

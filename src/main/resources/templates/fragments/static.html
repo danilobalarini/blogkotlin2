@@ -33,6 +33,7 @@
 					<label for="Message">Mensagem</label>
 					<textarea class="text-area text-field w-input" data-name="Message" id="txtMessage" maxlength="5000" name="txtMessage" placeholder="Digite a mensagem" required="required"></textarea>
 					<input id="btnSubmit" class="button w-button" data-wait="Please wait..." type="button" value="Enviar">
+					<div id="successBox"></div>
 				</form>
 
 				<div id="divSuccess" class="success-message w-form-done">
@@ -52,50 +53,95 @@
 						var register_action = [[${registerAction}]];
 
 						$('#btnSubmit').click(function() {
-							console.log('keysite: ' + keysite);
-							console.log('typeof grecaptcha: ' + typeof grecaptcha !== 'undefined');
-							
-							grecaptcha.execute(keysite, {action : register_action}).then(function(response) { 
+							freezeForm();
+
+							if(validCommentForm()) {
+								console.log('keysite: ' + keysite);
+								console.log('typeof grecaptcha: ' + typeof grecaptcha !== 'undefined');
 								
-								var facade = {
-									name:$('#txtName').val(),
-									email:$('#txtEmail').val(),
-									message:$('#txtMessage').val(),
-									response:response
-								}
-						
-								console.log('form data: ' + JSON.stringify(facade));
-
-								$.ajax({
-									url: "/getContact",
-									type: "POST",
-									data: JSON.stringify(facade),
-									contentType: "application/json; charset=utf-8",
-									cache: false,
-									processData: false,
-									success: function (data) {
-										redirect(data);
-									},
-									error : function(jqXHR, textStatus, errorThrown) {
-										console.log("jqXHR: " + jqXHR.status);
-										console.log("textStatus: " + textStatus);
-										console.log("errorThrown: " + errorThrown);
+								grecaptcha.execute(keysite, {action : register_action}).then(function(response) { 
+									
+									var facade = {
+										name:$('#txtName').val(),
+										email:$('#txtEmail').val(),
+										message:$('#txtMessage').val(),
+										response:response
 									}
-								});
+							
+									console.log('form data: ' + JSON.stringify(facade));
 
-							});
+									$.ajax({
+										url: "/getContact",
+										type: "POST",
+										data: JSON.stringify(facade),
+										contentType: "application/json; charset=utf-8",
+										cache: false,
+										processData: false,
+										success: function (data) {
+											disableForm();
+											showSuccessBox();
+										},
+										error : function(jqXHR, textStatus, errorThrown) {
+											console.log("jqXHR: " + jqXHR.status);
+											console.log("textStatus: " + textStatus);
+											console.log("errorThrown: " + errorThrown);
+										}
+									});
+								});
+							}
 						});
 
-						function redirect(data) {
-							console.log("resposta: " + data)
-							console.log("tudo certo!!!");
-							$('#divSuccess').show();
-							var i=10;
-							setInterval(function () {
-								$("#spanTimeout").html(i);
-								i--;
-							}, 3000)
-							window.location.href = "/contact";
+						function validCommentForm() {
+
+							$('#txtName').css("background-color","#ffffff");
+							$('#txtEmail').css("background-color","#ffffff");
+							$('#txtMessage').css("background-color","#ffffff");
+
+							if(!($('#txtName').val())) {
+								unfreezeForm();
+								$('#txtName').css("background-color","#ffcccc");
+								$('#txtName').focus();
+								return false;
+							}
+
+							if(!($('#txtEmail').val())) {
+								unfreezeForm();
+								$('#txtEmail').css("background-color","#ffcccc");
+								$('#txtEmail').focus();
+								return false;
+							}
+
+							if(!($('#txtMessage').val())) {
+								unfreezeForm();
+								$('#txtMessage').css("background-color","#ffcccc");
+								$('#txtMessage').focus();
+								return false;
+							}
+							return true;
+						}
+
+						function freezeForm() { 
+							$('#txtName').attr('readonly', true);
+							$('#txtEmail').attr('readonly', true);
+							$('#txtMessage').attr('readonly', true);
+						}
+
+						function unfreezeForm() { 
+							$('#txtName').attr('readonly', false);
+							$('#txtEmail').attr('readonly', false);
+							$('#txtMessage').attr('readonly', false);
+						}
+
+						function disableForm() {
+							$('#txtName').attr('disabled', true);
+							$('#txtEmail').attr('disabled', true);
+							$('#txtMessage').attr('disabled', true);
+							$('#btnSubmit').remove();
+						}
+
+						function showSuccessBox() { 
+							$('#successBox').append('<p class="success-text">Muito Obrigado! Seu comentário foi enviado!</p>');
+							$('#successBox').css('visibility', 'visible');
 						}
 
 					});
