@@ -23,7 +23,7 @@ interface PostRepository : JpaRepository<Post, Long>, JpaSpecificationExecutor<P
 	
 	fun findTop6ByIsDraftFalseOrderByCreatedAtDesc(): List<Post>
 
-	fun findTop2ByOrderByPageviewDesc(): List<Post>
+	fun findTop2ByIsDraftFalseOrderByPageviewDesc(): List<Post>
 
 	fun findByIsDraftFalseOrderByCreatedAtDesc(): List<Post>
 
