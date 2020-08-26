@@ -59,7 +59,7 @@ class BlogController {
 
 		val post = postService.findById(id)
 		model.addAttribute("post", postService.postToFacade(post))
-		model.addAttribute("comments", commentService.findByPost(post))
+		model.addAttribute("comments", commentService.findByPostAndIsApprovedTrue(post))
 		model.addAttribute("keysite", recaptchaKeySite)
 		model.addAttribute("commentAction", CaptchaEvent.COMMENT)
 		model.addAttribute("mostvisited", postService.mostVisitedPosts())

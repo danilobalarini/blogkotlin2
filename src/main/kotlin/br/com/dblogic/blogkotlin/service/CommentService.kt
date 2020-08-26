@@ -53,9 +53,9 @@ class CommentService {
 		return toFacade(comment)
 	}
 
-	fun findByPost(post: Post): List<CommentFacade> {
+	fun findByPostAndIsApprovedTrue(post: Post): List<CommentFacade> {
 		var comments = mutableListOf<CommentFacade>()
-		for(comment in commentRepository.findByPost(post)) {
+		for(comment in commentRepository.findByPostAndIsApprovedTrue(post)) {
 			comments.add(toFacade(comment))
 		}
 		return comments

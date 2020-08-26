@@ -14,5 +14,7 @@ interface CommentRepository : JpaRepository<Comment, Long>, JpaSpecificationExec
 	fun countByPost(post: Post): Long
 
 	fun findByPost(post: Post): List<Comment>
-	
+
+	fun findByPostAndIsApprovedTrue(post: Post): List<Comment>
+
 }
