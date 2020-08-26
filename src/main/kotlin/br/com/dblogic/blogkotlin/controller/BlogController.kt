@@ -59,7 +59,7 @@ class BlogController {
 
 		val post = postService.findById(id)
 		model.addAttribute("post", postService.postToFacade(post))
-		model.addAttribute("comments", commentService.findByPost(post))
+		model.addAttribute("comments", commentService.findByPostAndIsApprovedTrue(post))
 		model.addAttribute("keysite", recaptchaKeySite)
 		model.addAttribute("commentAction", CaptchaEvent.COMMENT)
 		model.addAttribute("mostvisited", postService.mostVisitedPosts())
@@ -81,9 +81,9 @@ class BlogController {
 	@GetMapping("/contact")
 	fun contact(model: Model) : String {
 		logger.debug("keysite: $recaptchaKeySite")
-		logger.debug("registerAction: ${CaptchaEvent.SEARCH}")
+		logger.debug("registerAction: ${CaptchaEvent.CONTACT}")
 		model.addAttribute("keysite", recaptchaKeySite)
-		model.addAttribute("registerAction", CaptchaEvent.SEARCH)
+		model.addAttribute("registerAction", CaptchaEvent.CONTACT)
 		model.addAttribute("mostvisited", postService.mostVisitedPosts())
 		return "contact"
 	}

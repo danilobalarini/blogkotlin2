@@ -59,6 +59,7 @@ class CaptchaService : AbstractCaptchaService() {
                 if (googleResponse.hasClientError()) {
                     reCaptchaAttemptService?.reCaptchaFailed(getClientIP())
                 }
+
                 throw ReCaptchaInvalidException("reCaptcha was not successfully validated")
             }
 
