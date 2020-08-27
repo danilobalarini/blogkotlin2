@@ -151,4 +151,9 @@ class BlogController {
 		return "archives"
 	}
 
+	@RequestMapping("/fakeerror")
+	fun handleRequest() {
+		throw RuntimeException("test exception")
+	}
+
 }
