@@ -6,7 +6,7 @@ import com.google.common.cache.LoadingCache
 import org.springframework.stereotype.Service
 import java.util.concurrent.TimeUnit
 
-@Service("reCaptchaAttemptService")
+@Service
 class ReCaptchaAttemptService {
 
     val MAX_ATTEMPT = 4

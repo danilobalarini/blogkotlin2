@@ -31,7 +31,7 @@ abstract class AbstractCaptchaService {
         }
     }
 
-    fun responseSanityCheck(response: String?): Boolean {
+    private fun responseSanityCheck(response: String?): Boolean {
         LOGGER.info("responseSanityCheck: " + StringUtils.hasLength(response))
         LOGGER.info("responseSanityCheck: " + RESPONSE_PATTERN.matcher(response).matches())
 
