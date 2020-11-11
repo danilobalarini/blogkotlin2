@@ -1,10 +1,8 @@
 package br.com.dblogic.blogkotlin.recaptcha
 
-import br.com.dblogic.blogkotlin.model.Comment
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.util.*
 
 data class GoogleResponse(@JsonProperty("success")
                           val success: Boolean = false,

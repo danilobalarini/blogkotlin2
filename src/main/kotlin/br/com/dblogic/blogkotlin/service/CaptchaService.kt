@@ -64,6 +64,7 @@ class CaptchaService : AbstractCaptchaService() {
             }
 
         } catch (rce: RestClientException) {
+            // TODO
             //throw ReCaptchaUnavailableException("Registration unavailable at this time.  Please try again later.", rce)
             LOGGER.info(rce.toString())
         }

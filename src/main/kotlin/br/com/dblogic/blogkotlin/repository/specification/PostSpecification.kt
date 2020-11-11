@@ -30,7 +30,7 @@ class PostSpecification {
 				}
 			}
 
-			predicates.add(cb.not(isDraft))
+			predicates.add(cb.isFalse(isDraft))
 
 			query.orderBy(cb.desc(createdAt))
 			cb.or(*predicates.toTypedArray())

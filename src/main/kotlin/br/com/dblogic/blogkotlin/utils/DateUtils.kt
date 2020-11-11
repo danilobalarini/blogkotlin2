@@ -43,12 +43,8 @@ class DateUtils {
 	}
 	
 	fun plusInstantUntilNow(instant: Instant): Instant {
-		
 		val interval = Duration.between(instant, Instant.now()).toMillis()
-		val plus = instant.plus(ThreadLocalRandom.current().nextLong(0, interval), ChronoUnit.MILLIS)
-		
-		return plus;
-		
+		return instant.plus(ThreadLocalRandom.current().nextLong(0, interval), ChronoUnit.MILLIS);
 	}
 	
 }
