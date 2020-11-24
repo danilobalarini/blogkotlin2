@@ -23,14 +23,10 @@
 			</div>
 			<div class="grey-rule"></div>
 			<div class="body-copy w-richtext">
-				<div th:if="${#strings.length(frontPageFacade.postFacade.review) >= 200}" th:text="${#strings.substring(frontPageFacade.postFacade.review, 0, 200)}" class="post-summary-wrapper">
-					<p class="post-summary" th:if="${#strings.length(postFacade.review) >= 130}" th:text="${#strings.substring(postFacade.review, 0, 130)}"></p>
-					<p class="post-summary" th:unless="${#strings.length(postFacade.review) >= 130}" th:text="${#strings.substring(postFacade.review, 0, #strings.length(postFacade.review))}"></p>
+				<div class="post-summary-wrapper">
+					<p class="post-summary" th:text="${frontPageFacade.postFacade.review}"></p>
 				</div>
-				<div th:unless="${#strings.length(frontPageFacade.postFacade.review) >= 200}" th:text="${#strings.substring(frontPageFacade.postFacade.review, 0, #strings.length(frontPageFacade.postFacade.review))}" class="post-summary-wrapper">
-					<p class="post-summary" th:if="${#strings.length(postFacade.review) >= 130}" th:text="${#strings.substring(postFacade.review, 0, 130)}"></p>
-					<p class="post-summary" th:unless="${#strings.length(postFacade.review) >= 130}" th:text="${#strings.substring(post.review, 0, #strings.length(postFacade.review))}"></p>
-				</div>
+				<br/>
 				<a class="read-more-link" th:href="'/postid/' + ${frontPageFacade.postFacade.id}">Saiba mais...</a>
 			</div>
 		</div>

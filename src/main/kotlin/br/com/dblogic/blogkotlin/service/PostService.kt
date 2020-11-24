@@ -10,7 +10,6 @@ import br.com.dblogic.blogkotlin.model.facade.TagFacade
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
 import br.com.dblogic.blogkotlin.utils.BlogUtils
-import org.apache.commons.lang3.RegExUtils
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -58,6 +57,9 @@ class PostService {
 
     @Value("\${blog.all.pagesize}")
     var pagesizeAll: Int = 0
+
+    @Value("\${blog.text.length}")
+    var textLength: Int = 0
 
     fun findAll(): List<Post> {
         return postRepository.findAll()
@@ -241,7 +243,7 @@ class PostService {
 
         return PostFacade(p.id,
                           p.title,
-                          p.review,
+                          safeTruncate(p.review),
                           p.isDraft,
                           p.createdAt,
                           p.comments.size,
@@ -254,7 +256,7 @@ class PostService {
         for (p in posts) {
             postList.add(PostFacade(p.id,
                          p.title,
-                         p.review,
+                         safeTruncate(p.review),
                          p.isDraft,
                          p.createdAt,
                          p.comments.size,
@@ -287,6 +289,15 @@ class PostService {
             listPost.add(p)
         }
         return posts;
+    }
+
+    private fun safeTruncate(text: String): String {
+        val words = StringUtils.split(text, StringUtils.SPACE)
+        var safetrunc = ""
+        for(x in 0 until words.size) {
+            safetrunc = safetrunc.plus(StringUtils.SPACE + words[x])
+        }
+        return safetrunc
     }
 
 }
