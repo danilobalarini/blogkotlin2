@@ -23,6 +23,14 @@
                 </div>
             </div>
 
+            <div th:fragment="sidebar" class="w-col w-col-3 w-hidden-small w-hidden-tiny">
+                <div th:replace="fragments/sidebar.html :: admin-sidebar"></div>
+            </div>
+
+            <div th:fragment="mobile-sidebar" class="sidebar-on-mobile">
+                <div th:replace="fragments/sidebar.html :: admin-sidebar"></div>
+            </div>
+
             <script th:inline="javascript">
 
                 $(document).ready(function() {
