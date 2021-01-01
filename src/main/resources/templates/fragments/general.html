@@ -36,19 +36,45 @@
 	<link rel="stylesheet" type="text/css" media="all" th:href="@{../css/template.css}">
 	<link rel="stylesheet" type="text/css" media="all" th:href="@{../webjars/cookieconsent/3.1.1/build/cookieconsent.min.css}">
 	<link rel="stylesheet" type="text/css" media="all" th:href="@{../webjars/font-awesome/5.13.1/css/all.min.css}" />
-	
+
 	<!-- JAVASCRIPT -->
 	<script type="text/javascript" th:src="@{../webjars/jquery/3.4.1/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{../webjars/modernizr/2.8.3/modernizr.min.js}"></script>
 	<script type="text/javascript" th:src="@{../javascript/webflow.js}"></script>
 	<script type="text/javascript" th:src="@{../webjars/cookieconsent/3.1.1/build/cookieconsent.min.js}"></script>
-	
+
 	<!-- FAVICON -->
 	<link rel="apple-touch-icon" sizes="180x180" th:href="@{../images/favicon/apple-touch-icon.png}">
 	<link rel="icon" type="image/png" sizes="32x32" th:href="@{../images/favicon/favicon-32x32.png}">
 	<link rel="icon" type="image/png" sizes="16x16" th:href="@{../images/favicon/favicon-16x16.png}">
 	<link rel="manifest" th:href="@{../images/favicon/site.webmanifest}">
-	
+
+	<!-- FONTS -->
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic" />
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto">
+</head>
+
+<head th:fragment="headerfiles_admin_level_1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../css/templateadmin.css}">
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../webjars/cookieconsent/3.1.1/build/cookieconsent.min.css}">
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../webjars/font-awesome/5.13.1/css/all.min.css}" />
+
+	<!-- JAVASCRIPT -->
+	<script type="text/javascript" th:src="@{../webjars/jquery/3.4.1/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{../webjars/modernizr/2.8.3/modernizr.min.js}"></script>
+	<script type="text/javascript" th:src="@{../javascript/webflow.js}"></script>
+	<script type="text/javascript" th:src="@{../webjars/cookieconsent/3.1.1/build/cookieconsent.min.js}"></script>
+
+	<!-- FAVICON -->
+	<link rel="apple-touch-icon" sizes="180x180" th:href="@{../images/favicon/apple-touch-icon.png}">
+	<link rel="icon" type="image/png" sizes="32x32" th:href="@{../images/favicon/favicon-32x32.png}">
+	<link rel="icon" type="image/png" sizes="16x16" th:href="@{../images/favicon/favicon-16x16.png}">
+	<link rel="manifest" th:href="@{../images/favicon/site.webmanifest}">
+
 	<!-- FONTS -->
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic" />
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto">
@@ -62,11 +88,11 @@
 				<div class="site-name">DB Logic</div>
 			</a>
 			<nav class="navigation-menu w-nav-menu" role="navigation">
-				<a class="navigation-link w-nav-link" th:href="@{/home}"	 style="max-width: 940px;">Início</a>
-				<a class="navigation-link w-nav-link" th:href="@{/about}" 	 style="max-width: 940px;">Sobre</a>
-				<a class="navigation-link w-nav-link" th:href="@{/contact}"  style="max-width: 940px;">Contato</a>
-				<a class="navigation-link w-nav-link" th:href="@{/archives}" style="max-width: 940px;">Procurar</a>
-				<a class="navigation-link w-nav-link" th:href="@{/admin}" 	 style="max-width: 940px;">Admin</a>
+				<a class="navigation-link w-nav-link" th:href="@{/home}"	 >Início</a>
+				<a class="navigation-link w-nav-link" th:href="@{/about}" 	 >Sobre</a>
+				<a class="navigation-link w-nav-link" th:href="@{/contact}"  >Contato</a>
+				<a class="navigation-link w-nav-link" th:href="@{/archives}" >Procurar</a>
+				<a class="navigation-link w-nav-link" th:href="@{/admin}" 	 >Admin</a>
 				<!-- a sec:authentication=”name”></a> -->
 			</nav>
 			<div class="menu-button w-nav-button">
