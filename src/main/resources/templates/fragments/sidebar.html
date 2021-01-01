@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	  
+
 	  <div th:fragment="content-sidebar" class="white-wrapper">
-		
-		<img class="circle-profile" sizes="(max-width: 767px) 100vw, 
-										   (max-width: 991px) 97.296875px, 126px" 
+
+		<img class="circle-profile" sizes="(max-width: 767px) 100vw,
+										   (max-width: 991px) 97.296875px, 126px"
 									th:src="@{images/profile.png}"
 									th:srcset="@{images/profile500x500.png 500w, images/profile700x700.png 700w}">
 
@@ -37,6 +37,40 @@
 		<p class="based-on">
 			Baseado no&nbsp;<a class="webflow-link" target="_blank" href-disabled="https://webflow.com" href="https://webflow.com/">Webflow</a>
 		</p>
+	</div>
+
+	<div th:fragment="admin-sidebar" class="white-wrapper">
+
+	  <img class="circle-profile" sizes="(max-width: 767px) 100vw,
+									   (max-width: 991px) 97.296875px, 126px"
+		   th:src="@{images/profile.png}"
+		   th:srcset="@{images/profile500x500.png 500w, images/profile700x700.png 700w}">
+
+	  <p class="site-description">Olá! Me chamo Danilo e este blog fala de tecnologia e programação.</p>
+	  <div class="grey-rule-sidebar"></div>
+	  <h2 class="small-heading">Posts em alta:</h2>
+	  <div class="feature-posts-list w-dyn-list">
+		  <div th:each="post: ${mostvisited}" class="w-dyn-items">
+			  <div class="w-dyn-item">
+				  <a class="small-post-link" th:href="'/postid/' + ${post.id}" th:text="${post.title}"></a>
+			  </div>
+		  </div>
+	  </div>
+	  <div class="grey-rule-sidebar"></div>
+	  <div class="social-link-group">
+		  <a class="social-icon-link w-inline-block" th:href="@{/about}">
+			  <img th:src="@{images/pinned-octocat.svg}" width="25">
+		  </a>
+		  <a class="social-icon-link w-inline-block" th:href="@{/about}">
+			  <img th:src="@{images/icon-instagram.svg}" width="25">
+		  </a>
+		  <a class="social-icon-link w-inline-block" th:href="@{/about}">
+			  <img th:src="@{images/icon-twitter.svg}" width="25">
+		  </a>
+		  <a class="social-icon-link w-inline-block" th:href="@{/about}">
+			  <img th:src="@{images/icon-gitlab.svg}" width="25">
+		  </a>
+	  </div>
 	</div>
 
 	<div th:fragment="content-sidebar_level_1" class="white-wrapper">
@@ -77,11 +111,7 @@
 	</div>
 
 	<div th:fragment="content-sidebar-admin" class="white-wrapper">
-		<img class="circle-profile" sizes="(max-width: 767px) 100vw, 
-										   (max-width: 991px) 97.296875px, 126px" 
-									th:src="@{images/profile.png}"
-									th:srcset="@{images/profile500x500.png 500w, images/profile700x700.png 700w}">
-		
+		<p class="site-description">Olá! Me chamo Danilo e este blog fala de tecnologia e programação.</p>
 		<div class="grey-rule-sidebar"></div>
 		<p class="site-description">
 			<a th:href="@{/admin/reports}">Reports</a><br/>
