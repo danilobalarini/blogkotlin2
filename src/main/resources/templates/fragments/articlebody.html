@@ -20,6 +20,10 @@
             <div class="grey-rule"></div>
             <div class="body-copy w-richtext" th:utext="${post.review}"></div>
         </div>
+
+        <script th:inline="javascript">
+            hljs.initHighlightingOnLoad();
+        </script>
     </div>
 
     <div th:fragment="addCommentBox" class="post-wrapper">
@@ -41,22 +45,10 @@
                 <div id="successBox"></div>
             </form>
         </div>
-        <style>
-            .prettyprint ol.linenums > li { 
-                list-style-type: decimal;
-            }
 
-            .prettyprint {
-			    overflow-x: auto;
-        	    white-space: pre-wrap;
-                font-size: 12px;
-		    }
-        </style>  
         <script th:inline="javascript">
 
             $(document).ready(function() {
-
-                prettyPrint();
 
                 var keysite = [[${keysite}]];
                 var comment_action = [[${commentAction}]];

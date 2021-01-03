@@ -93,7 +93,6 @@
 
                 var $pre = $('<pre>');
                 $pre.html($code)
-                $pre.addClass('prettyprint').addClass('linenums');
 
                 return $pre[0];
             };

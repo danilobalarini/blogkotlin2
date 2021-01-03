@@ -16,10 +16,6 @@
 	<script type="text/javascript" th:src="@{../webjars/summernote/0.8.18/dist/lang/summernote-pt-BR.min.js}"></script>
 	<script type="text/javascript" th:src="@{../javascript/summernote-ext-highlight.js}"></script>
 
-	<!-- Prettify -->
-	<link th:href="@{../webjars/prettify/4-Mar-2013/prettify.css}" rel="stylesheet">
-	<script th:src="@{../webjars/prettify/4-Mar-2013/prettify.js}"></script>
-
 	<!-- multiple select -->
 	<link  th:href="@{../css/multi-select.css}" rel="stylesheet">
 	<script th:src="@{../javascript/jquery.multi-select.js}" type="text/javascript"></script>
@@ -37,15 +33,6 @@
 		.note-editable {
 			font-family: Roboto;
 			font-size: 14px!important; 
-		}
-
-		.prettyprint ol.linenums > li {
-			list-style-type: decimal; 
-		}
-
-		.prettyprint {
-			overflow-x: auto;
-        	white-space: pre-wrap;
 		}
 	</style>
 	</head>
@@ -175,7 +162,6 @@
 
             $('.preview-btn').click(function () {
                 $('#preview-box').html($('.summernote').summernote('code'));
-                prettyPrint();
             });
 
 			$("#btnCoverImage").click(function() {
@@ -314,14 +300,11 @@
 					console.log("errorThrown: " + errorThrown);
 				}
 			});
-			prettyPrint();
 		}
 
 		function goback() {
 			window.location.href = "/admin";
 		}
-
-		prettyPrint();
 
 	</script>
 

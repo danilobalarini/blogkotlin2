@@ -4,9 +4,11 @@
 <head>
 	<title>Article</title>
 	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_level_1"> </th:block> /*/-->
-	
-	<link th:href="@{../webjars/prettify/4-Mar-2013/prettify.css}" rel="stylesheet">
-	<script th:src="@{../webjars/prettify/4-Mar-2013/prettify.js}"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+	<!-- and it's easy to individually load additional languages -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/go.min.js"></script>
 
 </head>
 
