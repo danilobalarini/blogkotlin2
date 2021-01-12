@@ -26,17 +26,13 @@ class AdminController {
 
 	@GetMapping("")
 	fun admin(model: Model) : String {
-
 		model.addAttribute("posts", postService.returnAllFacades())
-
 		return "admindex"
 	}
 
 	@GetMapping("/tags")
 	fun tags(model: Model) : String {
-
 		model.addAttribute("tags", tagService.findAll())
-
 		return "managetags"
 	}
 
