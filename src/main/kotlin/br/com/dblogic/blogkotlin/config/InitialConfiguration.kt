@@ -16,6 +16,7 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
+import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
 @Configuration
@@ -33,7 +34,7 @@ class InitialConfiguration {
 	lateinit var postImageService: PostImageService
 
 	@Autowired
-	lateinit var tagService: TagService
+	lateinit var languageService: LanguageService
 
 	@Autowired
 	lateinit var dateUtils: DateUtils
@@ -46,6 +47,8 @@ class InitialConfiguration {
 
 	@Bean
 	fun initDatabase() = CommandLineRunner {
+
+		createLanguages()
 
 		if(ddlauto.equals("create") || ddlauto.equals("create-drop")) {
 			createEverything()
@@ -92,11 +95,9 @@ class InitialConfiguration {
 	}
 
 	fun createEverything() {
-
 		logger.info("creating all data")
 
 		val maxPosts = 5
-
 		val lorem = LoremIpsum.getInstance()
 		
 		for(x in 0 until maxPosts) {
@@ -109,7 +110,8 @@ class InitialConfiguration {
 			val title = lorem.getTitle(titlemin, titlemax)
 			var post = Post(title,
 							lorem.getParagraphs(paragraphmin, paragraphmax),
-							datePost)
+							datePost,
+							languageService.findById(1))
 			
 			var plusInstant = dateUtils.plusInstantUntilNow(datePost)
 			logger.info("plusInstant: " + dateUtils.toLocalDate(plusInstant))
@@ -144,6 +146,15 @@ class InitialConfiguration {
 		// tagService.save(Tag(StringUtils.upperCase("javascript")))
 		// tagService.save(Tag(StringUtils.upperCase("linux")))
 		// tagService.save(Tag(StringUtils.upperCase("off topic")))
+	}
+
+	private fun createLanguages() {
+		var portugues = Language()
+		portugues.description = "Português Brasileiro"
+		portugues.locale = Locale("pt", "BR")
+		portugues = languageService.save(portugues)
+
+		logger.info("a nova língua foi salva: $portugues")
 	}
 
 }

@@ -1,7 +1,9 @@
 package br.com.dblogic.blogkotlin.model
 
 import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.NaturalId
 import java.time.Instant
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -22,8 +24,8 @@ data class Post(@Id
 				var postImages: MutableList<PostImage> = mutableListOf<PostImage>(),
 
 				@OneToMany(mappedBy = "post",
-						   cascade = [CascadeType.ALL],
-						   orphanRemoval = true)
+					cascade = [CascadeType.ALL],
+					orphanRemoval = true)
 				var comments: MutableList<Comment> = mutableListOf<Comment>(),
 
 				@ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
@@ -32,11 +34,15 @@ data class Post(@Id
 						   inverseJoinColumns = [JoinColumn(name = "tag_id")])
 				val tags: MutableSet<Tag> = mutableSetOf<Tag>(),
 
+				@ManyToOne
+				@JoinColumn(name = "language_id")
+				var language: Language = Language(),
+
 				var isDraft: Boolean = true,
 
 				var pageview: Long = 0L) : DateAudit() {
 
-	constructor(title: String): this() {
+	constructor(title: String) : this() {
 		this.title = title
 	}
 
@@ -49,6 +55,13 @@ data class Post(@Id
 		this.title = title
 		this.review = review
 		this.createdAt = createdAt
+	}
+
+	constructor(title: String, review: String, createdAt: Instant, language: Language): this() {
+		this.title = title
+		this.review = review
+		this.createdAt = createdAt
+		this.language = language
 	}
 
 	fun addPostImage(postImage: PostImage) {
