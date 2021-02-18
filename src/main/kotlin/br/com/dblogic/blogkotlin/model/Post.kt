@@ -34,9 +34,9 @@ data class Post(@Id
 						   inverseJoinColumns = [JoinColumn(name = "tag_id")])
 				val tags: MutableSet<Tag> = mutableSetOf<Tag>(),
 
-				@ManyToOne
+				@OneToOne
 				@JoinColumn(name = "language_id")
-				var language: Language = Language(),
+				var language: Language = Language(1L),
 
 				var isDraft: Boolean = true,
 

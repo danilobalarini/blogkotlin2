@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.NaturalId
 import java.util.*
 import javax.persistence.*
+import javax.print.attribute.IntegerSyntax
 
 @Entity
 @Table(name = "tb_language")

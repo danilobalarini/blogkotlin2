@@ -111,7 +111,7 @@ class InitialConfiguration {
 			var post = Post(title,
 							lorem.getParagraphs(paragraphmin, paragraphmax),
 							datePost,
-							languageService.findById(1))
+							languageService.findById(1L))
 			
 			var plusInstant = dateUtils.plusInstantUntilNow(datePost)
 			logger.info("plusInstant: " + dateUtils.toLocalDate(plusInstant))
@@ -139,22 +139,22 @@ class InitialConfiguration {
 
 			postService.save(post)
 		}
-
-		// tags // isso deveria ficar no application.properties e fazer update para não duplicar (Set?)
-		// tagService.save(Tag(StringUtils.upperCase("geral")))
-		// tagService.save(Tag(StringUtils.upperCase("java")))
-		// tagService.save(Tag(StringUtils.upperCase("javascript")))
-		// tagService.save(Tag(StringUtils.upperCase("linux")))
-		// tagService.save(Tag(StringUtils.upperCase("off topic")))
 	}
 
 	private fun createLanguages() {
-		var portugues = Language()
-		portugues.description = "Português Brasileiro"
-		portugues.locale = Locale("pt", "BR")
-		portugues = languageService.save(portugues)
+		var portuguese = Language()
+		portuguese.description = "Português Brasileiro"
+		portuguese.locale = Locale("pt", "BR")
+		portuguese = languageService.save(portuguese)
 
-		logger.info("a nova língua foi salva: $portugues")
+		logger.info("new language: ${portuguese.description}")
+
+		var english = Language()
+		english.description = "American English"
+		english.locale = Locale("en", "US")
+		english = languageService.save(english)
+
+		logger.info("new language: ${english.description}")
 	}
 
 }
