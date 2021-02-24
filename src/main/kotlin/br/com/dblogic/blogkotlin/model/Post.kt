@@ -1,7 +1,6 @@
 package br.com.dblogic.blogkotlin.model
 
 import org.hibernate.annotations.GenericGenerator
-import org.hibernate.annotations.NaturalId
 import java.time.Instant
 import java.util.*
 import javax.persistence.*
@@ -37,6 +36,8 @@ data class Post(@Id
 				@OneToOne
 				@JoinColumn(name = "language_id")
 				var language: Language = Language(1L),
+
+				val postgroup: UUID = UUID.randomUUID(),
 
 				var isDraft: Boolean = true,
 
