@@ -79,4 +79,9 @@ class AdminController {
 		return "admindex"
 	}
 
+	@GetMapping("/v2")
+	fun v2() : String {
+		return "admindex2"
+	}
+
 }
