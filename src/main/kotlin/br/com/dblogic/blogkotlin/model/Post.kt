@@ -39,6 +39,9 @@ data class Post(@Id
 
 				val postgroup: UUID = UUID.randomUUID(),
 
+				@Column(name = "parent_id", nullable = false)
+				val parentId: Long = 0L,
+
 				var isDraft: Boolean = true,
 
 				var pageview: Long = 0L) : DateAudit() {

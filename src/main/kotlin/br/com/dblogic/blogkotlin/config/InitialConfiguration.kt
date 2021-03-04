@@ -50,7 +50,7 @@ class InitialConfiguration {
 
 		createLanguages()
 
-		if(ddlauto.equals("create") || ddlauto.equals("create-drop")) {
+		if(ddlauto == "create" || ddlauto == "create-drop") {
 			createEverything()
 		} else {
 			logger.info("opa e ae")
