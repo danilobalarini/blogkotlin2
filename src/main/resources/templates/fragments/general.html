@@ -79,6 +79,28 @@
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto">
 </head>
 
+<head th:fragment="headerfiles_admin_v2">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../webjars/AdminLTE/3.0.5/plugins/fontawesome-free/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../webjars/AdminLTE/3.0.5/dist/css/adminlte.css}">
+
+	<!-- JAVASCRIPT -->
+	<script type="text/javascript" th:src="@{../webjars/AdminLTE/3.0.5/plugins/jquery/jquery.js}"></script>
+	<script type="text/javascript" th:src="@{../webjars/AdminLTE/3.0.5/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script type="text/javascript" th:src="@{../webjars/AdminLTE/3.0.5/dist/js/adminlte.js}"></script>
+
+	<!-- FAVICON -->
+	<link rel="apple-touch-icon" sizes="180x180" th:href="@{../images/favicon/apple-touch-icon.png}">
+	<link rel="icon" type="image/png" sizes="32x32" th:href="@{../images/favicon/favicon-32x32.png}">
+	<link rel="icon" type="image/png" sizes="16x16" th:href="@{../images/favicon/favicon-16x16.png}">
+	<link rel="manifest" th:href="@{../images/favicon/site.webmanifest}">
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
 <body>
 
 	<div th:fragment="header" class="navigation-bar w-nav" data-animation="default" data-collapse="medium" data-contain="1" data-duration="400">
