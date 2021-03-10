@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<title>Admin</title>
+	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_admin_v2"> </th:block> /*/-->
+</head>
+
+<body>
+	
+	<div class="wrapper">
+
+		<div th:replace="fragments/adminv2.html :: navigation-bar"></div>
+		
+		<div th:replace="fragments/adminv2.html :: main-sidebar"></div>
+	
+	  <!-- Content Wrapper. Contains page content -->
+	  <div class="content-wrapper">
+
+		<div th:replace="fragments/adminv2.html :: content-header(title='Dashboard v3', bread_item='Home', bread_item_active='Dashboard v3')"></div>
+			
+		<!-- Main content -->
+		<section class="content">
+		  <div class="container-fluid">
+			content goes here
+		  <!-- /.container-fluid -->
+		</section>
+		<!-- /.content -->
+	  </div>
+	  <!-- /.content-wrapper -->
+	
+	  <!-- Control Sidebar -->
+	  <aside class="control-sidebar control-sidebar-dark">
+		<!-- Control sidebar content goes here -->
+	  </aside>
+	  <!-- /.control-sidebar -->
+
+	  <div th:replace="fragments/adminv2.html :: main-footer"></div>
+	
+	</div>
+	<!-- ./wrapper -->
+	
+	<!-- OPTIONAL SCRIPTS -->
+	<!-- script src="plugins/chart.js/Chart.min.js"></script>
+	<script src="dist/js/demo.js"></script>
+	<script src="dist/js/pages/dashboard3.js"></script -->
+	</body>
+
+</html>

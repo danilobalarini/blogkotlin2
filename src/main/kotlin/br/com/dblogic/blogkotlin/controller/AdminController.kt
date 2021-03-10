@@ -79,4 +79,10 @@ class AdminController {
 		return "admindex"
 	}
 
+	@GetMapping("/v2")
+	fun v2(model: Model) : String {
+		model.addAttribute("posts", postService.returnAllFacades())
+		return "admindex2"
+	}
+
 }
