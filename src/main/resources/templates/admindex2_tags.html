@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<title>Admin</title>
+		<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_admin_v2"> </th:block> /*/-->
+	</head>
+	<body>
+		<div class="wrapper">
+			<div th:replace="fragments/adminv2.html :: navigation-bar"></div>
+			<div th:replace="fragments/adminv2.html :: main-sidebar"></div>
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<div th:replace="fragments/adminv2.html :: content-header(title='Dashboard v3', bread_item='Home', bread_item_active='Dashboard v3')"></div>
+					<!-- Main content -->
+					<section class="content">
+						<div class="container-fluid">
+
+						<div class="row">
+							<div class="col-12">
+							<div class="card">
+								<div class="card-header">
+								<h3 class="card-title">Tags</h3>
+				
+								<div class="card-tools">
+									<div class="input-group input-group-sm" style="width: 150px;">
+									<input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+				
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+									</div>
+									</div>
+								</div>
+								</div>
+								<!-- /.card-header -->
+								<div class="card-body table-responsive p-0">
+								<table class="table table-hover">
+									<thead>
+									<tr>
+										<th>ID</th>
+										<th>User</th>
+										<th>Date</th>
+										<th>Status</th>
+										<th>Reason</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td>183</td>
+										<td>John Doe</td>
+										<td>11-7-2014</td>
+										<td><span class="tag tag-success">Approved</span></td>
+										<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+									</tr>
+									<tr>
+										<td>219</td>
+										<td>Alexander Pierce</td>
+										<td>11-7-2014</td>
+										<td><span class="tag tag-warning">Pending</span></td>
+										<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+									</tr>
+									<tr>
+										<td>657</td>
+										<td>Bob Doe</td>
+										<td>11-7-2014</td>
+										<td><span class="tag tag-primary">Approved</span></td>
+										<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+									</tr>
+									<tr>
+										<td>175</td>
+										<td>Mike Doe</td>
+										<td>11-7-2014</td>
+										<td><span class="tag tag-danger">Denied</span></td>
+										<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+									</tr>
+									</tbody>
+								</table>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+							</div>
+						</div>
+						<!-- /.row -->
+
+						<div class="row">
+							<!-- left column -->
+							<div class="col-md-6">
+							  <!-- general form elements -->
+							  <div class="card card-primary">
+								<div class="card-header">
+								  <h3 class="card-title">Quick Example</h3>
+								</div>
+								<!-- /.card-header -->
+								<!-- form start -->
+								<form role="form">
+								  <div class="card-body">
+									<div class="form-group">
+									  <label for="exampleInputEmail1">Email address</label>
+									  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+									</div>
+									<div class="form-group">
+									  <label for="exampleInputPassword1">Password</label>
+									  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+									</div>
+									<div class="form-group">
+									  <label for="exampleInputFile">File input</label>
+									  <div class="input-group">
+										<div class="custom-file">
+										  <input type="file" class="custom-file-input" id="exampleInputFile">
+										  <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+										</div>
+										<div class="input-group-append">
+										  <span class="input-group-text" id="">Upload</span>
+										</div>
+									  </div>
+									</div>
+									<div class="form-check">
+									  <input type="checkbox" class="form-check-input" id="exampleCheck1">
+									  <label class="form-check-label" for="exampleCheck1">Check me out</label>
+									</div>
+								  </div>
+								  <!-- /.card-body -->
+				  
+								  <div class="card-footer">
+									<button type="submit" class="btn btn-primary">Submit</button>
+								  </div>
+								</form>
+							  </div>
+							  <!-- /.card -->
+							</div>
+						</div>
+
+						</div><!-- /.container-fluid -->
+					</section>
+					<!-- /.content -->
+			  </div>
+			<!-- /.content-wrapper -->
+			<div th:replace="fragments/adminv2.html :: main-footer"></div>
+		</div>
+		<!-- ./wrapper -->
+		<!-- Javascript -->
+		<!-- Bootstrap4 Duallistbox -->
+		<!-- End of Javascript -->
+	</body>
+</html>
