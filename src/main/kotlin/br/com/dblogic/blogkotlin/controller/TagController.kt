@@ -17,21 +17,17 @@ class TagController {
     lateinit var tagService: TagService
 
     @PostMapping("/save")
-    fun save(@RequestBody tagFacade: TagFacade): TagFacade {
-
-        logger.info("bateu no controller")
-
-        val tag = Tag(tagFacade.name)
-        val newtag = tagService.save(tag)
-
-        return TagFacade(newtag.id, newtag.name)
+    fun save(@RequestBody tagFacade: TagFacade) {
+        logger.info("tagFacade id: " + tagFacade.id)
+        val tag = if(tagFacade.id == 0L) Tag() else tagService.findById(tagFacade.id)
+        tag.name = tagFacade.name
+        logger.info("tag id: " + tag.id)
+        tagService.save(tag)
     }
 
     @GetMapping("/delete")
-    fun delete(@RequestParam(defaultValue = "0") id: Long){
-        if(id != 0L) {
-            tagService.delete(Tag(id))
-        }
+    fun delete(@RequestParam(defaultValue = "0") id: Long) {
+        tagService.delete(Tag(id))
     }
 
 }

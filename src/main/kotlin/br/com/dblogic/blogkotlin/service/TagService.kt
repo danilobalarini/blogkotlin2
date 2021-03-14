@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.service
 
+import br.com.dblogic.blogkotlin.exception.DeleteTagException
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.TagFacade
@@ -31,13 +32,10 @@ class TagService {
     }
 
     fun save(tag: Tag) : Tag  {
-        logger.info("bateu no service")
+        logger.info("tag id: ${tag.id}")
+        logger.info("tag name: ${tag.name}")
 
-        val tag1 = tagRepository.save(tag)
-        logger.info("tag id: ${tag1.id}")
-        logger.info("tag name: ${tag1.name}")
-
-        return tag1
+        return tagRepository.save(tag)
     }
 
     // TODO this will be cache someday
@@ -47,7 +45,11 @@ class TagService {
     }
 
     fun delete(tag: Tag) {
-        tagRepository.delete(tag)
+        try {
+            tagRepository.delete(tag)
+        } catch (e: Exception) {
+            throw DeleteTagException("Ocorreu um erro ao tentar apagar a tag")
+        }
     }
 
     fun onlyIds(tags: MutableSet<Tag>): String {

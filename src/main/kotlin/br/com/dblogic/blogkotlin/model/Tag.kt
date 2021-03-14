@@ -11,7 +11,6 @@ data class Tag(@Id
                @GenericGenerator(name = "seq_tag", strategy = "native")
                val id: Long = 0,
 
-               @NaturalId
                var name: String = "",
 
                @ManyToMany(mappedBy = "tags")
