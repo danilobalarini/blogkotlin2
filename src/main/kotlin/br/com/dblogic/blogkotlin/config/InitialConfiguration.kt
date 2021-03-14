@@ -37,6 +37,9 @@ class InitialConfiguration {
 	lateinit var languageService: LanguageService
 
 	@Autowired
+	lateinit var tagService: TagService
+
+			@Autowired
 	lateinit var dateUtils: DateUtils
 
 	@Autowired
@@ -48,6 +51,7 @@ class InitialConfiguration {
 	@Bean
 	fun initDatabase() = CommandLineRunner {
 
+		createTags()
 		createLanguages()
 
 		if(ddlauto == "create" || ddlauto == "create-drop") {
@@ -61,6 +65,14 @@ class InitialConfiguration {
 		checkPosts()
 
 		logger.info("Comment Count: " + commentService.count())
+	}
+
+	private fun createTags() {
+		val java = Tag("Java")
+		val kotlin = Tag("Kotlin")
+
+		tagService.save(java)
+		tagService.save(kotlin)
 	}
 
 	private fun clearBlogDirectory() {

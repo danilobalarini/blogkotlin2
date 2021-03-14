@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.controller
 
+import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.service.TagService
 import org.slf4j.LoggerFactory
@@ -28,10 +29,19 @@ class AdminControllerV2 {
 	}
 
 	@GetMapping("/tags")
-	fun manageTags(model: Model) : String {
-		logger.info("let's go manage tags")
+	fun listtags(model: Model) : String {
+		logger.info("show all tags")
 
-		return "admindex2_tags"
+		model.addAttribute("alltags", tagService.findAll())
+		return "adm_tags_list"
+	}
+
+	@GetMapping("/tags_update")
+	fun edittags(@RequestParam(defaultValue = "0") id: Long, model: Model) : String {
+		logger.info("Let's go manage tags")
+
+		model.addAttribute("tag", if(id==0L) Tag() else tagService.findById(id))
+		return "adm_tags_edit"
 	}
 
 }
