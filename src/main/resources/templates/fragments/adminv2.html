@@ -482,22 +482,23 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body table-responsive p-0">
-                        <table class="table table-hover">
+                        <table id="tblTags" class="table table-hover">
                             <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>Apagar</th>
-                                <th>Editar</th>
-                                <th>Nome</th>
-                            </tr>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Apagar</th>
+                                    <th>Editar</th>
+                                    <th>Nome</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="tag: ${alltags}">
-                                <td th:text="${tag.id}"></td>
-                                <td><a th:href="@{/tags/delete(id=${tag.id})}"><i class="nav-icon fas fa-trash"></i></a></td>
-                                <td><a th:href="@{/adminv2/tags_update(id=${tag.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
-                                <td th:text="${tag.name}"></td>
-                            </tr>
+                                <tr th:each="tag: ${alltags}" th:id="'tag' + ${tag.id}">
+                                    <td th:text="${tag.id}"></td>
+                                    <!-- <td><a th:href="@{/tags/delete(id=${tag.id})}"><i class="nav-icon fas fa-trash"></i></a></td> -->
+                                    <td><a href="#" th:onclick="@{'deletetag(' + ${tag.id} + ');'}"><i class="nav-icon fas fa-trash"></i></a></td>
+                                    <td><a th:href="@{/adminv2/tags_update(id=${tag.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
+                                    <td th:text="${tag.name}"></td>
+                                </tr>
                             </tbody>
                         </table>
                         </div> <!-- /.card-body -->
@@ -506,6 +507,24 @@
                 <a th:href="@{/adminv2/tags_update}">
                     <button id="btnNewTag" type="button" class="btn btn-primary btn-lg">Nova Tag</button>
                 </a>
+                <script th:inline="javascript">
+       
+                        function deletetag(id) {
+                            console.log("entrou na deletetag: " + id);
+                            $.ajax({
+                                type: "GET",
+                                url: "/tags/delete?id=" + id ,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: function(post) {
+                                    console.log(id + " removido com sucesso!");
+                                    $('table#tblTags tr#tag' + id).remove();
+                                }
+                            });
+                        }
+                </script>
+    
             </div> <!-- /.row -->
 
             <div th:fragment="editTags" class="row">
