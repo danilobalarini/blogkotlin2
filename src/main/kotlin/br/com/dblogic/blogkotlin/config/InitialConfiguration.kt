@@ -39,7 +39,7 @@ class InitialConfiguration {
 	@Autowired
 	lateinit var tagService: TagService
 
-			@Autowired
+	@Autowired
 	lateinit var dateUtils: DateUtils
 
 	@Autowired

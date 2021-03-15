@@ -1,8 +1,11 @@
 package br.com.dblogic.blogkotlin.service
 
+import br.com.dblogic.blogkotlin.exception.DeletePostException
+import br.com.dblogic.blogkotlin.exception.DeleteTagException
 import br.com.dblogic.blogkotlin.model.CaptchaEvent
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostImage
+import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.model.facade.PostSearchFacade
@@ -120,6 +123,15 @@ class PostService {
     fun deleteById(id: Long) {
         postRepository.deleteById(id)
     }
+
+    fun delete(id: Long) {
+        try {
+            postRepository.deleteById(id)
+        } catch (e: Exception) {
+            throw DeletePostException("Ocorreu um erro ao tentar apagar o post")
+        }
+    }
+
 
     fun frontPage(): FrontPageFacade {
         logger.info("posts zero length? " + (postRepository.count() == 0L));

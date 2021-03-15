@@ -44,4 +44,12 @@ class AdminControllerV2 {
 		return "adm_tags_edit"
 	}
 
+	@GetMapping("/posts")
+	fun listposts(model: Model) : String {
+		logger.info("show all posts")
+
+		model.addAttribute("allposts", postService.findAll())
+		return "adm_posts_list"
+	}
+
 }

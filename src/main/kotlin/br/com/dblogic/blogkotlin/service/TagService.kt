@@ -5,10 +5,10 @@ import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.TagFacade
 import br.com.dblogic.blogkotlin.repository.TagRepository
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.stream.Collectors
 
 @Service
 class TagService {
@@ -40,7 +40,6 @@ class TagService {
 
     // TODO this will be cache someday
     fun displayMultipleselect(post: Post) : Set<TagFacade> {
-
         return mutableSetOf<TagFacade>()
     }
 
@@ -53,17 +52,10 @@ class TagService {
     }
 
     fun onlyIds(tags: MutableSet<Tag>): String {
-
-        var csv = ""
-        var comma = ""
-        for(t in tags) {
-            csv+="$comma${t.id}"
-            if(!StringUtils.equals(comma,",")) {
-                comma = ","
-            }
-        }
-
-        return csv
+        return tags
+                .stream()
+                .map { t -> java.lang.String.valueOf(t.id) }
+                .collect(Collectors.joining(","))
     }
 
     fun toSetFacade(tags: MutableSet<Tag>): MutableSet<TagFacade> {
