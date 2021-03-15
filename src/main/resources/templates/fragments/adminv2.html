@@ -616,7 +616,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body table-responsive p-0">
-                        <table id="tblTags" class="table table-hover">
+                        <table id="tblPosts" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>id</th>
@@ -654,7 +654,7 @@
                                 processData: false,
                                 success: function() {
                                     console.log(id + " removido com sucesso!");
-                                    $('table#tblTags tr#tag' + id).remove();
+                                    $('table#tblPosts tr#post' + id).remove();
                                 },
                                 error : function(jqXHR, textStatus, errorThrown) {
                                     alert('não deu certo!');

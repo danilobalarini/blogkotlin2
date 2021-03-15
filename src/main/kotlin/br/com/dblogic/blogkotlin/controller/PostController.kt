@@ -58,6 +58,7 @@ class PostController {
 
 	@GetMapping("/delete")
 	fun delete(@RequestParam(defaultValue = "0") id: Long) {
+
 		postService.deleteById(id)
 	}
 
