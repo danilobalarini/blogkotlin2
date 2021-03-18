@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<title>Admin</title>
+		<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_admin_v2_compose"> </th:block> /*/-->
+	</head>
+	<body>
+		<div class="wrapper">
+			<div th:replace="fragments/adminv2.html :: navigation-bar"></div>
+			<div th:replace="fragments/adminv2.html :: main-sidebar"></div>
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<div th:replace="fragments/adminv2.html :: content-header(title='Dashboard v3', bread_item='Home', bread_item_active='Dashboard v3')"></div>
+					
+					<!-- Main content -->
+					<section class="content">
+						<div class="container-fluid">
+
+							<div class="col-md-12">
+								<div class="card card-primary card-outline">
+								  <div class="card-header">
+									<h3 class="card-title"><input type="text" id="posttitle" name="txtTitle" th:field="${post.title}" size="60"></h3>
+								  </div>
+					
+								  <!-- /.card-header -->
+								  <input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
+								  <div id="summernote" name="article"></div>
+								  <p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
+								  <span id="spanPost" th:utext="${post.review}"></span>
+								  
+								  <!-- /.card-footer -->
+								</div>
+								<!-- /.card -->
+							  </div>
+							
+						</div><!-- /.container-fluid -->
+					</section>
+					<!-- /.content -->
+			  </div>
+			<!-- /.content-wrapper -->
+			<div th:replace="fragments/adminv2.html :: main-footer"></div>
+			
+			<script th:inline="javascript">
+				
+				var autosave_timer = 0;
+
+				$('#summernote').summernote({
+				fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Lato', 'Helvetica', 'Impact', 'Roboto', 'Tahoma', 'Times New Roman', 'Verdana'],
+ 				fontNamesIgnoreCheck: ['Lato', 'Roboto'],
+				prettifyHtml: false,
+				toolbar:[
+					['style', ['style']],
+					['font', ['bold', 'underline', 'clear']],
+					['fontname', ['fontname']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					// ['table', ['table']],
+					['insert', ['link', 'picture', 'video']],
+        			// Add highlight plugin
+					['highlight', ['highlight']],
+					['view', ['fullscreen', 'codeview', 'help']],
+				],
+				lang:'pt-BR',
+				callbacks: {
+					onInit: function() {
+						var ptext = $('#spanPost').html();
+						$('#summernote').summernote('code', ptext);
+						$('#spanPost').remove();
+					},
+					onChange: function(e) {
+						clearTimeout(autosave_timer);
+						autosave_timer = setTimeout(function() {
+							console.log("salvando informações!!!");
+							updater();
+							console.log("deu certo?");
+						}, 15000);
+					},
+					onImageUpload: function(files) {
+						console.log("nº arquivos: " + files.length)
+						var file = files[0];
+						console.log("filename: " + file.name)
+            			sendFile(files[0]);
+        			},
+					onMediaDelete : function(target) {
+                		console.log(target[0].src);
+            		}
+				}
+			});
+
+		function sendFile(file) {
+			console.log("started send file...");
+			data = new FormData();
+			data.append('id', $('#postid').val());
+			data.append("image", file);
+
+			$.ajax({
+				data: data,
+				type: "POST",
+				url: "/postImage/save",
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(url) {
+					console.log("URL: " + url)
+					$('#summernote').summernote("insertImage", url);
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.log("jqXHR: " + jqXHR.status);
+					console.log("textStatus: " + textStatus);
+					console.log("errorThrown: " + errorThrown);
+				}
+			});
+		}
+		
+		function updater() {
+
+			var postid = $('#postid').val();
+			var posttitle = $('#posttitle').val();
+			var posttext = $('#summernote').summernote('code');
+			var postdraft = $('#postdraft').is(':checked');
+
+			console.log('postid: '+ postid);
+			console.log('posttitle: '+ posttitle);
+			console.log('posttext: '+ posttext);
+			console.log('postdraft: '+ postdraft);
+
+			var post = {
+				id : postid,
+				title : posttitle,
+				review : posttext, 
+				isDraft : postdraft
+			};
+
+			$.ajax({
+				type: "POST",
+				url: "/post/update",
+				data: JSON.stringify(post),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function (data) {
+						console.log("post atualizado com sucesso!!!");
+                },
+                error : function(jqXHR, textStatus, errorThrown) {
+					console.log("erro na atualização do composer");
+					console.log("jqXHR: " + jqXHR.status);
+					console.log("textStatus: " + textStatus);
+					console.log("errorThrown: " + errorThrown);
+				}
+			});
+		}
+
+		function sendFile(file) {
+			console.log("started send file...");
+			data = new FormData();
+			data.append('id', $('#postid').val());
+			data.append("image", file);
+
+			$.ajax({
+				data: data,
+				type: "POST",
+				url: "/postImage/save",
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(url) {
+					console.log("URL: " + url)
+					$('#summernote').summernote("insertImage", url);
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.log("jqXHR: " + jqXHR.status);
+					console.log("textStatus: " + textStatus);
+					console.log("errorThrown: " + errorThrown);
+				}
+			});
+		}
+		
+		function updater() {
+
+			var postid = $('#postid').val();
+			var posttitle = $('#posttitle').val();
+			var posttext = $('#summernote').summernote('code');
+			var postdraft = $('#postdraft').is(':checked');
+
+			var post = {
+				id : postid,
+				title : posttitle,
+				review : posttext, 
+				isDraft : postdraft
+			};
+
+			$.ajax({
+				type: "POST",
+				url: "/post/update",
+				data: JSON.stringify(post),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function (data) {
+						console.log("post atualizado com sucesso!!!");
+                },
+                error : function(jqXHR, textStatus, errorThrown) {
+					console.log("erro na atualização do composer");
+					console.log("jqXHR: " + jqXHR.status);
+					console.log("textStatus: " + textStatus);
+					console.log("errorThrown: " + errorThrown);
+				}
+			});
+		}
+
+		</script>
+		</div>
+
+	</body>
+</html>

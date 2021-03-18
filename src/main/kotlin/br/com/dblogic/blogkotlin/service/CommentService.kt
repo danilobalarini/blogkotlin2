@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils.isAnyEmpty
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.stream.Collectors
 
 @Service
 class CommentService {
@@ -54,11 +55,10 @@ class CommentService {
 	}
 
 	fun findByPostAndIsApprovedTrue(post: Post): List<CommentFacade> {
-		var comments = mutableListOf<CommentFacade>()
-		for(comment in commentRepository.findByPostAndIsApprovedTrue(post)) {
-			comments.add(toFacade(comment))
-		}
-		return comments
+		return commentRepository.findByPostAndIsApprovedTrue(post)
+				.stream()
+				.map { c -> toFacade(c) }
+				.collect(Collectors.toList())
 	}
 
 	fun toFacade(comment: Comment) : CommentFacade {

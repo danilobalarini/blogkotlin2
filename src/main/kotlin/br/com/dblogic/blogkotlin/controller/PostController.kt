@@ -1,6 +1,7 @@
 package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.Post
+import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.service.PostService
 import org.slf4j.LoggerFactory
@@ -53,6 +54,12 @@ class PostController {
 		postService.updateTags(postFacade)
 
 		return ResponseEntity("ok", HttpStatus.OK)
+	}
+
+	@GetMapping("/delete")
+	fun delete(@RequestParam(defaultValue = "0") id: Long) {
+
+		postService.deleteById(id)
 	}
 
 }

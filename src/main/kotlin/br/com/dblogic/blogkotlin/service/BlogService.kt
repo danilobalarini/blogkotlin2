@@ -12,7 +12,7 @@ class BlogService {
     @Autowired
     lateinit var postService: PostService
 
-    public fun managePageViewCookie(postsvisited: String, post: Post): Cookie? {
+    fun managePageViewCookie(postsvisited: String, post: Post): Cookie {
 
         var visitedlist = ""
         var isVisited = false
