@@ -17,6 +17,65 @@
 					<section class="content">
 						<div class="container-fluid">
 
+							<div class="row">
+
+								<div class="col-lg-9">
+									<div class="card">
+										<div class="card-header">
+											<h3 class="card-title">Imagem de capa</h3>
+										 </div>
+
+										 <!-- div id="preview-cover-image"
+											th:style="'background-image: url('+ ${post.coverImage} +');'">
+										</div -->
+
+										<div id="preview-cover-image">
+											<img id="imgcover" th:src="${post.coverImage}" style="max-height:100%; max-width:100%;" alt="imagem de capa atual">
+											<!-- div th:style="'background-image: url('+ ${post.coverImage} +'); border: 2px, red, dotted'"></div -->
+										</div>
+										 
+										<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+											<input type="hidden" id="id" name="id" th:value="${post.id}">
+											<div class="card-body">
+											   <div class="form-group"> 
+												  <label for="exampleInputFile">Imagem de capa</label>
+												  <div class="input-group">
+													 <div class="custom-file">
+														<input type="file" class="custom-file-input" name="coverImage" id="coverImage">
+														<label class="custom-file-label" for="coverImage">Escolha uma imagem</label>
+													 </div>
+												  </div>
+											   </div>
+											</div>
+											<!-- /.card-body -->
+											<div class="card-footer">
+											   <button type="button" id="btnCoverImage" name="btnCoverImage" class="btn btn-primary">Upload</button>
+											</div>
+										</form>
+									</div>
+								</div>
+
+								<div class="col-lg-3">
+									<div style="position: absolute; bottom: 0;">
+										<div class="info-box bg-gradient-warning">
+											<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+											<div class="info-box-content">
+												<span class="info-box-text">Events</span>
+												<span class="info-box-number">41,410</span>
+												<div class="progress">
+													<div class="progress-bar" style="width: 70%"></div>
+												</div>
+												<span class="progress-description">
+												70% Increase in 30 Days
+												</span>
+											</div>
+											<!-- /.info-box-content -->
+										</div>
+									</div>
+									<!-- /.info-box -->
+								</div>
+
+							 
 							<div class="col-md-12">
 								<div class="card card-primary card-outline">
 								  <div class="card-header">
@@ -205,6 +264,31 @@
 					console.log("errorThrown: " + errorThrown);
 				}
 			});
+
+			$("#btnCoverImage").click(function() {
+				var form = $('#fileUploadForm')[0];
+				var formData = new FormData(form);
+
+				$.ajax({
+					url: "/postImage/updateCoverImage",
+					type: "POST",
+					enctype: 'multipart/form-data',
+					data: formData,
+					contentType: false,
+					processData: false,
+					cache: false,
+					success: function (data) {
+						$("#imgcover").attr('src', data);
+                    },
+                    error : function(jqXHR, textStatus, errorThrown) {
+						console.log("erro na atualização da imagem de capa");
+                     	console.log("jqXHR: " + jqXHR.status);
+                     	console.log("textStatus: " + textStatus);
+                     	console.log("errorThrown: " + errorThrown);
+                    }
+				});
+			});
+
 		}
 
 		</script>
