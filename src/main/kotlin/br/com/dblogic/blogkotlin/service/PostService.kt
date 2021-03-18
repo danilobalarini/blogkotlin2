@@ -28,6 +28,10 @@ import java.nio.file.StandardOpenOption
 import java.time.Instant
 
 import org.jsoup.Jsoup
+import java.util.stream.Collectors
+import java.util.ArrayList
+import java.util.function.Consumer
+import kotlin.streams.asSequence
 
 @Service
 class PostService {
@@ -132,28 +136,27 @@ class PostService {
         }
     }
 
-
     fun frontPage(): FrontPageFacade {
         logger.info("posts zero length? " + (postRepository.count() == 0L));
         logger.info("posts length: ${postRepository.count()}");
         val posts = cleanHtml(postRepository.findTop6ByIsDraftFalseOrderByCreatedAtDesc())
         logger.info("### posts ###: " + posts.size)
 
-        if(posts.isEmpty()) {
-            val facade = PostFacade(0,
-                                    "Não temos posts. Volte outro dia. Teremos bolinhos.",
-                                    "",
-                                    false,
-                                    Instant.now(),
-                                    0,
-                                    mutableSetOf<TagFacade>(),
-                                    "")
+        return if(posts.isEmpty()) {
+                    val facade = PostFacade(0,
+                        "Não temos posts. Volte outro dia. Teremos bolinhos.",
+                        "",
+                        false,
+                        Instant.now(),
+                        0,
+                        mutableSetOf<TagFacade>(),
+                        "")
 
-            return FrontPageFacade(facade, mutableListOf<PostFacade>())
-        } else {
-            return FrontPageFacade(postToFacade(posts.first()),
-                                   postToFacade(posts.drop(1)))
-        }
+                    FrontPageFacade(facade, mutableListOf<PostFacade>())
+               } else {
+                    FrontPageFacade(postToFacade(posts.first()),
+                        postToFacade(posts.drop(1)))
+               }
     }
 
     fun brandNewPost(): Post {
@@ -252,7 +255,41 @@ class PostService {
     }
 
     fun postToFacade(p: Post): PostFacade {
+        return toFacade(p)
+    }
 
+    fun postToFacade(posts: List<Post>): List<PostFacade> {
+        return posts
+                .stream()
+                .map { p -> toFacade(p) }
+                .collect(Collectors.toList())
+    }
+
+    private fun postToFacade(posts: Page<Post>): List<PostFacade> {
+        return posts
+                .stream()
+                .map { p -> toFacade(p) }
+                .collect(Collectors.toList())
+    }
+
+    private fun cleanHtml(posts: List<Post>): List<Post> {
+        return posts
+                .stream()
+                .asSequence()
+                    .onEach { p -> p.review = Jsoup.parse(p.review).text() }
+                    .toList()
+    }
+
+    private fun safeTruncate(text: String): String {
+        val words = StringUtils.split(text, StringUtils.SPACE)
+        var safetrunc = ""
+        for(element in words) {
+            safetrunc = safetrunc.plus(StringUtils.SPACE + element)
+        }
+        return safetrunc
+    }
+
+    private fun toFacade(p: Post): PostFacade {
         return PostFacade(p.id,
                           p.title,
                           safeTruncate(p.review),
@@ -261,55 +298,6 @@ class PostService {
                           p.comments.size,
                           tagService.toSetFacade(p.tags),
                           createCoverImage(p))
-    }
-
-    fun postToFacade(posts: List<Post>): List<PostFacade> {
-        val postList = mutableListOf<PostFacade>()
-        for (p in posts) {
-            postList.add(PostFacade(p.id,
-                         p.title,
-                         safeTruncate(p.review),
-                         p.isDraft,
-                         p.createdAt,
-                         p.comments.size,
-                         tagService.toSetFacade(p.tags),
-                         createCoverImage(p)))
-        }
-        return postList
-    }
-
-    private fun postToFacade(posts: Page<Post>): List<PostFacade> {
-        val postList = mutableListOf<PostFacade>()
-        for (p in posts) {
-            postList.add(PostFacade(p.id,
-                         p.title,
-                         Jsoup.parse(p.review).text(),
-                         p.isDraft,
-                         p.createdAt,
-                         p.comments.size,
-                         tagService.toSetFacade(p.tags),
-                         createCoverImage(p)))
-        }
-        return postList
-    }
-
-    private fun cleanHtml(posts: List<Post>): List<Post> {
-
-        var listPost = mutableListOf<Post>()
-        for (p in posts) {
-            p.review = Jsoup.parse(p.review).text()
-            listPost.add(p)
-        }
-        return posts;
-    }
-
-    private fun safeTruncate(text: String): String {
-        val words = StringUtils.split(text, StringUtils.SPACE)
-        var safetrunc = ""
-        for(x in 0 until words.size) {
-            safetrunc = safetrunc.plus(StringUtils.SPACE + words[x])
-        }
-        return safetrunc
     }
 
 }

@@ -51,10 +51,10 @@ class InitialConfiguration {
 	@Bean
 	fun initDatabase() = CommandLineRunner {
 
-		createTags()
-		createLanguages()
-
 		if(ddlauto == "create" || ddlauto == "create-drop") {
+			createTags()
+			createLanguages()
+
 			createEverything()
 		} else {
 			logger.info("opa e ae")

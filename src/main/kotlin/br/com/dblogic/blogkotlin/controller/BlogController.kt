@@ -65,9 +65,6 @@ class BlogController {
 
 		response.addCookie(blogService.managePageViewCookie(postsvisited, post))
 
-		// just to clear
-		//response.addCookie(Cookie("postsvisited", ""))
-
 		return "article"
 	}
 

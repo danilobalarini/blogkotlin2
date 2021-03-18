@@ -156,7 +156,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/adminv2/post}" class="nav-link">
+                            <a th:href="@{/adminv2/posts}" class="nav-link">
                                 <i class="nav-icon fas fa-file-alt"></i>
                                 <p>Posts</p>
                             </a>
@@ -630,13 +630,48 @@
                                 <tr th:each="post: ${allposts}" th:id="'post' + ${post.id}">
                                     <td th:text="${post.id}"></td>
                                     <td><a href="#" th:onclick="@{'deletepost(' + ${post.id} + ');'}"><i class="nav-icon fas fa-trash"></i></a></td>
-                                    <td><a th:href="@{/adminv2/posts_update(id=${post.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
+                                    <td><a th:href="@{/adminv2/updatepost(id=${post.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
                                     <td th:text="${post.title}"></td>
-                                    <td th:text="${post.isDraft}"></td>
+                                    <td><i th:class="${post.isDraft} ? 'fa fa-ban' : 'fa fa-thumbs-up'"></i></td>
                                 </tr>
                             </tbody>
                         </table>
                         </div> <!-- /.card-body -->
+                    </div> <!-- /.card -->
+                </div>
+                <a th:href="@{/adminv2/newpost}">
+                    <button id="btnNewPost" type="button" class="btn btn-primary btn-lg">Novo post</button>
+                </a>
+                <script th:inline="javascript">
+       
+                        function deletepost(id) {
+                            console.log("entrou na deletepost: " + id);
+                            $.ajax({
+                                type: "GET",
+                                url: "/post/delete?id=" + id,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: function() {
+                                    console.log(id + " removido com sucesso!");
+                                    $('table#tblPosts tr#post' + id).remove();
+                                },
+                                error : function(jqXHR, textStatus, errorThrown) {
+                                    alert('não deu certo!');
+                                    console.log("jqXHR: " + jqXHR.status);
+                                    console.log("textStatus: " + textStatus);
+                                    console.log("errorThrown: " + errorThrown);
+                                }
+                            });
+                        }
+                </script>
+    
+            </div> <!-- /.row -->
+
+            <div th:fragment="compose" class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div id="summernote" name="article"></div>
                     </div> <!-- /.card -->
                 </div>
                 <a th:href="@{/adminv2/posts_update}">
@@ -665,7 +700,7 @@
                             });
                         }
                 </script>
-    
+
             </div> <!-- /.row -->
 
     </body>

@@ -26,6 +26,23 @@
 	<!-- FONTS -->
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic" />
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto">
+
+	<style>
+		#left {
+			width: 50%;
+			display: inline-block;
+		}
+		#right {
+			width: 50%;
+			display: inline-block;
+		}
+
+		.note-editable {
+			font-family: Roboto;
+			font-size: 14px!important; 
+		}
+	</style>
+
 </head>
 
 <head th:fragment="headerfiles_level_1">
@@ -98,8 +115,46 @@
 	<link rel="icon" type="image/png" sizes="16x16" th:href="@{../images/favicon/favicon-16x16.png}">
 	<link rel="manifest" th:href="@{../images/favicon/site.webmanifest}">
 
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+	<!-- Google Font -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<head th:fragment="headerfiles_admin_v2_compose">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../webjars/AdminLTE/3.0.5/plugins/fontawesome-free/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{../webjars/AdminLTE/3.0.5/dist/css/adminlte.min.css}">
+
+	<!-- JAVASCRIPT -->
+	<script type="text/javascript" th:src="@{../webjars/AdminLTE/3.0.5/plugins/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{../webjars/AdminLTE/3.0.5/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script type="text/javascript" th:src="@{../webjars/AdminLTE/3.0.5/dist/js/adminlte.min.js}"></script>
+
+	<!-- FAVICON -->
+	<link rel="apple-touch-icon" sizes="180x180" th:href="@{../images/favicon/apple-touch-icon.png}">
+	<link rel="icon" type="image/png" sizes="32x32" th:href="@{../images/favicon/favicon-32x32.png}">
+	<link rel="icon" type="image/png" sizes="16x16" th:href="@{../images/favicon/favicon-16x16.png}">
+	<link rel="manifest" th:href="@{../images/favicon/site.webmanifest}">
+
+	<!-- FONTS -->
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic" />
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto">
+
+	<!-- summernote -->
+  	<link rel="stylesheet" th:href="@{../webjars/AdminLTE/3.0.5/plugins/summernote/summernote-bs4.min.css}">
+	<script th:src="@{../webjars/AdminLTE/3.0.5/plugins/summernote/summernote-bs4.min.js}"></script>
+	<script type="text/javascript" th:src="@{../webjars/summernote/0.8.18/dist/lang/summernote-pt-BR.min.js}"></script>
+	<script type="text/javascript" th:src="@{../javascript/summernote-ext-highlight.js}"></script>
+
+	<style>
+		.note-editable {
+			font-family: Roboto;
+			font-size: 14px!important; 
+		}
+	</style>
+</head>
 
 <body>
 
