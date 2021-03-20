@@ -56,17 +56,18 @@
 								</div>
 
 								<div class="col-lg-3">
+									<input type="hidden" id="hidCountdown" value="16">
 									<div style="position: absolute; bottom: 0;">
-										<div class="info-box bg-gradient-warning">
+										<div id="post-widget" class="info-box bg-gradient-warning">
 											<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
 											<div class="info-box-content">
 												<span class="info-box-text">Events</span>
-												<span class="info-box-number">41,410</span>
+												<span id="countdown"  class="info-box-number">0</span>
 												<div class="progress">
-													<div class="progress-bar" style="width: 70%"></div>
+													<div id="update-progress-bar" class="progress-bar" style="width: 0%"></div>
 												</div>
-												<span class="progress-description">
-												70% Increase in 30 Days
+												<span id="post-update-" class="progress-description">
+													Espera atualização...
 												</span>
 											</div>
 											<!-- /.info-box-content -->
@@ -74,25 +75,24 @@
 									</div>
 									<!-- /.info-box -->
 								</div>
-
 							 
-							<div class="col-md-12">
-								<div class="card card-primary card-outline">
-								  <div class="card-header">
-									<h3 class="card-title"><input type="text" id="posttitle" name="txtTitle" th:field="${post.title}" size="60"></h3>
-								  </div>
-					
-								  <!-- /.card-header -->
-								  <input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
-								  <div id="summernote" name="article"></div>
-								  <p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
-								  <span id="spanPost" th:utext="${post.review}"></span>
-								  
-								  <!-- /.card-footer -->
+								<div class="col-md-12">
+									<div class="card card-primary card-outline">
+									<div class="card-header">
+										<h3 class="card-title"><input type="text" id="posttitle" name="txtTitle" th:field="${post.title}" size="60"></h3>
+									</div>
+						
+									<!-- /.card-header -->
+									<input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
+									<div id="summernote" name="article"></div>
+									<p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
+									<span id="spanPost" th:utext="${post.review}"></span>
+									
+									<!-- /.card-footer -->
+									</div>
+									<!-- /.card -->
 								</div>
-								<!-- /.card -->
-							  </div>
-							
+							</div>
 						</div><!-- /.container-fluid -->
 					</section>
 					<!-- /.content -->
@@ -102,7 +102,7 @@
 			
 			<script th:inline="javascript">
 				
-				var autosave_timer = 0;
+				var countdown = 15;
 
 				$('#summernote').summernote({
 				fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Lato', 'Helvetica', 'Impact', 'Roboto', 'Tahoma', 'Times New Roman', 'Verdana'],
@@ -128,12 +128,20 @@
 						$('#spanPost').remove();
 					},
 					onChange: function(e) {
-						clearTimeout(autosave_timer);
-						autosave_timer = setTimeout(function() {
-							console.log("salvando informações!!!");
-							updater();
-							console.log("deu certo?");
-						}, 15000);
+						clearInterval(countdown);
+						var seconds = $('#hidCountdown').val();
+						console.log("seconds: " + seconds);
+						countdown = setInterval(function() {
+							seconds--;
+							$('#countdown').text(seconds);
+							updateProgressBar(seconds);
+
+							if (seconds == 0) {
+								clearInterval(countdown);
+								console.log("executa o updater");
+								updater();
+							}
+						}, 1000);
 					},
 					onImageUpload: function(files) {
 						console.log("nº arquivos: " + files.length)
@@ -146,6 +154,14 @@
             		}
 				}
 			});
+
+		function updateProgressBar(seconds) {
+			var divisor = (parseInt($('#hidCountdown').val()) - 1);
+			$('#update-progress-bar').css('width', (seconds/divisor * 100) + '%');
+			if((seconds/divisor * 100) > 1) {
+				console.log('')
+			}
+		}
 
 		function sendFile(file) {
 			console.log("started send file...");
