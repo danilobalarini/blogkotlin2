@@ -40,7 +40,7 @@ class AdminController {
 	@GetMapping("/compose")
 	fun compose(model : Model) : PostFacade {
 		logger.info("chegou e vai criar um novo post")
-		val post = postService.brandNewPost()
+		val post = postService.brandNewPost("")
 		return PostFacade(post.id, "", "")
 	}
 

@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.model
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Type
 import javax.persistence.*
@@ -22,7 +23,8 @@ data class PostImage(@Id
                      var isCoverImage: Boolean = false,
 
                      @ManyToOne(fetch = FetchType.LAZY)
-                     var post: Post? = Post()) {
+                     @JsonBackReference
+                     var post: Post = Post()) {
 
     constructor(filename: String, description: String, image: ByteArray, isCoverImage: Boolean, post: Post): this() {
         this.filename = filename

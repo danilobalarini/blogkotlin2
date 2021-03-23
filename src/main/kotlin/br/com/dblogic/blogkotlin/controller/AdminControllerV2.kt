@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.controller
 
+import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.service.PostService
@@ -57,7 +58,6 @@ class AdminControllerV2 {
 
 	@GetMapping("/updatepost")
 	fun updatepost(@RequestParam id: Long, model : Model) : String {
-
 		val post = postService.findById(id)
 		logger.info("post.review: >>>>>>>>> ${post.review}")
 		val facade = PostFacade(id,

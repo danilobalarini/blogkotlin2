@@ -159,12 +159,12 @@ class PostService {
                }
     }
 
-    fun brandNewPost(): Post {
-        var post = postRepository.save(Post())
+    fun brandNewPost(title: String): Post {
+        var post = postRepository.save(Post(title))
         val postImage = PostImage("${post.id}-coverimage.jpg",
-                         "default cover image",
-                                   postImageService.defaultCoverImage(post.title),
-                        true, post)
+            "default cover image",
+            postImageService.defaultCoverImage(post.title),
+            true, post)
         post.addPostImage(postImage)
 
         val directory = blogUtils.getDirectoryNameFromPost(post)
