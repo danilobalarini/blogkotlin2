@@ -639,83 +639,30 @@
                         </div> <!-- /.card-body -->
                     </div> <!-- /.card -->
                 </div>
-                <!-- Modal -->
-                <div class="modal fade" id="modalFormTitle" tabindex="-1" role="dialog" aria-labelledby="modalFormTitleLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalFormTitleLabel">Inserir título da postagem</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="form-group">
-                                  <label for="post-title" class="col-form-label">Título da postagem:</label>
-                                  <input type="text" class="form-control" id="post-title">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                            <button id="btnSaveNewPost" type="button" class="btn btn-primary">Prosseguir</button>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                <button id="btnNewPost" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalFormTitle">
-                    Novo post
-                </button>
+                <button id="btnNewPost" type="button" class="btn btn-primary btn-lg">Novo post</button>
                 
                 <script th:inline="javascript">
-
-                    $('#btnSaveNewPost').click(function() {
-                        var post = {
-                            title : $('#post-title').val(),
-                        };
-
-                        console.log("post: " + JSON.stringify(post, null, 4));
-
-                        $.ajax({
-                            type: "POST",
-                            url: "/post/save",
-                            data: JSON.stringify(post),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (data) {
-                                console.log("post: " + post + " post.id: " + data.id);
-                                window.location.href = "/adminv2/updatepost?id=" + data.id;
-                            },
-                            error : function(jqXHR, textStatus, errorThrown) {
-                                console.log("erro na atualização do composer");
-                                console.log("jqXHR: " + jqXHR.status);
-                                console.log("textStatus: " + textStatus);
-                                console.log("errorThrown: " + errorThrown);
-                            }
-                        });
-                    });
        
-                    function deletepost(id) {
-                        console.log("entrou na deletepost: " + id);
-                        $.ajax({
-                            type: "GET",
-                            url: "/post/delete?id=" + id,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            success: function() {
-                                console.log(id + " removido com sucesso!");
-                                $('table#tblPosts tr#post' + id).remove();
-                            },
-                            error : function(jqXHR, textStatus, errorThrown) {
-                                alert('não deu certo!');
-                                console.log("jqXHR: " + jqXHR.status);
-                                console.log("textStatus: " + textStatus);
-                                console.log("errorThrown: " + errorThrown);
-                            }
-                        });
-                    }
+                        function deletepost(id) {
+                            console.log("entrou na deletepost: " + id);
+                            $.ajax({
+                                type: "GET",
+                                url: "/post/delete?id=" + id,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: function() {
+                                    console.log(id + " removido com sucesso!");
+                                    $('table#tblPosts tr#post' + id).remove();
+                                },
+                                error : function(jqXHR, textStatus, errorThrown) {
+                                    alert('não deu certo!');
+                                    console.log("jqXHR: " + jqXHR.status);
+                                    console.log("textStatus: " + textStatus);
+                                    console.log("errorThrown: " + errorThrown);
+                                }
+                            });
+                        }
                 </script>
     
             </div> <!-- /.row -->
@@ -726,6 +673,9 @@
                         <div id="summernote" name="article"></div>
                     </div> <!-- /.card -->
                 </div>
+                <a th:href="@{/adminv2/posts_update}">
+                    <button id="btnNewPost" type="button" class="btn btn-primary btn-lg">Novo post</button>
+                </a>
                 <script th:inline="javascript">
        
                         function deletepost(id) {

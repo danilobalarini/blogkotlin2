@@ -33,7 +33,7 @@ data class Post(@Id
 				@JoinTable(name = "tb_post_tag",
 						   joinColumns = [JoinColumn(name = "post_id")],
 						   inverseJoinColumns = [JoinColumn(name = "tag_id")])
-				val tags: MutableSet<Tag> = mutableSetOf<Tag>(),
+				var tags: MutableSet<Tag> = mutableSetOf<Tag>(),
 
 				@OneToOne
 				@JoinColumn(name = "language_id")

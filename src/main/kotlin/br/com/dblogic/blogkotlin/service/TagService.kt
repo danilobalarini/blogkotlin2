@@ -43,6 +43,16 @@ class TagService {
         return mutableSetOf<TagFacade>()
     }
 
+    fun findByPostId(post: Long) : Set<Tag> {
+        return tagRepository.findAllByPosts_Id(post)
+    }
+
+    fun tagsLeft(tags: HashSet<Tag>): Set<Tag> {
+        val alltags = findAll()
+        alltags.removeAll(tags)
+        return alltags.toSet()
+    }
+
     fun delete(tag: Tag) {
         try {
             tagRepository.delete(tag)

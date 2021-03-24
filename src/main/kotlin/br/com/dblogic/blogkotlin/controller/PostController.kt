@@ -55,4 +55,19 @@ class PostController {
 		postService.deleteById(id)
 	}
 
+	@GetMapping("/insertTag/{post}/{tag}")
+	fun insertTag(@PathVariable post: Long, @PathVariable tag: Long): ResponseEntity<String> {
+		postService.insertTag(post, tag)
+
+		return ResponseEntity("ok", HttpStatus.OK)
+	}
+
+	@GetMapping("/removeTag/{post}/{tag}")
+	fun removeTag(@PathVariable post: Long, @PathVariable tag: Long): ResponseEntity<String> {
+		postService.removeTag(post, tag)
+
+		return ResponseEntity("ok", HttpStatus.OK)
+	}
+
+
 }
