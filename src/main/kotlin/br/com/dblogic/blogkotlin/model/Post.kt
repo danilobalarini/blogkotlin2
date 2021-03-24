@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.model
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import org.hibernate.annotations.GenericGenerator
 import java.time.Instant
 import java.util.*
@@ -20,6 +21,7 @@ data class Post(@Id
 				@OneToMany(mappedBy = "post",
 						   cascade = [CascadeType.ALL],
 						   orphanRemoval = true)
+				@JsonManagedReference
 				var postImages: MutableList<PostImage> = mutableListOf<PostImage>(),
 
 				@OneToMany(mappedBy = "post",
@@ -31,7 +33,7 @@ data class Post(@Id
 				@JoinTable(name = "tb_post_tag",
 						   joinColumns = [JoinColumn(name = "post_id")],
 						   inverseJoinColumns = [JoinColumn(name = "tag_id")])
-				val tags: MutableSet<Tag> = mutableSetOf<Tag>(),
+				var tags: MutableSet<Tag> = mutableSetOf<Tag>(),
 
 				@OneToOne
 				@JoinColumn(name = "language_id")
@@ -75,7 +77,6 @@ data class Post(@Id
 
 	fun removePostImage(postImage: PostImage) {
 		postImages.remove(postImage)
-		postImage.post = null
 	}
 
 	fun addComment(comment: Comment) {

@@ -57,7 +57,6 @@ class AdminControllerV2 {
 
 	@GetMapping("/updatepost")
 	fun updatepost(@RequestParam id: Long, model : Model) : String {
-
 		val post = postService.findById(id)
 		logger.info("post.review: >>>>>>>>> ${post.review}")
 		val facade = PostFacade(id,
@@ -69,8 +68,10 @@ class AdminControllerV2 {
 								tagService.toSetFacade(post.tags),
 								"../${postService.createCoverImage(post)}")
 
+		val tags = HashSet(tagService.findByPostId(id))
 		model.addAttribute("post", facade)
-		model.addAttribute("alltags", HashSet(tagService.findAll()))
+		model.addAttribute("postTagsOwned", tagService.tagsLeft(tags))
+		model.addAttribute("postTags", tags)
 		model.addAttribute("idtags", tagService.onlyIds(post.tags))
 
 		logger.info("onlyids: " + tagService.onlyIds(post.tags))

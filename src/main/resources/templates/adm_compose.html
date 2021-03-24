@@ -25,13 +25,8 @@
 											<h3 class="card-title">Imagem de capa</h3>
 										 </div>
 
-										 <!-- div id="preview-cover-image"
-											th:style="'background-image: url('+ ${post.coverImage} +');'">
-										</div -->
-
 										<div id="preview-cover-image">
 											<img id="imgcover" th:src="${post.coverImage}" style="max-height:100%; max-width:100%;" alt="imagem de capa atual">
-											<!-- div th:style="'background-image: url('+ ${post.coverImage} +'); border: 2px, red, dotted'"></div -->
 										</div>
 										 
 										<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
@@ -56,9 +51,47 @@
 								</div>
 
 								<div class="col-lg-3">
-									<input type="hidden" id="hidCountdown" value="16">
-									<div style="position: absolute; bottom: 0;">
+									<div class="card" style="position: absolute; bottom: 0;">
+										
+										<div class="card-header">
+											<h3 class="card-title">Gerenciar Tags</h3>
+									 	</div>
+
+										 <div>
+											<select multiple="multiple" id="tagsSelectFrom" name="tagsSelectFrom" class="form-control">
+												<option th:each="tag: ${postTagsOwned}" 
+														th:value="${tag.id}" 
+														th:text="${tag.name}">
+												</option>
+											</select>
+										</div>
+
+										<br/>
+
+										<div class="btn-group">
+											<button id="btnInserirTag" type="button" class="btn btn-default">
+												<i class="fas fa-angle-double-down"></i>
+											</button>
+											<button id="btnRemoverTag" type="button" class="btn btn-default">
+												<i class="fas fa-angle-double-up"></i>
+											</button>
+										</div>
+
+										<br/>
+
+										<div>
+											<select multiple="multiple" id="tagsSelectTo" name="tagsSelectTo" class="form-control">
+												<option th:each="tag: ${postTags}" 
+														th:value="${tag.id}" 
+														th:text="${tag.name}">
+												</option>
+											</select>
+										</div>
+										
+										<br/><br/>
+
 										<div id="post-widget" class="info-box bg-gradient-warning">
+											<input type="hidden" id="hidCountdown" value="16">
 											<span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
 											<div class="info-box-content">
 												<span class="info-box-text">Events</span>
@@ -105,209 +138,258 @@
 				var countdown = 15;
 
 				$('#summernote').summernote({
-				fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Lato', 'Helvetica', 'Impact', 'Roboto', 'Tahoma', 'Times New Roman', 'Verdana'],
- 				fontNamesIgnoreCheck: ['Lato', 'Roboto'],
-				prettifyHtml: false,
-				toolbar:[
-					['style', ['style']],
-					['font', ['bold', 'underline', 'clear']],
-					['fontname', ['fontname']],
-					['color', ['color']],
-					['para', ['ul', 'ol', 'paragraph']],
-					// ['table', ['table']],
-					['insert', ['link', 'picture', 'video']],
-        			// Add highlight plugin
-					['highlight', ['highlight']],
-					['view', ['fullscreen', 'codeview', 'help']],
-				],
-				lang:'pt-BR',
-				callbacks: {
-					onInit: function() {
-						var ptext = $('#spanPost').html();
-						$('#summernote').summernote('code', ptext);
-						$('#spanPost').remove();
-					},
-					onChange: function(e) {
-						clearInterval(countdown);
-						var seconds = $('#hidCountdown').val();
-						console.log("seconds: " + seconds);
-						countdown = setInterval(function() {
-							seconds--;
-							$('#countdown').text(seconds);
-							updateProgressBar(seconds);
+					fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Lato', 'Helvetica', 'Impact', 'Roboto', 'Tahoma', 'Times New Roman', 'Verdana'],
+					fontNamesIgnoreCheck: ['Lato', 'Roboto'],
+					prettifyHtml: false,
+					toolbar:[
+						['style', ['style']],
+						['font', ['bold', 'underline', 'clear']],
+						['fontname', ['fontname']],
+						['color', ['color']],
+						['para', ['ul', 'ol', 'paragraph']],
+						// ['table', ['table']],
+						['insert', ['link', 'picture', 'video']],
+						// Add highlight plugin
+						['highlight', ['highlight']],
+						['view', ['fullscreen', 'codeview', 'help']],
+					],
+					lang:'pt-BR',
+					callbacks: {
+						onInit: function() {
+							var ptext = $('#spanPost').html();
+							$('#summernote').summernote('code', ptext);
+							$('#spanPost').remove();
+						},
+						onChange: function(e) {
+							clearInterval(countdown);
+							var seconds = $('#hidCountdown').val();
+							console.log("seconds: " + seconds);
+							countdown = setInterval(function() {
+								seconds--;
+								$('#countdown').text(seconds);
+								updateProgressBar(seconds);
 
-							if (seconds == 0) {
-								clearInterval(countdown);
-								console.log("executa o updater");
-								updater();
-							}
-						}, 1000);
-					},
-					onImageUpload: function(files) {
-						console.log("nº arquivos: " + files.length)
-						var file = files[0];
-						console.log("filename: " + file.name)
-            			sendFile(files[0]);
-        			},
-					onMediaDelete : function(target) {
-                		console.log(target[0].src);
-            		}
-				}
-			});
-
-		function updateProgressBar(seconds) {
-			var divisor = (parseInt($('#hidCountdown').val()) - 1);
-			$('#update-progress-bar').css('width', (seconds/divisor * 100) + '%');
-			if((seconds/divisor * 100) > 1) {
-				console.log('')
-			}
-		}
-
-		function sendFile(file) {
-			console.log("started send file...");
-			data = new FormData();
-			data.append('id', $('#postid').val());
-			data.append("image", file);
-
-			$.ajax({
-				data: data,
-				type: "POST",
-				url: "/postImage/save",
-				cache: false,
-				contentType: false,
-				processData: false,
-				success: function(url) {
-					console.log("URL: " + url)
-					$('#summernote').summernote("insertImage", url);
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					console.log("jqXHR: " + jqXHR.status);
-					console.log("textStatus: " + textStatus);
-					console.log("errorThrown: " + errorThrown);
-				}
-			});
-		}
-		
-		function updater() {
-
-			var postid = $('#postid').val();
-			var posttitle = $('#posttitle').val();
-			var posttext = $('#summernote').summernote('code');
-			var postdraft = $('#postdraft').is(':checked');
-
-			console.log('postid: '+ postid);
-			console.log('posttitle: '+ posttitle);
-			console.log('posttext: '+ posttext);
-			console.log('postdraft: '+ postdraft);
-
-			var post = {
-				id : postid,
-				title : posttitle,
-				review : posttext, 
-				isDraft : postdraft
-			};
-
-			$.ajax({
-				type: "POST",
-				url: "/post/update",
-				data: JSON.stringify(post),
-				contentType: "application/json; charset=utf-8",
-				dataType: "json",
-				success: function (data) {
-						console.log("post atualizado com sucesso!!!");
-                },
-                error : function(jqXHR, textStatus, errorThrown) {
-					console.log("erro na atualização do composer");
-					console.log("jqXHR: " + jqXHR.status);
-					console.log("textStatus: " + textStatus);
-					console.log("errorThrown: " + errorThrown);
-				}
-			});
-		}
-
-		function sendFile(file) {
-			console.log("started send file...");
-			data = new FormData();
-			data.append('id', $('#postid').val());
-			data.append("image", file);
-
-			$.ajax({
-				data: data,
-				type: "POST",
-				url: "/postImage/save",
-				cache: false,
-				contentType: false,
-				processData: false,
-				success: function(url) {
-					console.log("URL: " + url)
-					$('#summernote').summernote("insertImage", url);
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					console.log("jqXHR: " + jqXHR.status);
-					console.log("textStatus: " + textStatus);
-					console.log("errorThrown: " + errorThrown);
-				}
-			});
-		}
-		
-		function updater() {
-
-			var postid = $('#postid').val();
-			var posttitle = $('#posttitle').val();
-			var posttext = $('#summernote').summernote('code');
-			var postdraft = $('#postdraft').is(':checked');
-
-			var post = {
-				id : postid,
-				title : posttitle,
-				review : posttext, 
-				isDraft : postdraft
-			};
-
-			$.ajax({
-				type: "POST",
-				url: "/post/update",
-				data: JSON.stringify(post),
-				contentType: "application/json; charset=utf-8",
-				dataType: "json",
-				success: function (data) {
-						console.log("post atualizado com sucesso!!!");
-                },
-                error : function(jqXHR, textStatus, errorThrown) {
-					console.log("erro na atualização do composer");
-					console.log("jqXHR: " + jqXHR.status);
-					console.log("textStatus: " + textStatus);
-					console.log("errorThrown: " + errorThrown);
-				}
-			});
-
-			$("#btnCoverImage").click(function() {
-				var form = $('#fileUploadForm')[0];
-				var formData = new FormData(form);
-
-				$.ajax({
-					url: "/postImage/updateCoverImage",
-					type: "POST",
-					enctype: 'multipart/form-data',
-					data: formData,
-					contentType: false,
-					processData: false,
-					cache: false,
-					success: function (data) {
-						$("#imgcover").attr('src', data);
-                    },
-                    error : function(jqXHR, textStatus, errorThrown) {
-						console.log("erro na atualização da imagem de capa");
-                     	console.log("jqXHR: " + jqXHR.status);
-                     	console.log("textStatus: " + textStatus);
-                     	console.log("errorThrown: " + errorThrown);
-                    }
+								if (seconds == 0) {
+									clearInterval(countdown);
+									console.log("executa o updater");
+									updater();
+								}
+							}, 1000);
+						},
+						onImageUpload: function(files) {
+							console.log("nº arquivos: " + files.length);
+							var file = files[0];
+							console.log("filename: " + file.name);
+							sendFile(files[0]);
+						},
+						onMediaDelete : function(target) {
+							console.log(target[0].src);
+						}
+					}
 				});
-			});
 
-		}
+				$('#btnInserirTag').click(function() {
+					
+					console.log("### inserir ###");
+					console.log("post: " + $('#id').val());
+					console.log("tag: " + $('#tagsSelectTo option:selected').val());
+					var urlInsertTag = "/post/insertTag/" + $('#id').val() + "/"+ $('#tagsSelectFrom option:selected').val();
+					console.log("urlInsertTag: " + urlInsertTag);
 
-		</script>
+					$.ajax({
+						type: "GET",
+						url: urlInsertTag,
+						cache: false,
+						contentType: false,
+						processData: false,
+						success: function(tag) {
+							console.log(tag + " inserido com sucesso!");
+							return !$('#tagsSelectFrom option:selected').remove().appendTo('#tagsSelectTo');
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							alert('não deu certo!');
+							console.log("jqXHR: " + jqXHR.status);
+							console.log("textStatus: " + textStatus);
+							console.log("errorThrown: " + errorThrown);
+						}
+					});
+				});
+
+				$('#btnRemoverTag').click(function() {
+
+					console.log("### remover ###");
+					console.log("post: " + $('#id').val());
+					console.log("tag: " + $('#tagsSelectTo option:selected').val());
+					var urlRemoveTag = "/post/removeTag/" + $('#id').val() + "/"+ $('#tagsSelectTo option:selected').val();
+					console.log("urlRemoveTag: " + urlRemoveTag);
+
+					$.ajax({
+						type: "GET",
+						url: urlRemoveTag,
+						cache: false,
+						contentType: false,
+						processData: false,
+						success: function(tag) {
+							console.log(tag + " removido com sucesso!");
+							return !$('#tagsSelectTo option:selected').remove().appendTo('#tagsSelectFrom');
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							alert('não deu certo!');
+							console.log("jqXHR: " + jqXHR.status);
+							console.log("textStatus: " + textStatus);
+							console.log("errorThrown: " + errorThrown);
+						}
+					});
+				});
+
+				function updateProgressBar(seconds) {
+					var divisor = (parseInt($('#hidCountdown').val()) - 1);
+					$('#update-progress-bar').css('width', (seconds/divisor * 100) + '%');
+				}
+
+				function sendFile(file) {
+					console.log("started send file...");
+					data = new FormData();
+					data.append('id', $('#postid').val());
+					data.append("image", file);
+
+					$.ajax({
+						data: data,
+						type: "POST",
+						url: "/postImage/save",
+						cache: false,
+						contentType: false,
+						processData: false,
+						success: function(url) {
+							console.log("URL: " + url)
+							$('#summernote').summernote("insertImage", url);
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							console.log("jqXHR: " + jqXHR.status);
+							console.log("textStatus: " + textStatus);
+							console.log("errorThrown: " + errorThrown);
+						}
+					});
+				}
+				
+				function updater() {
+
+					var postid = $('#postid').val();
+					var posttitle = $('#posttitle').val();
+					var posttext = $('#summernote').summernote('code');
+					var postdraft = $('#postdraft').is(':checked');
+
+					console.log('postid: '+ postid);
+					console.log('posttitle: '+ posttitle);
+					console.log('posttext: '+ posttext);
+					console.log('postdraft: '+ postdraft);
+
+					var post = {
+						id : postid,
+						title : posttitle,
+						review : posttext, 
+						isDraft : postdraft
+					};
+
+					$.ajax({
+						type: "POST",
+						url: "/post/update",
+						data: JSON.stringify(post),
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function (data) {
+								console.log("post atualizado com sucesso!!!");
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							console.log("erro na atualização do composer");
+							console.log("jqXHR: " + jqXHR.status);
+							console.log("textStatus: " + textStatus);
+							console.log("errorThrown: " + errorThrown);
+						}
+					});
+				}
+
+				function sendFile(file) {
+					console.log("started send file...");
+					data = new FormData();
+					data.append('id', $('#postid').val());
+					data.append("image", file);
+
+					$.ajax({
+						data: data,
+						type: "POST",
+						url: "/postImage/save",
+						cache: false,
+						contentType: false,
+						processData: false,
+						success: function(url) {
+							console.log("URL: " + url)
+							$('#summernote').summernote("insertImage", url);
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							console.log("jqXHR: " + jqXHR.status);
+							console.log("textStatus: " + textStatus);
+							console.log("errorThrown: " + errorThrown);
+						}
+					});
+				}
+				
+				function updater() {
+
+					var postid = $('#postid').val();
+					var posttitle = $('#posttitle').val();
+					var posttext = $('#summernote').summernote('code');
+					var postdraft = $('#postdraft').is(':checked');
+
+					var post = {
+						id : postid,
+						title : posttitle,
+						review : posttext, 
+						isDraft : postdraft
+					};
+
+					$.ajax({
+						type: "POST",
+						url: "/post/update",
+						data: JSON.stringify(post),
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function (data) {
+								console.log("post atualizado com sucesso!!!");
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							console.log("erro na atualização do composer");
+							console.log("jqXHR: " + jqXHR.status);
+							console.log("textStatus: " + textStatus);
+							console.log("errorThrown: " + errorThrown);
+						}
+					});
+
+					$("#btnCoverImage").click(function() {
+						var form = $('#fileUploadForm')[0];
+						var formData = new FormData(form);
+
+						$.ajax({
+							url: "/postImage/updateCoverImage",
+							type: "POST",
+							enctype: 'multipart/form-data',
+							data: formData,
+							contentType: false,
+							processData: false,
+							cache: false,
+							success: function (data) {
+								$("#imgcover").attr('src', data);
+							},
+							error : function(jqXHR, textStatus, errorThrown) {
+								console.log("erro na atualização da imagem de capa");
+								console.log("jqXHR: " + jqXHR.status);
+								console.log("textStatus: " + textStatus);
+								console.log("errorThrown: " + errorThrown);
+							}
+						});
+					});
+				}
+			</script>
 		</div>
 
 	</body>

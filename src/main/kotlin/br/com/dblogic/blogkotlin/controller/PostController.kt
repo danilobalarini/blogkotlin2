@@ -8,12 +8,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/post")
@@ -43,10 +38,9 @@ class PostController {
 	}
 
 	@PostMapping("/save")
-	fun save(@RequestBody post: Post): Post {
-		logger.info("post.title: " + post.title)
-		logger.info("post.review: " + post.review)
-		return postService.save(post)
+	fun save(@RequestBody postFacade: PostFacade): ResponseEntity<Post> {
+		logger.info("post.title: " + postFacade.title)
+		return ResponseEntity(postService.brandNewPost(postFacade.title), HttpStatus.OK)
 	}
 
 	@PostMapping("/updatetags")
@@ -58,8 +52,22 @@ class PostController {
 
 	@GetMapping("/delete")
 	fun delete(@RequestParam(defaultValue = "0") id: Long) {
-
 		postService.deleteById(id)
 	}
+
+	@GetMapping("/insertTag/{post}/{tag}")
+	fun insertTag(@PathVariable post: Long, @PathVariable tag: Long): ResponseEntity<String> {
+		postService.insertTag(post, tag)
+
+		return ResponseEntity("ok", HttpStatus.OK)
+	}
+
+	@GetMapping("/removeTag/{post}/{tag}")
+	fun removeTag(@PathVariable post: Long, @PathVariable tag: Long): ResponseEntity<String> {
+		postService.removeTag(post, tag)
+
+		return ResponseEntity("ok", HttpStatus.OK)
+	}
+
 
 }

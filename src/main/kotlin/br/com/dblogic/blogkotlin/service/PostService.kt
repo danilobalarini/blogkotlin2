@@ -1,11 +1,9 @@
 package br.com.dblogic.blogkotlin.service
 
 import br.com.dblogic.blogkotlin.exception.DeletePostException
-import br.com.dblogic.blogkotlin.exception.DeleteTagException
 import br.com.dblogic.blogkotlin.model.CaptchaEvent
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostImage
-import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.FrontPageFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.model.facade.PostSearchFacade
@@ -29,8 +27,6 @@ import java.time.Instant
 
 import org.jsoup.Jsoup
 import java.util.stream.Collectors
-import java.util.ArrayList
-import java.util.function.Consumer
 import kotlin.streams.asSequence
 
 @Service
@@ -159,12 +155,12 @@ class PostService {
                }
     }
 
-    fun brandNewPost(): Post {
-        var post = postRepository.save(Post())
+    fun brandNewPost(title: String): Post {
+        var post = postRepository.save(Post(title))
         val postImage = PostImage("${post.id}-coverimage.jpg",
-                         "default cover image",
-                                   postImageService.defaultCoverImage(post.title),
-                        true, post)
+            "default cover image",
+            postImageService.defaultCoverImage(post.title),
+            true, post)
         post.addPostImage(postImage)
 
         val directory = blogUtils.getDirectoryNameFromPost(post)
@@ -244,6 +240,30 @@ class PostService {
 
         logger.info("saving!!!")
         save(post)
+    }
+
+    fun insertTag(idpost: Long, idtag: Long) {
+        var post = postRepository.findById(idpost)
+        val tags = tagService.findByPostId(post.get().id)
+
+        for (t in tags) {
+            post.get().addTag(tagService.findById(t.id))
+        }
+        post.get().addTag(tagService.findById(idtag))
+
+        postRepository.save(post.get())
+    }
+
+    fun removeTag(idpost: Long, idtag: Long) {
+        var post = postRepository.findById(idpost)
+        val tags = tagService.findByPostId(post.get().id)
+
+        for (t in tags) {
+            post.get().addTag(tagService.findById(t.id))
+        }
+        post.get().removeTag(tagService.findById(idtag))
+
+        postRepository.save(post.get())
     }
 
     fun sumPageView(id: Long) {
