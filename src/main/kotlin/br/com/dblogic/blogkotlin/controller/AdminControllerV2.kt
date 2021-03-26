@@ -72,9 +72,6 @@ class AdminControllerV2 {
 		model.addAttribute("post", facade)
 		model.addAttribute("postTagsOwned", tagService.tagsLeft(tags))
 		model.addAttribute("postTags", tags)
-		model.addAttribute("idtags", tagService.onlyIds(post.tags))
-
-		logger.info("onlyids: " + tagService.onlyIds(post.tags))
 
 		return "adm_compose"
 	}
