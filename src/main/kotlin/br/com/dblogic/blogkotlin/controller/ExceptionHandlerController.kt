@@ -10,12 +10,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 class ExceptionHandlerController : ResponseEntityExceptionHandler() {
 
-    @ExceptionHandler(value = arrayOf(Exception::class))
+    @ExceptionHandler(value = [Exception::class])
     fun handleException() : ResponseEntity<HttpStatus> {
         return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
-    @ExceptionHandler(value = arrayOf(DeleteTagException ::class))
+    @ExceptionHandler(value = [DeleteTagException ::class])
     fun handleDeleteTagException() : ResponseEntity<HttpStatus> {
         return ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY)
     }

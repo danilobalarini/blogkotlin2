@@ -8,6 +8,6 @@ data class CommentFacade (val id: Long = 0,
                           var email: String = "",
                           var text: String = "",
                           var createdAt: Instant = Instant.now(),
-                          var isApproved: Boolean = false) {
+                          var approved: Boolean = false) {
 
 }

@@ -16,7 +16,10 @@ data class Contact(@Id
                    @Column(nullable = false)
                    val email: String = "",
 
+                   @Column(columnDefinition = "text")
+                   val message: String = "",
+
                    @Column(nullable = false)
-                   val message: String = "") {
+                   var checked: Boolean = false) : DateAudit() {
 
 }
