@@ -2,6 +2,8 @@ package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
+import br.com.dblogic.blogkotlin.service.CommentService
+import br.com.dblogic.blogkotlin.service.ContactService
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.service.TagService
 import org.apache.commons.lang3.StringUtils
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import java.time.Instant
+import org.springframework.web.bind.annotation.ModelAttribute
 
 @Controller
 @RequestMapping("/adminv2")
@@ -24,9 +27,14 @@ class AdminControllerV2 {
 	@Autowired
 	lateinit var tagService: TagService
 
+	@Autowired
+	lateinit var contactService: ContactService
+
+	@Autowired
+	lateinit var commentService: CommentService
+
 	@GetMapping("")
 	fun admin(model: Model) : String {
-		//model.addAttribute("posts", postService.returnAllFacades())
 		logger.info("versão 2")
 		return "admindex2"
 	}
@@ -74,6 +82,16 @@ class AdminControllerV2 {
 		model.addAttribute("postTags", tags)
 
 		return "adm_compose"
+	}
+
+	@ModelAttribute("numberContactsFalse")
+	private fun getContactsFalse(): Long {
+		return contactService.countCheckedFalse()
+	}
+
+	@ModelAttribute("numberCommentsNotApproved")
+	private fun getCommentsApprovedFalse(): Long {
+		return commentService.countByApprovedTrue()
 	}
 
 }

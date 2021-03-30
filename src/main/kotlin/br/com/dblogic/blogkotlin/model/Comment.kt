@@ -22,22 +22,23 @@ data class Comment(@Id
 				   @Column(columnDefinition = "text")
 				   var text: String = "",
 
-				   var isApproved: Boolean = false): DateAudit() {
+				   @Column(nullable = false)
+				   var approved: Boolean = false): DateAudit() {
 
-	constructor(post: Post, name: String, email: String, text: String, isApproved: Boolean): this() {
+	constructor(post: Post, name: String, email: String, text: String, approved: Boolean): this() {
 		this.post = post
 		this.name = name
 		this.email = email
 		this.text = text
-		this.isApproved = isApproved
+		this.approved = approved
 	}
 
-	constructor(post: Post, text: String, name: String, email: String, isApproved: Boolean, createdAt: Instant): this() {
+	constructor(post: Post, text: String, name: String, email: String, approved: Boolean, createdAt: Instant): this() {
 		this.post = post
 		this.text = text
 		this.name = name
 		this.email = email
-		this.isApproved = isApproved
+		this.approved = approved
 		this.createdAt = createdAt
 	}
 

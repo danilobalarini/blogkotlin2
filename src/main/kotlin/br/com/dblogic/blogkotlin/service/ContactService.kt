@@ -1,18 +1,13 @@
 package br.com.dblogic.blogkotlin.service
 
 import br.com.dblogic.blogkotlin.model.CaptchaEvent
-import br.com.dblogic.blogkotlin.model.CaptchaResponse
 import br.com.dblogic.blogkotlin.model.Contact
 import br.com.dblogic.blogkotlin.model.facade.ContactFacade
-import br.com.dblogic.blogkotlin.recaptcha.GoogleResponse
-import br.com.dblogic.blogkotlin.repository.CaptchaResponseRepository
 import br.com.dblogic.blogkotlin.repository.ContactRepository
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 @Service
 class ContactService {
@@ -24,6 +19,10 @@ class ContactService {
 
     @Autowired
     lateinit var captchaService: CaptchaService
+
+    fun countCheckedFalse() : Long {
+        return contactRepository.countByCheckedFalse()
+    }
 
     fun save(contactFacade: ContactFacade) {
 

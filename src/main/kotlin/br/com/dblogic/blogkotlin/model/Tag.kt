@@ -1,7 +1,6 @@
 package br.com.dblogic.blogkotlin.model
 
 import org.hibernate.annotations.GenericGenerator
-import org.hibernate.annotations.NaturalId
 import javax.persistence.*
 
 @Entity
@@ -15,7 +14,7 @@ data class Tag(@Id
                var name: String = "",
 
                @ManyToMany(mappedBy = "tags")
-               var posts: MutableSet<Post> = mutableSetOf<Post>()) {
+               var posts: MutableSet<Post> = mutableSetOf<Post>()): DateAudit() {
 
     constructor(name: String): this() {
         this.name = name

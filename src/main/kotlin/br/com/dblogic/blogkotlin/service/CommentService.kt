@@ -6,7 +6,6 @@ import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.facade.CommentFacade
 import br.com.dblogic.blogkotlin.model.facade.CommentFormFacade
 import br.com.dblogic.blogkotlin.repository.CommentRepository
-import org.apache.commons.lang3.StringUtils.isAnyEmpty
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -28,6 +27,10 @@ class CommentService {
 
 	fun count(): Long {
 		return commentRepository.count()
+	}
+
+	fun countByApprovedTrue() : Long {
+		return commentRepository.countByApprovedFalse()
 	}
 	
 	fun findAll(): List<Comment> {
@@ -54,8 +57,8 @@ class CommentService {
 		return toFacade(comment)
 	}
 
-	fun findByPostAndIsApprovedTrue(post: Post): List<CommentFacade> {
-		return commentRepository.findByPostAndIsApprovedTrue(post)
+	fun findByPostAndApprovedTrue(post: Post): List<CommentFacade> {
+		return commentRepository.findByPostAndApprovedTrue(post)
 				.stream()
 				.map { c -> toFacade(c) }
 				.collect(Collectors.toList())
