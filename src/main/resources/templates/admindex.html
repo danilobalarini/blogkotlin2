@@ -4,30 +4,32 @@
 
 <head>
 	<title>Admin</title>
-	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_admin_level_1"> </th:block> /*/-->
+	<!--/*/ <th:block th:include="fragments/general.html :: headerfiles_admin_v2"> </th:block> /*/-->
 </head>
 
 <body>
-
-	<div th:replace="fragments/general.html :: header"></div>
-	
-	<div class="content-wrapper">
-		<div class="w-container">
-			<div class="w-row">
-				<!-- div th:replace="fragments/general.html :: sidebar"></div -->
-
-				<div class="content-column w-col w-col-12">
-
-					<div th:replace="fragments/admin.html :: posts"></div>
-
-					<!-- div th:replace="fragments/general.html :: mobile-sidebar"></div -->
-
-				</div>
-			</div>
+	<div class="wrapper">
+		<div th:replace="fragments/admin.html :: navigation-bar"></div>
+		<div th:replace="fragments/admin.html :: main-sidebar"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+		   <div th:replace="fragments/admin.html :: content-header(title='Dashboard v3', bread_item='Home', bread_item_active='Dashboard v3')"></div>
+		   <!-- Main content -->
+		   <section class="content">
+			  <div class="container-fluid">
+				 content goes here
+				 <!-- /.container-fluid -->
+			  </div>
+		   </section>
+		   <!-- /.content -->
 		</div>
+	   	<!-- /.content-wrapper -->
+		<div th:replace="fragments/admin.html :: main-footer"></div>
 	</div>
+	<!-- ./wrapper -->
 
-	<!-- div th:replace="fragments/general.html :: footerfiles"></div -->
+	<!-- Javascript -->
+	<!-- End of Javascript -->
 
 </body>
 
