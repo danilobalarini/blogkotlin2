@@ -1,49 +1,612 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-      
+
     <body>
+        <div th:fragment="navigation-bar">
+            <!-- Navbar -->
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+                <!-- Left navbar links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+                    </li>
+                </ul>
+                <!-- Right navbar links -->
+                <ul class="navbar-nav ml-auto">
+                    <li>
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="far fa-envelope"></i>
+                            <span class="badge badge-danger navbar-badge" th:text="${numberContactsFalse}"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="far fa-comments"></i>
+                            <span class="badge badge-warning navbar-badge" th:text="${numberCommentsNotApproved}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.navbar -->
 
-        <div th:fragment="posts" class="post-wrapper">
+        </div> <!-- end fragment -->
 
-            <div class="post-content">
-                <a id="btnNewPost" class="button w-button" href="#">Novo</a>
-                <br /><br />
-                <div class="body-copy w-richtext">
-                    <ul class="striped-list">
-                        <li th:each="post: ${posts}">
-                            <span class="span-display-id" th:text="'id: ' + ${post.id}"></span>
-                            <a th:href="@{/admin/deletepost(id=${post.id})}"><img th:src="@{../images/delete-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
-                            <a th:href="@{/admin/updatepost(id=${post.id})}"><img th:src="@{../images/edit-icon.png}" width="16"></a>&nbsp;&nbsp;&nbsp;
-                            <img th:src="@{../images/comments-icon.png}" width="16"><span th:text="'(' + ${post.comments} + ')'"></span>&nbsp;&nbsp;&nbsp;
-                            <span th:text="${post.title}"></span>
-                            <span class="span-display-createdat" th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy | HH:mm:ss')}"></span>
-                            <span class="span-display-draft" th:text="${#bools.isTrue(post.draft)}"></span>
+        <div th:fragment="main-sidebar">
+            <!-- Main Sidebar Container -->
+            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                <!-- Brand Logo -->
+                <a href="index3.html" class="brand-link">
+                <img th:src="@{../images/lighthouse.png}" alt="Lighthouse" class="brand-image img-circle elevation-2" style="opacity: .8">
+                <span class="brand-text font-weight-light">Lighthouse</span>
+                </a>
+                <!-- Sidebar -->
+                <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img th:src="@{../images/profile.png}" class="img-circle elevation-2" alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a href="#" class="d-block">Hinotori</a>
+                    </div>
+                </div>
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-header">POSTS</li>
+                        <li class="nav-item">
+                            <a th:href="@{/admin/tags}" class="nav-link">
+                                <i class="nav-icon fa fa-tags"></i>
+                                <p>Tags</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/admin/posts}" class="nav-link">
+                                <i class="nav-icon fas fa-file-alt"></i>
+                                <p>Posts</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-envelope"></i>
+                            <p>
+                                Mailbox
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="pages/mailbox/mailbox.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Inbox</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/mailbox/compose.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Compose</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/mailbox/read-mail.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Read</p>
+                                </a>
+                            </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Pages
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="pages/examples/invoice.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Invoice</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/profile.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Profile</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/e_commerce.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>E-commerce</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/projects.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Projects</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/project_add.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Project Add</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/project_edit.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Project Edit</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/project_detail.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Project Detail</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/contacts.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Contacts</p>
+                                </a>
+                            </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-plus-square"></i>
+                            <p>
+                                Extras
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="pages/examples/login.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Login</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/register.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Register</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/forgot-password.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Forgot Password</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/recover-password.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Recover Password</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/lockscreen.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Lockscreen</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/legacy-user-menu.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Legacy User Menu</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/language-menu.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Language Menu</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/404.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Error 404</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/500.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Error 500</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/pace.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Pace</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages/examples/blank.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Blank Page</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="starter.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Starter Page</p>
+                                </a>
+                            </li>
+                            </ul>
+                        </li>
+                        <li class="nav-header">MISCELLANEOUS</li>
+                        <li class="nav-item">
+                            <a href="https://adminlte.io/docs/3.0" class="nav-link">
+                            <i class="nav-icon fas fa-file"></i>
+                            <p>Documentation</p>
+                            </a>
+                        </li>
+                        <li class="nav-header">MULTI LEVEL EXAMPLE</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <i class="fas fa-circle nav-icon"></i>
+                            <p>Level 1</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-circle"></i>
+                            <p>
+                                Level 1
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Level 2</p>
+                                </a>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Level 2
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Level 3</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Level 3</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Level 3</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Level 2</p>
+                                </a>
+                            </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <i class="fas fa-circle nav-icon"></i>
+                            <p>Level 1</p>
+                            </a>
+                        </li>
+                        <li class="nav-header">LABELS</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-circle text-danger"></i>
+                            <p class="text">Important</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-circle text-warning"></i>
+                            <p>Warning</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-circle text-info"></i>
+                            <p>Informational</p>
+                            </a>
                         </li>
                     </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
                 </div>
+                <!-- /.sidebar -->
+            </aside>
+        </div> <!-- end fragment -->
+
+        <div th:fragment="main-footer">
+            <!-- Main Footer -->
+            <footer class="main-footer">
+                <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+                All rights reserved.
+                <div class="float-right d-none d-sm-inline-block">
+                    <b>Version</b> 3.0.1
+                </div>
+            </footer>
+        </div>
+
+        <div th:fragment="content-header (title, bread_item, bread_item_active)">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark" th:text="${title}"></h1>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item">
+                                <a href="#">
+                                    <span th:text="${bread_item}"></span>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="${bread_item_active}"></li>
+                        </ol>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
             </div>
+            <!-- /.content-header -->  
+        </div>
 
-            <script th:inline="javascript">
-
-                $(document).ready(function() {
+        <div th:fragment="listTags" class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                        <h3 class="card-title">Tags</h3>
+        
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+        
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                        <table id="tblTags" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Apagar</th>
+                                    <th>Editar</th>
+                                    <th>Nome</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="tag: ${alltags}" th:id="'tag' + ${tag.id}">
+                                    <td th:text="${tag.id}"></td>
+                                    <!-- <td><a th:href="@{/tags/delete(id=${tag.id})}"><i class="nav-icon fas fa-trash"></i></a></td> -->
+                                    <td><a href="#" th:onclick="@{'deletetag(' + ${tag.id} + ');'}"><i class="nav-icon fas fa-trash"></i></a></td>
+                                    <td><a th:href="@{/admin/tags_update(id=${tag.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
+                                    <td th:text="${tag.name}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div> <!-- /.card-body -->
+                    </div> <!-- /.card -->
+                </div>
+                <a th:href="@{/admin/tags_update}">
+                    <button id="btnNewTag" type="button" class="btn btn-primary btn-lg">Nova Tag</button>
+                </a>
+                <script th:inline="javascript">
+       
+                        function deletetag(id) {
+                            console.log("entrou na deletetag: " + id);
+                            $.ajax({
+                                type: "GET",
+                                url: "/tags/delete?id=" + id,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: function() {
+                                    console.log(id + " removido com sucesso!");
+                                    $('table#tblTags tr#tag' + id).remove();
+                                },
+                                error : function(jqXHR, textStatus, errorThrown) {
+                                    alert('não deu certo!');
+                                    console.log("jqXHR: " + jqXHR.status);
+                                    console.log("textStatus: " + textStatus);
+                                    console.log("errorThrown: " + errorThrown);
+                                }
+                            });
+                        }
+                </script>
     
-                    $("#btnNewPost").click(function() {                       
+            </div> <!-- /.row -->
+
+            <div th:fragment="editTags" class="row">
+                <!-- left column -->
+                <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Tags</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form role="form" th:object="${tag}">
+                            <input type="hidden" th:field="*{id}" id="txtTagId" name="txtTagId">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="txtTagName">Nome da tag</label>
+                                    <input type="text" class="form-control" th:field="*{name}" id="txtTagName" name="txtTagName" placeholder="Nome da tag">
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <script>
+                    $('#btnSubmit').click(function() {
+                   
+                        var tag = {
+                            id:$('#txtTagId').val(),
+                            name:$('#txtTagName').val()
+                        }
+                    
+                        console.log('form data: ' + JSON.stringify(tag));
+                    
                         $.ajax({
-                            type: "GET",
-                            url: "/admin/compose",
+                            url: "/tags/save",
+                            type: "POST",
+                            data: JSON.stringify(tag),
+                            contentType: "application/json; charset=utf-8",
                             cache: false,
-                            contentType: false,
                             processData: false,
-                            success: function(post) {
-                                window.location.href = "/admin/updatepost?id=" + post.id;
+                            success: function (data) {
+                                window.location.href = "/admin/tags";
+                            },
+                            error : function(jqXHR, textStatus, errorThrown) {
+                                alert('não deu certo!');
+                                console.log("jqXHR: " + jqXHR.status);
+                                console.log("textStatus: " + textStatus);
+                                console.log("errorThrown: " + errorThrown);
                             }
                         });
                     });
-                });
-            </script>
+                    
+                </script>
+            </div>
+            <!-- /.row -->
 
-        </div> <!-- end fragment -->
+            <div th:fragment="listPosts" class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                        <h3 class="card-title">Posts</h3>
+        
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+        
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                        <table id="tblPosts" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Apagar</th>
+                                    <th>Editar</th>
+                                    <th>Título</th>
+                                    <th>Aprovado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="post: ${allposts}" th:id="'post' + ${post.id}">
+                                    <td th:text="${post.id}"></td>
+                                    <td><a href="#" th:onclick="@{'deletepost(' + ${post.id} + ');'}"><i class="nav-icon fas fa-trash"></i></a></td>
+                                    <td><a th:href="@{/admin/updatepost(id=${post.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
+                                    <td th:text="${post.title}"></td>
+                                    <td><i th:class="${post.isDraft} ? 'fa fa-ban' : 'fa fa-thumbs-up'"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div> <!-- /.card-body -->
+                    </div> <!-- /.card -->
+                </div>
+                <button id="btnNewPost" type="button" class="btn btn-primary btn-lg">Novo post</button>
+                
+                <script th:inline="javascript">
+       
+                        function deletepost(id) {
+                            console.log("entrou na deletepost: " + id);
+                            $.ajax({
+                                type: "GET",
+                                url: "/post/delete?id=" + id,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: function() {
+                                    console.log(id + " removido com sucesso!");
+                                    $('table#tblPosts tr#post' + id).remove();
+                                },
+                                error : function(jqXHR, textStatus, errorThrown) {
+                                    alert('não deu certo!');
+                                    console.log("jqXHR: " + jqXHR.status);
+                                    console.log("textStatus: " + textStatus);
+                                    console.log("errorThrown: " + errorThrown);
+                                }
+                            });
+                        }
+                </script>
+    
+            </div> <!-- /.row -->
+
+            <div th:fragment="compose" class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div id="summernote" name="article"></div>
+                    </div> <!-- /.card -->
+                </div>
+                <a th:href="@{/admin/posts_update}">
+                    <button id="btnNewPost" type="button" class="btn btn-primary btn-lg">Novo post</button>
+                </a>
+                <script th:inline="javascript">
+       
+                        function deletepost(id) {
+                            console.log("entrou na deletepost: " + id);
+                            $.ajax({
+                                type: "GET",
+                                url: "/post/delete?id=" + id,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: function() {
+                                    console.log(id + " removido com sucesso!");
+                                    $('table#tblPosts tr#post' + id).remove();
+                                },
+                                error : function(jqXHR, textStatus, errorThrown) {
+                                    alert('não deu certo!');
+                                    console.log("jqXHR: " + jqXHR.status);
+                                    console.log("textStatus: " + textStatus);
+                                    console.log("errorThrown: " + errorThrown);
+                                }
+                            });
+                        }
+                </script>
+
+            </div> <!-- /.row -->
 
     </body>
 

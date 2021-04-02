@@ -1,7 +1,9 @@
 package br.com.dblogic.blogkotlin.controller
 
-import br.com.dblogic.blogkotlin.model.Post
+import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
+import br.com.dblogic.blogkotlin.service.CommentService
+import br.com.dblogic.blogkotlin.service.ContactService
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.service.TagService
 import org.apache.commons.lang3.StringUtils
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import java.time.Instant
+import org.springframework.web.bind.annotation.ModelAttribute
 
 @Controller
 @RequestMapping("/admin")
@@ -24,29 +27,44 @@ class AdminController {
 	@Autowired
 	lateinit var tagService: TagService
 
+	@Autowired
+	lateinit var contactService: ContactService
+
+	@Autowired
+	lateinit var commentService: CommentService
+
 	@GetMapping("")
 	fun admin(model: Model) : String {
-		model.addAttribute("posts", postService.returnAllFacades())
+		logger.info("versão 2")
 		return "admindex"
 	}
 
 	@GetMapping("/tags")
-	fun tags(model: Model) : String {
-		model.addAttribute("tags", tagService.findAll())
-		return "managetags"
+	fun listtags(model: Model) : String {
+		logger.info("show all tags")
+
+		model.addAttribute("alltags", tagService.findAll())
+		return "adm_tags_list"
 	}
 
-	@ResponseBody
-	@GetMapping("/compose")
-	fun compose(model : Model) : PostFacade {
-		logger.info("chegou e vai criar um novo post")
-		val post = postService.brandNewPost("")
-		return PostFacade(post.id, "", "")
+	@GetMapping("/tags_update")
+	fun edittags(@RequestParam(defaultValue = "0") id: Long, model: Model) : String {
+		logger.info("Let's go manage tags")
+
+		model.addAttribute("tag", if(id==0L) Tag() else tagService.findById(id))
+		return "adm_tags_edit"
+	}
+
+	@GetMapping("/posts")
+	fun listposts(model: Model) : String {
+		logger.info("show all posts")
+
+		model.addAttribute("allposts", postService.findAll())
+		return "adm_posts_list"
 	}
 
 	@GetMapping("/updatepost")
 	fun updatepost(@RequestParam id: Long, model : Model) : String {
-
 		val post = postService.findById(id)
 		logger.info("post.review: >>>>>>>>> ${post.review}")
 		val facade = PostFacade(id,
@@ -58,25 +76,22 @@ class AdminController {
 								tagService.toSetFacade(post.tags),
 								"../${postService.createCoverImage(post)}")
 
+		val tags = HashSet(tagService.findByPostId(id))
 		model.addAttribute("post", facade)
-		model.addAttribute("alltags", HashSet(tagService.findAll()))
-		model.addAttribute("idtags", tagService.onlyIds(post.tags))
+		model.addAttribute("postTagsOwned", tagService.tagsLeft(tags))
+		model.addAttribute("postTags", tags)
 
-		logger.info("onlyids: " + tagService.onlyIds(post.tags))
-
-		return "compose"
+		return "adm_compose"
 	}
 
-	@PostMapping("/update")
-	fun update(post : Post, model : Model) {
-		model.addAttribute("post", postService.save(post))
+	@ModelAttribute("numberContactsFalse")
+	private fun getContactsFalse(): Long {
+		return contactService.countCheckedFalse()
 	}
 
-	@GetMapping("/deletepost")
-	fun delete(@RequestParam id: Long, model: Model): String {
-		postService.deleteById(id)
-		model.addAttribute("posts", postService.findAll())
-		return "admindex"
+	@ModelAttribute("numberCommentsNotApproved")
+	private fun getCommentsApprovedFalse(): Long {
+		return commentService.countByApprovedTrue()
 	}
 
 }

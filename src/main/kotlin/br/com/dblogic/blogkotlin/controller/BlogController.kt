@@ -1,12 +1,10 @@
 package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.CaptchaEvent
-import br.com.dblogic.blogkotlin.model.facade.ContactFacade
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.model.facade.PostSearchFacade
 import br.com.dblogic.blogkotlin.service.BlogService
 import br.com.dblogic.blogkotlin.service.CommentService
-import br.com.dblogic.blogkotlin.service.ContactService
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.utils.BlogUtils
 import org.slf4j.LoggerFactory
@@ -30,16 +28,10 @@ class BlogController {
 	lateinit var blogService: BlogService
 
 	@Autowired
-	lateinit var contactService: ContactService
-
-	@Autowired
 	lateinit var commentService: CommentService
 
 	@Autowired
 	lateinit var blogUtils: BlogUtils
-
-	@Value("\${blog.directory.name}")
-	lateinit var rootFolder: String
 
 	@Value("\${google.recaptcha.key.site}")
 	lateinit var recaptchaKeySite: String
@@ -81,19 +73,6 @@ class BlogController {
 		model.addAttribute("keysite", recaptchaKeySite)
 		model.addAttribute("registerAction", CaptchaEvent.CONTACT)
 		model.addAttribute("mostvisited", postService.mostVisitedPosts())
-		return "contact"
-	}
-
-	@PostMapping("/getContact")
-	fun getContact(@RequestBody contactFacade: ContactFacade, model: Model): String {
-		logger.info("!!!! chegou no getContact !!!!")
-		logger.info("nome:  ${contactFacade.name}")
-		logger.info("email: ${contactFacade.email}")
-		logger.info("mensagem: ${contactFacade.message}")
-		logger.info("response: ${contactFacade.response}")
-
-		contactService.save(contactFacade)
-
 		return "contact"
 	}
 
@@ -145,11 +124,6 @@ class BlogController {
 		model.addAttribute("posts", searchFacade.posts)
 
 		return "archives"
-	}
-
-	@RequestMapping("/fakeerror")
-	fun handleRequest() {
-		throw RuntimeException("test exception")
 	}
 
 }
