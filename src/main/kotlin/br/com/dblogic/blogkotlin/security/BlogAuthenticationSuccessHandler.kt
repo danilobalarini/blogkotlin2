@@ -1,6 +1,5 @@
 package br.com.dblogic.blogkotlin.security
 
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -58,11 +57,11 @@ class BlogAuthenticationSuccessHandler : SavedRequestAwareAuthenticationSuccessH
 	
 	private fun checkEmail(authentication: Authentication?) : Boolean {
 		
-		if(StringUtils.isNotBlank(authentication?.getPrincipal().toString())) {
+		if(authentication?.principal.toString().isNotBlank()) {
 			
-			val email = extractEmailFromPrincipal(authentication?.getPrincipal().toString())
-						
-			if(StringUtils.equalsIgnoreCase(admin, email)) {
+			val email = extractEmailFromPrincipal(authentication?.principal.toString())
+
+			if(admin.equals(email, ignoreCase = true)) {
 				return true
 			}
 		}
@@ -70,9 +69,9 @@ class BlogAuthenticationSuccessHandler : SavedRequestAwareAuthenticationSuccessH
 	}
 	
 	private fun extractEmailFromPrincipal(principal : String) : String {
-		for(data in StringUtils.split(principal, ",")) {
-			if(StringUtils.startsWith(StringUtils.trim(data.toString()), "email=")) {
-				return StringUtils.substringBetween(data.toString(), "=", "]")
+		for(data in principal.split(",")) {
+			if(data.trim().startsWith("email=")) {
+				return data.substringAfter("=").substringBefore("]")
 			}
 		}
 		return ""

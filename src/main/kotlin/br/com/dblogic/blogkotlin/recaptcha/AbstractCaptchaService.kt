@@ -3,7 +3,6 @@ package br.com.dblogic.blogkotlin.recaptcha
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.util.StringUtils
 import java.util.regex.Pattern
 import javax.servlet.http.HttpServletRequest
 
@@ -32,10 +31,14 @@ abstract class AbstractCaptchaService {
     }
 
     private fun responseSanityCheck(response: String?): Boolean {
-        LOGGER.info("responseSanityCheck: " + StringUtils.hasLength(response))
+        LOGGER.info("responseSanityCheck: " + response?.isNotBlank())
         LOGGER.info("responseSanityCheck: " + RESPONSE_PATTERN.matcher(response).matches())
 
-        return StringUtils.hasLength(response) && RESPONSE_PATTERN.matcher(response).matches()
+        return if (response != null) {
+            response.isNotEmpty() && RESPONSE_PATTERN.matcher(response).matches()
+        } else {
+            false
+        }
     }
 
     fun getClientIP(): String {

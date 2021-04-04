@@ -3,12 +3,12 @@ package br.com.dblogic.blogkotlin.utils
 import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.model.facade.PostSearchFacade
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.text.Normalizer
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -34,27 +34,34 @@ class BlogUtils {
         return "$currentWorkingDir/$blogFolderName/$pathToAdd"
     }
 
+    fun stripAccents(s: String): String {
+        var s = s
+        s = Normalizer.normalize(s, Normalizer.Form.NFD)
+        s = s.replace("[\\p{InCombiningDiacriticalMarks}]".toRegex(), "")
+        return s
+    }
+
     fun getTitle(id: Long, blogtitle: String, createdAt: Instant): String {
         // always put the date in the last part
         // id-title-date
         // date=YYYYMMDD
         // this is documentation
-        val titleWithoutAccents = StringUtils.stripAccents(blogtitle)
+        val titleWithoutAccents = stripAccents(blogtitle)
         var title = ""
 
-        for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
-            title = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
+        for(s in titleWithoutAccents.split(" ")) {
+            title = title + s.replace("[^A-Za-z0-9]".toRegex(), "") + "-"
         }
 
         return "$id-$title${toDateString(createdAt)}"
     }
 
     fun getDirectoryNameFromPost(post: Post): String {
-        val titleWithoutAccents = StringUtils.stripAccents(post.title)
+        val titleWithoutAccents = stripAccents(post.title)
         var title = ""
 
-        for(s in StringUtils.split(titleWithoutAccents, StringUtils.SPACE)) {
-            title = title + s.replace("[^A-Za-z0-9]".toRegex(), StringUtils.EMPTY) + "-"
+        for(s in titleWithoutAccents.split(" ")) {
+            title = title + s.replace("[^A-Za-z0-9]".toRegex(), "") + "-"
         }
 
         return post.id.toString() + "-" + title + toDateString(post.createdAt)
@@ -81,8 +88,8 @@ class BlogUtils {
         val zone = ZoneOffset.UTC
 
         val year = LocalDateTime.ofInstant(date, zone).year.toString()
-        val month = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).monthValue.toString(), 2, "0")
-        val day = StringUtils.leftPad(LocalDateTime.ofInstant(date, zone).dayOfMonth.toString(), 2, "0")
+        val month = LocalDateTime.ofInstant(date, zone).monthValue.toString().padStart(2, '0')
+        val day = LocalDateTime.ofInstant(date, zone).dayOfMonth.toString().padStart(2, '0')
 
         return "$year$month$day"
     }

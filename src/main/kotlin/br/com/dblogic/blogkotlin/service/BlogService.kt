@@ -1,7 +1,6 @@
 package br.com.dblogic.blogkotlin.service
 
 import br.com.dblogic.blogkotlin.model.Post
-import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import javax.servlet.http.Cookie
@@ -17,10 +16,10 @@ class BlogService {
         var visitedlist = ""
         var isVisited = false
         val id = post.id.toString()
-        if(StringUtils.isNotBlank(postsvisited)) {
-            val posts = StringUtils.split(postsvisited, ",")
+        if(postsvisited.isNotBlank()) {
+            val posts = postsvisited.split(",")
             for(p in posts) {
-                if(StringUtils.equals(StringUtils.trim(p), id)) {
+                if(id == p.trim()) {
                     isVisited = true
                     visitedlist = postsvisited
                     break

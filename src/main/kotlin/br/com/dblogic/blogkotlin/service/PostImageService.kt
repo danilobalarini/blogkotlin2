@@ -4,7 +4,6 @@ import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.PostImage
 import br.com.dblogic.blogkotlin.repository.PostImageRepository
 import br.com.dblogic.blogkotlin.utils.BlogUtils
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -127,7 +126,7 @@ class PostImageService {
 
         if(!multiPartFile.isEmpty) {
             if(multiPartFile.originalFilename?.isNotBlank()!!) {
-                return StringUtils.stripAccents(multiPartFile.originalFilename!!)
+                return blogUtils.stripAccents(multiPartFile.originalFilename!!)
             }
         }
         return ""
