@@ -11,7 +11,6 @@ import br.com.dblogic.blogkotlin.model.facade.TagFacade
 import br.com.dblogic.blogkotlin.repository.PostRepository
 import br.com.dblogic.blogkotlin.repository.specification.PostSpecification
 import br.com.dblogic.blogkotlin.utils.BlogUtils
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -199,7 +198,7 @@ class PostService {
 
         var post = findById(p.id)
 
-        if (!StringUtils.equals(post.title, p.title)) {
+        if (post.title != p.title) {
             logger.info("the title has been changed")
 
             val olddir = blogUtils.getDirectoryPathFromPost(post)
@@ -211,20 +210,11 @@ class PostService {
 
             logger.info("renaming directory")
             Files.move(olddir, newdir, StandardCopyOption.REPLACE_EXISTING)
-
-            val oldTitle = StringUtils.difference(newdir.toString(), olddir.toString())
-            val newTitle = StringUtils.difference(olddir.toString(), newdir.toString())
-
-            post.review = StringUtils.replace(post.review, oldTitle, newTitle)
-        } else {
-            post.review = p.review
         }
-
+        post.review = p.review
         post.isDraft = p.isDraft
 
-        val savepost = postRepository.save(post)
-
-        return postToFacade(savepost)
+        return postToFacade(postRepository.save(post))
     }
 
     fun updateTags(postFacade: PostFacade) {
@@ -301,10 +291,10 @@ class PostService {
     }
 
     private fun safeTruncate(text: String): String {
-        val words = StringUtils.split(text, StringUtils.SPACE)
+        val words = text.split(" ")
         var safetrunc = ""
         for(element in words) {
-            safetrunc = safetrunc.plus(StringUtils.SPACE + element)
+            safetrunc = safetrunc.plus(" $element")
         }
         return safetrunc
     }

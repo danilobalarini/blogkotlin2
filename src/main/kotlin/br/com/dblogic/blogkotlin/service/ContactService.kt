@@ -4,7 +4,6 @@ import br.com.dblogic.blogkotlin.model.CaptchaEvent
 import br.com.dblogic.blogkotlin.model.Contact
 import br.com.dblogic.blogkotlin.model.facade.ContactFacade
 import br.com.dblogic.blogkotlin.repository.ContactRepository
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -43,9 +42,9 @@ class ContactService {
     }
 
     private fun isAnyEmpty(contactFacade: ContactFacade): Boolean {
-        if(StringUtils.isBlank(contactFacade.name)) return true
-        if(StringUtils.isBlank(contactFacade.email)) return true
-        if(StringUtils.isBlank(contactFacade.message)) return true
+        if(contactFacade.name.isBlank()) return true
+        if(contactFacade.email.isBlank()) return true
+        if(contactFacade.message.isBlank()) return true
         return false
     }
 

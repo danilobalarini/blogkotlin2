@@ -15,7 +15,7 @@ data class CaptchaResponse(@Id
 
                            val challengeTs: LocalDateTime = LocalDateTime.now(),
 
-                           val hostname: String = "",
+                           val hostname: String? = "",
 
                            val score: Float = 0f,
 

@@ -163,7 +163,6 @@
 						onChange: function(e) {
 							clearInterval(countdown);
 							var seconds = $('#hidCountdown').val();
-							console.log("seconds: " + seconds);
 							countdown = setInterval(function() {
 								seconds--;
 								$('#countdown').text(seconds);

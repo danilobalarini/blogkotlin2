@@ -6,7 +6,6 @@ import br.com.dblogic.blogkotlin.service.CommentService
 import br.com.dblogic.blogkotlin.service.ContactService
 import br.com.dblogic.blogkotlin.service.PostService
 import br.com.dblogic.blogkotlin.service.TagService
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -69,7 +68,7 @@ class AdminController {
 		logger.info("post.review: >>>>>>>>> ${post.review}")
 		val facade = PostFacade(id,
 								post.title,
-								StringUtils.replace(post.review, "\n", "<br/>"),
+								post.review.replace( "\n", "<br/>"),
 								post.isDraft,
 								Instant.now(),
 								0,
