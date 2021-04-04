@@ -406,7 +406,6 @@
                             <tbody>
                                 <tr th:each="tag: ${alltags}" th:id="'tag' + ${tag.id}">
                                     <td th:text="${tag.id}"></td>
-                                    <!-- <td><a th:href="@{/tags/delete(id=${tag.id})}"><i class="nav-icon fas fa-trash"></i></a></td> -->
                                     <td><a href="#" th:onclick="@{'deletetag(' + ${tag.id} + ');'}"><i class="nav-icon fas fa-trash"></i></a></td>
                                     <td><a th:href="@{/admin/tags_update(id=${tag.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
                                     <td th:text="${tag.name}"></td>

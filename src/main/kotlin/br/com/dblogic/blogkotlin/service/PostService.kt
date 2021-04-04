@@ -211,20 +211,11 @@ class PostService {
 
             logger.info("renaming directory")
             Files.move(olddir, newdir, StandardCopyOption.REPLACE_EXISTING)
-
-            val oldTitle = StringUtils.difference(newdir.toString(), olddir.toString())
-            val newTitle = StringUtils.difference(olddir.toString(), newdir.toString())
-
-            post.review = StringUtils.replace(post.review, oldTitle, newTitle)
-        } else {
-            post.review = p.review
         }
-
+        post.review = p.review
         post.isDraft = p.isDraft
 
-        val savepost = postRepository.save(post)
-
-        return postToFacade(savepost)
+        return postToFacade(postRepository.save(post))
     }
 
     fun updateTags(postFacade: PostFacade) {
