@@ -14,7 +14,7 @@ data class Tag(@Id
                var name: String = "",
 
                @ManyToMany(mappedBy = "tags")
-               var posts: MutableSet<Post> = mutableSetOf<Post>()): DateAudit() {
+               val posts: MutableSet<Post> = mutableSetOf<Post>()): DateAudit() {
 
     constructor(name: String): this() {
         this.name = name

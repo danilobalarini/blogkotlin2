@@ -521,6 +521,49 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body table-responsive p-0">
+                            <table id="tblPosts" class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Apagar</th>
+                                        <th>Editar</th>
+                                        <th>Título</th>
+                                        <th>Aprovado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="post: ${allposts}" th:id="'post' + ${post.id}">
+                                        <td th:text="${post.id}"></td>
+                                        <td><a href="#" th:onclick="@{'deletepost(' + ${post.id} + ');'}"><i class="nav-icon fas fa-trash"></i></a></td>
+                                        <td><a th:href="@{/admin/updatepost(id=${post.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
+                                        <td th:text="${post.title}"></td>
+                                        <td><i th:class="${post.isDraft} ? 'fa fa-ban' : 'fa fa-thumbs-up'"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- /.card-body -->
+                    </div> <!-- /.card -->
+                </div>
+            </div>
+
+            <div th:fragment="listPendingApprovalComments" class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                        <h3 class="card-title">Posts</h3>
+        
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+        
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
                         <table id="tblPosts" class="table table-hover">
                             <thead>
                                 <tr>
@@ -544,87 +587,88 @@
                         </div> <!-- /.card-body -->
                     </div> <!-- /.card -->
                 </div>
-
-                <!-- Modal -->
-                <div class="modal fade" id="modalFormTitle" tabindex="-1" role="dialog" aria-labelledby="modalFormTitleLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalFormTitleLabel">Inserir título da postagem</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="form-group">
-                                <label for="post-title" class="col-form-label">Título da postagem:</label>
-                                <input type="text" class="form-control" id="post-title">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                            <button id="btnSaveNewPost" type="button" class="btn btn-primary">Prosseguir</button>
-                        </div>
+            </div>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="modalFormTitle" tabindex="-1" role="dialog" aria-labelledby="modalFormTitleLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalFormTitleLabel">Inserir título da postagem</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                            <label for="post-title" class="col-form-label">Título da postagem:</label>
+                            <input type="text" class="form-control" id="post-title">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button id="btnSaveNewPost" type="button" class="btn btn-primary">Prosseguir</button>
                     </div>
                 </div>
-                <button id="btnNewPost" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalFormTitle">
-                    Novo post
-                </button>
-                
-                <script th:inline="javascript">
+                </div>
+            </div>
+            <button id="btnNewPost" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalFormTitle">
+                Novo post
+            </button>
+            
+            <script th:inline="javascript">
 
-                    $('#btnSaveNewPost').click(function() {
-                        var post = {
-                            title : $('#post-title').val(),
-                        };
+                $('#btnSaveNewPost').click(function() {
+                    var post = {
+                        title : $('#post-title').val(),
+                    };
 
-                        console.log("post: " + JSON.stringify(post, null, 4));
+                    console.log("post: " + JSON.stringify(post, null, 4));
 
-                        $.ajax({
-                            type: "POST",
-                            url: "/post/save",
-                            data: JSON.stringify(post),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (data) {
-                                console.log("post: " + post + " post.id: " + data.id);
-                                window.location.href = "/admin/updatepost?id=" + data.id;
-                            },
-                            error : function(jqXHR, textStatus, errorThrown) {
-                                console.log("erro na atualização do composer");
-                                console.log("jqXHR: " + jqXHR.status);
-                                console.log("textStatus: " + textStatus);
-                                console.log("errorThrown: " + errorThrown);
-                            }
-                        });
+                    $.ajax({
+                        type: "POST",
+                        url: "/post/save",
+                        data: JSON.stringify(post),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log("post: " + post + " post.id: " + data.id);
+                            window.location.href = "/admin/updatepost?id=" + data.id;
+                        },
+                        error : function(jqXHR, textStatus, errorThrown) {
+                            console.log("erro na atualização do composer");
+                            console.log("jqXHR: " + jqXHR.status);
+                            console.log("textStatus: " + textStatus);
+                            console.log("errorThrown: " + errorThrown);
+                        }
                     });
-       
-                    function deletepost(id) {
-                        console.log("entrou na deletepost: " + id);
-                        $.ajax({
-                            type: "GET",
-                            url: "/post/delete?id=" + id,
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            success: function() {
-                                console.log(id + " removido com sucesso!");
-                                $('table#tblPosts tr#post' + id).remove();
-                            },
-                            error : function(jqXHR, textStatus, errorThrown) {
-                                alert('não deu certo!');
-                                console.log("jqXHR: " + jqXHR.status);
-                                console.log("textStatus: " + textStatus);
-                                console.log("errorThrown: " + errorThrown);
-                            }
-                        });
-                    }
-                </script>
+                });
     
-            </div> <!-- /.row -->
+                function deletepost(id) {
+                    console.log("entrou na deletepost: " + id);
+                    $.ajax({
+                        type: "GET",
+                        url: "/post/delete?id=" + id,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function() {
+                            console.log(id + " removido com sucesso!");
+                            $('table#tblPosts tr#post' + id).remove();
+                        },
+                        error : function(jqXHR, textStatus, errorThrown) {
+                            alert('não deu certo!');
+                            console.log("jqXHR: " + jqXHR.status);
+                            console.log("textStatus: " + textStatus);
+                            console.log("errorThrown: " + errorThrown);
+                        }
+                    });
+                }
+            </script>
+
+        </div> <!-- /.row -->
 
     </body>
 

@@ -157,12 +157,6 @@
 
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
-			<artifactId>summernote</artifactId>
-			<version>0.8.18</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars.npm</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>3.4.1</version>
 		</dependency>

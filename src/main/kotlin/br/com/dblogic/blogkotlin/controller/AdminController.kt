@@ -62,6 +62,13 @@ class AdminController {
 		return "adm_posts_list"
 	}
 
+	@GetMapping("/comments-pending-approval")
+	fun listcomments(model: Model) : String {
+		logger.info("show all comments pending approval")
+
+		return "adm_comments_approval_list"
+	}
+
 	@GetMapping("/updatepost")
 	fun updatepost(@RequestParam id: Long, model : Model) : String {
 		val post = postService.findById(id)

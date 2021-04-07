@@ -84,10 +84,10 @@ data class Post(@Id
 		comment.post = this
 	}
 	
-	fun removeComment(comment: Comment) {
-		comments.remove(comment)
-		comment.post = null
-	}
+//	fun removeComment(comment: Comment) {
+//		comments.remove(comment)
+//		comment.post = null
+//	}
 
 	fun addTag(tag: Tag) {
 		tags.add(tag)
