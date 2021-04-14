@@ -53,17 +53,23 @@
 						 
 								<div class="col-md-12">
 									<div class="card card-primary card-outline">
-									<div class="card-header">
+										<div class="card-header">
 										<h3 class="card-title"><input type="text" id="posttitle" name="txtTitle" th:field="${post.title}" size="60"></h3>
-									</div>
-						
-									<!-- /.card-header -->
+										<span class="card-title" style="float: right;">Falando então desta quarta feira</span>
+										<div class="progress progress-sm active" style="width: 5%;float: right;">
+											<div id="update-progress-bar" class="progress-bar bg-primary progress-bar-striped"></div>
+										</div>
+										<div id="autosave" class="custom-control custom-switch custom-switch-on-success custom-switch-off-danger" style="float: right;">
+											<input type="checkbox" class="custom-control-input" id="btnAutosave">
+											<label class="custom-control-label" for="btnAutosave">Autosave?</label>
+										</div>
+									</div> <!-- /.card-header -->
+
 									<input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
+
 									<div id="summernote" name="article"></div>
-									<p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
-									<span id="spanPost" th:utext="${post.review}"></span>
-									
-									<!-- /.card-footer -->
+										<p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
+										<span id="spanPost" th:utext="${post.review}"></span>
 									</div>
 									<!-- /.card -->
 								</div>
@@ -129,6 +135,10 @@
 						console.log(target[0].src);
 					}
 				}
+			});
+
+			$('#autosave').change(function() {
+				console.log('this:' + this);
 			});
 
 			function updateProgressBar(seconds) {
