@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.dblogic</groupId>
 	<artifactId>blogkotlin</artifactId>
-	<version>0.5.13-SNAPSHOT</version>
+	<version>0.5.14-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>blogkotlin</name>
@@ -176,7 +176,7 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>AdminLTE</artifactId>
-			<version>3.0.5</version>
+			<version>3.1.0</version>
 		</dependency>
 
 		<dependency>
