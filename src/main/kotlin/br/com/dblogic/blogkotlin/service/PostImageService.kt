@@ -109,13 +109,13 @@ class PostImageService {
         g2d.font = Font("Georgia", Font.BOLD, 36)
         g2d.drawString(text, 200, 200)
 
-        val baos = ByteArrayOutputStream();
-        ImageIO.write(image, "jpg", baos);
+        val baos = ByteArrayOutputStream()
+        ImageIO.write(image, "jpg", baos)
         baos.flush()
         val imageBA = baos.toByteArray()
         baos.close()
 
-        return imageBA;
+        return imageBA
     }
 
     fun findByPost(post: Post): List<PostImage> {

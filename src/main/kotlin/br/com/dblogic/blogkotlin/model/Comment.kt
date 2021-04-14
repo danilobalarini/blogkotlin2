@@ -13,7 +13,7 @@ data class Comment(@Id
 
 				   @ManyToOne(fetch = FetchType.LAZY)
 				   @JoinColumn(name = "post_id")
-				   var post: Post? = Post(),
+				   var post: Post = Post(),
 				   
 				   var name: String = "",
 

@@ -24,6 +24,9 @@ class BlogUtils {
     @Value("\${blog.root.folder}")
     lateinit var blogFolderName: String
 
+    private final val onlyCharsAndNumbers = "[^A-Za-z0-9]".toRegex()
+    private final val onlyUnicode = "[\\p{InCombiningDiacriticalMarks}]".toRegex()
+
     fun getBlogDir(): Path? {
         val blogdir: Path = Paths.get("").toAbsolutePath()
         return Paths.get("$blogdir/$blogFolderName").toAbsolutePath()
@@ -37,7 +40,7 @@ class BlogUtils {
     fun stripAccents(s: String): String {
         var s = s
         s = Normalizer.normalize(s, Normalizer.Form.NFD)
-        s = s.replace("[\\p{InCombiningDiacriticalMarks}]".toRegex(), "")
+        s = s.replace(onlyUnicode, "")
         return s
     }
 
@@ -50,7 +53,7 @@ class BlogUtils {
         var title = ""
 
         for(s in titleWithoutAccents.split(" ")) {
-            title = title + s.replace("[^A-Za-z0-9]".toRegex(), "") + "-"
+            title += s.replace(onlyCharsAndNumbers, "") + "-"
         }
 
         return "$id-$title${toDateString(createdAt)}"
@@ -61,7 +64,7 @@ class BlogUtils {
         var title = ""
 
         for(s in titleWithoutAccents.split(" ")) {
-            title = title + s.replace("[^A-Za-z0-9]".toRegex(), "") + "-"
+            title += s.replace(onlyCharsAndNumbers, "") + "-"
         }
 
         return post.id.toString() + "-" + title + toDateString(post.createdAt)
