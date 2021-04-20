@@ -82,10 +82,10 @@ class AdminController {
 								tagService.toSetFacade(post.tags),
 								"../${postService.createCoverImage(post)}")
 
-		val tags = HashSet(tagService.findByPostId(id))
 		model.addAttribute("post", facade)
-		model.addAttribute("postTagsOwned", tagService.tagsLeft(tags))
+		val tags = HashSet(tagService.findAll())
 		model.addAttribute("postTags", tags)
+		model.addAttribute("postTagsOwned", tagService.tagsLeft(tags))
 
 		return "adm_compose"
 	}

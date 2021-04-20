@@ -1,7 +1,6 @@
 package br.com.dblogic.blogkotlin.controller
 
 import br.com.dblogic.blogkotlin.model.Post
-import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.service.PostService
 import org.slf4j.LoggerFactory
@@ -44,10 +43,10 @@ class PostController {
 	}
 
 	@PostMapping("/updatetags")
-	fun updateTags(@RequestBody postFacade: PostFacade): ResponseEntity<String> {
+	fun updateTags(@RequestBody postFacade: PostFacade): ResponseEntity<HttpStatus> {
 		postService.updateTags(postFacade)
 
-		return ResponseEntity("ok", HttpStatus.OK)
+		return ResponseEntity(HttpStatus.OK)
 	}
 
 	@GetMapping("/delete")
@@ -56,18 +55,16 @@ class PostController {
 	}
 
 	@GetMapping("/insertTag/{post}/{tag}")
-	fun insertTag(@PathVariable post: Long, @PathVariable tag: Long): ResponseEntity<String> {
+	fun insertTag(@PathVariable post: Long, @PathVariable tag: Long): ResponseEntity<HttpStatus> {
 		postService.insertTag(post, tag)
 
-		return ResponseEntity("ok", HttpStatus.OK)
+		return ResponseEntity(HttpStatus.OK)
 	}
 
 	@GetMapping("/removeTag/{post}/{tag}")
-	fun removeTag(@PathVariable post: Long, @PathVariable tag: Long): ResponseEntity<String> {
+	fun removeTag(@PathVariable post: Long, @PathVariable tag: Long): ResponseEntity<HttpStatus> {
 		postService.removeTag(post, tag)
 
-		return ResponseEntity("ok", HttpStatus.OK)
+		return ResponseEntity(HttpStatus.OK)
 	}
-
-
 }
