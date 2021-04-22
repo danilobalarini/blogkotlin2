@@ -8,7 +8,6 @@ import br.com.dblogic.blogkotlin.repository.TagRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.stream.Collectors
 
 @Service
 class TagService {
@@ -38,19 +37,8 @@ class TagService {
         return tagRepository.save(tag)
     }
 
-    // TODO this will be cache someday
-    fun displayMultipleselect(post: Post) : Set<TagFacade> {
-        return mutableSetOf<TagFacade>()
-    }
-
     fun findByPostId(post: Long) : Set<Tag> {
-        return tagRepository.findAllByPosts_Id(post)
-    }
-
-    fun tagsLeft(tags: HashSet<Tag>): Set<Tag> {
-        val alltags = findAll()
-        alltags.removeAll(tags)
-        return alltags.toSet()
+        return tagRepository.findAllByPostsId(post)
     }
 
     fun delete(tag: Tag) {
@@ -61,18 +49,20 @@ class TagService {
         }
     }
 
-    fun onlyIds(tags: MutableSet<Tag>): String {
-        return tags
-                .stream()
-                .map { t -> java.lang.String.valueOf(t.id) }
-                .collect(Collectors.joining(","))
-    }
-
     fun toSetFacade(tags: MutableSet<Tag>): MutableSet<TagFacade> {
         val tagsFacade = mutableSetOf<TagFacade>()
         for(t in tags) {
-            val facade = TagFacade(t.id, t.name, false)
+            val facade = TagFacade(t.id, t.name)
             tagsFacade.add(facade)
+        }
+        return tagsFacade
+    }
+
+    fun tagsFacadeByPost(post: Post): MutableSet<TagFacade> {
+        val tagsFacade = mutableSetOf<TagFacade>()
+        val postTags = tagRepository.findAllByPostsId(post.id)
+        for(t in tagRepository.findAll()) {
+            tagsFacade.add(TagFacade(t.id, t.name, postTags.contains(t)))
         }
         return tagsFacade
     }

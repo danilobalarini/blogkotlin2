@@ -18,93 +18,80 @@
 					<section class="content">
 						<div class="container-fluid">
 
-							<div class="row">
-
-								<div class="col-lg-12">
-									<div class="card">
-										<div class="card-header">
-											<h3 class="card-title">Imagem de capa</h3>
-										 </div>
-
-										<div id="preview-cover-image">
-											<img id="imgcover" th:src="${post.coverImage}" style="max-height:100%; max-width:100%;" alt="imagem de capa atual">
-										</div>
-										 
-										<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-											<input type="hidden" id="hidCountdown" value="16">
-											<input type="hidden" id="id" name="id" th:value="${post.id}">
-											<div class="card-body">
-											   <div class="form-group"> 
-												  <label for="exampleInputFile">Imagem de capa</label>
-												  <div class="input-group">
-													 <div class="custom-file">
-														<input type="file" class="custom-file-input" name="coverImage" id="coverImage">
-														<label class="custom-file-label" for="coverImage">Escolha uma imagem</label>
-													 </div>
-												  </div>
-											   </div>
-											</div>
-											<!-- /.card-body -->
-											<div class="card-footer">
-											   <button type="button" id="btnCoverImage" name="btnCoverImage" class="btn btn-primary">Upload</button>
-											</div>
-										</form>
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Imagem de capa</h3>
 									</div>
+
+								<div id="preview-cover-image">
+									<img id="imgcover" th:src="${post.coverImage}" style="max-height:100%; max-width:100%;" alt="imagem de capa atual">
 								</div>
-
-								<div class="col-md-12">
-									<div class="card card-default" data-select2-id="67">
-										<div class="card-header">
-										<h3 class="card-title">Selecionar Tags</h3>
-										<div class="card-tools">
-											<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-											<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+								
+								<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+									<input type="hidden" id="hidCountdown" value="16">
+									<input type="hidden" id="id" name="id" th:value="${post.id}">
+									<div class="card-body">
+										<div class="form-group"> 
+											<label for="exampleInputFile">Imagem de capa</label>
+											<div class="input-group">
+												<div class="custom-file">
+												<input type="file" class="custom-file-input" name="coverImage" id="coverImage">
+												<label class="custom-file-label" for="coverImage">Escolha uma imagem</label>
+												</div>
+											</div>
 										</div>
-										</div>
-										<!-- /.card-header -->
-										<div class="card-body" style="display: block;">
-											<!-- /.row -->
-											<div class="row">
-												<div class="col-12 col-sm-12">
-													<div class="form-group">
-														<div class="select2-green">
-															<select th:id="selectTags" class="select2 select2-hidden-accessible" multiple="" data-placeholder="Selecione as Tags" data-dropdown-css-class="select2-green" style="width: 100%;" tabindex="-1" aria-hidden="true">
-																<option th:each="tag: ${postTags}" 
-																		th:data-select2-id="${tag.id}"
-																		th:text="${tag.name}"></option>
-																<option>Alabama</option>
-															</select>
-														</div>
-													</div> <!-- /.form-group -->
-												</div> <!-- /.col -->
-											</div> <!-- /.row -->
-										</div> <!-- /.card-body -->
 									</div>
-								</div>
-
-								<div class="col-md-12">
-									<div class="card card-primary card-outline">
-										<div class="card-header">
-										<h3 class="card-title"><input type="text" id="posttitle" name="txtTitle" th:field="${post.title}" size="60"></h3>
-										<span class="card-title" style="float: right;">Falando então desta quarta feira</span>
-										<div class="progress progress-sm active" style="width: 5%;float: right;">
-											<div id="update-progress-bar" class="progress-bar bg-primary progress-bar-striped"></div>
-										</div>
-										<div id="autosave" class="custom-control custom-switch custom-switch-on-success custom-switch-off-danger" style="float: right;">
-											<input type="checkbox" class="custom-control-input" id="btnAutosave">
-											<label class="custom-control-label" for="btnAutosave">Autosave?</label>
-										</div>
-									</div> <!-- /.card-header -->
-
-									<input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
-
-									<div id="summernote" name="article"></div>
-										<p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
-										<span id="spanPost" th:utext="${post.review}"></span>
+									<!-- /.card-body -->
+									<div class="card-footer">
+										<button type="button" id="btnCoverImage" name="btnCoverImage" class="btn btn-primary">Upload</button>
 									</div>
-									<!-- /.card -->
+								</form>
+							</div>
+
+							<div class="card card-default">
+								<div class="card-header">
+									<h3 class="card-title">Tags do post</h3>
+									<div class="card-tools">
+										<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+										<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+									</div>
+								</div> <!-- /.card-header -->
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Tags disponíveis</label>
+												<select id="combotags" class="select2bs4 select2-hidden-accessible" multiple="multiple" data-placeholder="Selecione as tags" style="width: 100%;" tabindex="-1">
+													<option th:each="tag: ${postTags}"
+															th:value="${tag.id}"
+															th:text="${tag.name}"
+															th:selected="${tag.selected}"></option>
+												</select>
+											</div> <!-- /.form-group -->
+										</div> <!-- /.col -->
+									</div> <!-- /.card-body -->
 								</div>
 							</div>
+
+							<div class="card card-primary card-outline">
+								<div class="card-header">
+								<h3 class="card-title"><input type="text" id="posttitle" name="txtTitle" th:field="${post.title}" size="60"></h3>
+								<span class="card-title" style="float: right;">Falando então desta quarta feira</span>
+								<div class="progress progress-sm active" style="width: 5%;float: right;">
+									<div id="update-progress-bar" class="progress-bar bg-primary progress-bar-striped"></div>
+								</div>
+								<div id="autosave" class="custom-control custom-switch custom-switch-on-success custom-switch-off-danger" style="float: right;">
+									<input type="checkbox" class="custom-control-input" id="btnAutosave">
+									<label class="custom-control-label" for="btnAutosave">Autosave?</label>
+								</div>
+							</div> <!-- /.card-header -->
+
+							<input type="hidden" id="postid" name="hidpost" th:field="${post.id}">
+
+							<div id="summernote" name="article"></div>
+								<p>É rascunho?&nbsp;&nbsp;<input type="checkbox" id="postdraft" name="postdraft" th:field="${post.draft}"></p>
+								<span id="spanPost" th:utext="${post.review}"></span>
+							</div> <!-- /.card -->
 						</div><!-- /.container-fluid -->
 					</section>
 					<!-- /.content -->
@@ -116,16 +103,19 @@
 
 		<script th:inline="javascript">
 
-			$('#selectTags').select2();
-
-			$('#selectTags').on('select2:select', function (e) {
-
-				var id = $('#selectTags option:selected').attr('data-select2-id');
-				console.log("ID: " + id);
+			$('.select2').select2();
+			
+			$('.select2bs4').select2({
+				theme: 'bootstrap4'
+			});
+			
+			$('#combotags').on('select2:select', function (e) {
+				var data = e.params.data;
+				console.log(data);
 
 				console.log("### inserir ###");
 				console.log("post: " + $('#id').val());
-				var urlInsertTag = "/post/insertTag/" + $('#id').val() + "/" + id;
+				var urlInsertTag = "/post/insertTag/" + $('#id').val() + "/" + data.id;
 				console.log("urlInsertTag: " + urlInsertTag);
 
 				$.ajax({
@@ -146,9 +136,31 @@
 				});
 			});
 
-			$('#selectTags').on('select2:unselect', function (e) {
+			$('#combotags').on('select2:unselect', function (e) {
 				var data = e.params.data;
 				console.log(data);
+
+				console.log("### inserir ###");
+				console.log("post: " + $('#id').val());
+				var urlRemoveTag = "/post/removeTag/" + $('#id').val() + "/" + data.id;
+				console.log("urlRemoveTag: " + urlRemoveTag);
+
+				$.ajax({
+					type: "GET",
+					url: urlRemoveTag,
+					cache: false,
+					contentType: false,
+					processData: false,
+					success: function(tag) {
+						console.log(tag + " removido com sucesso!");
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						alert('não deu certo!');
+						console.log("jqXHR: " + jqXHR.status);
+						console.log("textStatus: " + textStatus);
+						console.log("errorThrown: " + errorThrown);
+					}
+				});
 			});
 
 			var countdown = 15;
