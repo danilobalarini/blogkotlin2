@@ -1,5 +1,6 @@
 package br.com.dblogic.blogkotlin.controller
 
+import br.com.dblogic.blogkotlin.model.Post
 import br.com.dblogic.blogkotlin.model.Tag
 import br.com.dblogic.blogkotlin.model.facade.PostFacade
 import br.com.dblogic.blogkotlin.service.CommentService
@@ -82,10 +83,8 @@ class AdminController {
 								tagService.toSetFacade(post.tags),
 								"../${postService.createCoverImage(post)}")
 
-		val tags = HashSet(tagService.findByPostId(id))
 		model.addAttribute("post", facade)
-		model.addAttribute("postTagsOwned", tagService.tagsLeft(tags))
-		model.addAttribute("postTags", tags)
+		model.addAttribute("postTags", tagService.tagsFacadeByPost(Post(id)))
 
 		return "adm_compose"
 	}

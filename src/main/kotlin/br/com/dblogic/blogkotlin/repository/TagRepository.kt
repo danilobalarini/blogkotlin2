@@ -11,6 +11,6 @@ interface TagRepository : JpaRepository<Tag, Long>, JpaSpecificationExecutor<Tag
 
     fun findByName(name: String): Tag
 
-    fun findAllByPosts_Id(post: Long) : Set<Tag>
+    fun findAllByPostsId(post: Long) : Set<Tag>
 
 }
