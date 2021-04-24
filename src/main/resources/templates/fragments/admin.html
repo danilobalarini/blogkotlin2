@@ -377,118 +377,61 @@
         </div>
 
         <div th:fragment="listTags" class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                        <h3 class="card-title">Tags</h3>
-        
-                        <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-        
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                        <table id="tblTags" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>Apagar</th>
-                                    <th>Editar</th>
-                                    <th>Nome</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="tag: ${alltags}" th:id="'tag' + ${tag.id}">
-                                    <td th:text="${tag.id}"></td>
-                                    <td><a href="#" th:onclick="@{'deletetag(' + ${tag.id} + ');'}"><i class="nav-icon fas fa-trash"></i></a></td>
-                                    <td><a th:href="@{/admin/tags_update(id=${tag.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
-                                    <td th:text="${tag.name}"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div> <!-- /.card-body -->
-                    </div> <!-- /.card -->
-                </div>
-                <a th:href="@{/admin/tags_update}">
-                    <button id="btnNewTag" type="button" class="btn btn-primary btn-lg">Nova Tag</button>
-                </a>
-                <script th:inline="javascript">
-       
-                        function deletetag(id) {
-                            console.log("entrou na deletetag: " + id);
-                            $.ajax({
-                                type: "GET",
-                                url: "/tags/delete?id=" + id,
-                                cache: false,
-                                contentType: false,
-                                processData: false,
-                                success: function() {
-                                    console.log(id + " removido com sucesso!");
-                                    $('table#tblTags tr#tag' + id).remove();
-                                },
-                                error : function(jqXHR, textStatus, errorThrown) {
-                                    alert('não deu certo!');
-                                    console.log("jqXHR: " + jqXHR.status);
-                                    console.log("textStatus: " + textStatus);
-                                    console.log("errorThrown: " + errorThrown);
-                                }
-                            });
-                        }
-                </script>
-    
-            </div> <!-- /.row -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                    <h3 class="card-title">Tags</h3>
 
-            <div th:fragment="editTags" class="row">
-                <!-- left column -->
-                <div class="col-md-6">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Tags</h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                         </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form role="form" th:object="${tag}">
-                            <input type="hidden" th:field="*{id}" id="txtTagId" name="txtTagId">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="txtTagName">Nome da tag</label>
-                                    <input type="text" class="form-control" th:field="*{name}" id="txtTagName" name="txtTagName" placeholder="Nome da tag">
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                <button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Enviar</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                    <!-- /.card -->
-                </div>
-                <script>
-                    $('#btnSubmit').click(function() {
-                   
-                        var tag = {
-                            id:$('#txtTagId').val(),
-                            name:$('#txtTagName').val()
-                        }
-                    
-                        console.log('form data: ' + JSON.stringify(tag));
-                    
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                    <table id="tblTags" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Apagar</th>
+                                <th>Editar</th>
+                                <th>Nome</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="tag: ${alltags}" th:id="'tag' + ${tag.id}">
+                                <td th:text="${tag.id}"></td>
+                                <td><a href="#" th:onclick="@{'deletetag(' + ${tag.id} + ');'}"><i class="nav-icon fas fa-trash"></i></a></td>
+                                <td><a th:href="@{/admin/tags_update(id=${tag.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
+                                <td th:text="${tag.name}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div> <!-- /.card-body -->
+                </div> <!-- /.card -->
+            </div>
+
+            <a th:href="@{/admin/tags_update}">
+                <button id="btnNewTag" type="button" class="btn btn-primary btn-lg">Nova Tag</button>
+            </a>
+            <script th:inline="javascript">
+
+                    function deletetag(id) {
+                        console.log("entrou na deletetag: " + id);
                         $.ajax({
-                            url: "/tags/save",
-                            type: "POST",
-                            data: JSON.stringify(tag),
-                            contentType: "application/json; charset=utf-8",
+                            type: "GET",
+                            url: "/tags/delete?id=" + id,
                             cache: false,
+                            contentType: false,
                             processData: false,
-                            success: function (data) {
-                                window.location.href = "/admin/tags";
+                            success: function() {
+                                console.log(id + " removido com sucesso!");
+                                $('table#tblTags tr#tag' + id).remove();
                             },
                             error : function(jqXHR, textStatus, errorThrown) {
                                 alert('não deu certo!');
@@ -497,74 +440,89 @@
                                 console.log("errorThrown: " + errorThrown);
                             }
                         });
-                    });
-                    
-                </script>
-            </div>
-            <!-- /.row -->
+                    }
+            </script>
 
-            <div th:fragment="listPosts" class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                        <h3 class="card-title">Posts</h3>
-        
-                        <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-        
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                            </div>
+        </div> <!-- /.row -->
+
+        <div th:fragment="editTags" class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Tags</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form" th:object="${tag}">
+                        <input type="hidden" th:field="*{id}" id="txtTagId" name="txtTagId">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="txtTagName">Nome da tag</label>
+                                <input type="text" class="form-control" th:field="*{name}" id="txtTagName" name="txtTagName" placeholder="Nome da tag">
                             </div>
                         </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary">Enviar</button>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                            <table id="tblPosts" class="table table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>id</th>
-                                        <th>Apagar</th>
-                                        <th>Editar</th>
-                                        <th>Título</th>
-                                        <th>Aprovado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="post: ${allposts}" th:id="'post' + ${post.id}">
-                                        <td th:text="${post.id}"></td>
-                                        <td><a href="#" th:onclick="@{'deletepost(' + ${post.id} + ');'}"><i class="nav-icon fas fa-trash"></i></a></td>
-                                        <td><a th:href="@{/admin/updatepost(id=${post.id})}"><i class="nav-icon fas fa-edit"></i></a></td>
-                                        <td th:text="${post.title}"></td>
-                                        <td><i th:class="${post.isDraft} ? 'fa fa-ban' : 'fa fa-thumbs-up'"></i></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> <!-- /.card-body -->
-                    </div> <!-- /.card -->
+                    </form>
                 </div>
+                <!-- /.card -->
             </div>
+            <script>
+                $('#btnSubmit').click(function() {
+                
+                    var tag = {
+                        id:$('#txtTagId').val(),
+                        name:$('#txtTagName').val()
+                    }
+                
+                    console.log('form data: ' + JSON.stringify(tag));
+                
+                    $.ajax({
+                        url: "/tags/save",
+                        type: "POST",
+                        data: JSON.stringify(tag),
+                        contentType: "application/json; charset=utf-8",
+                        cache: false,
+                        processData: false,
+                        success: function (data) {
+                            window.location.href = "/admin/tags";
+                        },
+                        error : function(jqXHR, textStatus, errorThrown) {
+                            alert('não deu certo!');
+                            console.log("jqXHR: " + jqXHR.status);
+                            console.log("textStatus: " + textStatus);
+                            console.log("errorThrown: " + errorThrown);
+                        }
+                    });
+                });
+                
+            </script>
+        </div>
+        <!-- /.row -->
 
-            <div th:fragment="listPendingApprovalComments" class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                        <h3 class="card-title">Posts</h3>
-        
-                        <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-        
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                            </div>
-                            </div>
+        <div th:fragment="listPosts" class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                    <h3 class="card-title">Posts</h3>
+    
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+    
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                         </div>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                        <table id="tblPosts" class="table table-hover">
+                    </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table id="tblPosts" class="table table-hover table-striped">
                             <thead>
                                 <tr>
                                     <th>id</th>
@@ -584,11 +542,10 @@
                                 </tr>
                             </tbody>
                         </table>
-                        </div> <!-- /.card-body -->
-                    </div> <!-- /.card -->
-                </div>
+                    </div> <!-- /.card-body -->
+                </div> <!-- /.card -->
             </div>
-            
+
             <!-- Modal -->
             <div class="modal fade" id="modalFormTitle" tabindex="-1" role="dialog" aria-labelledby="modalFormTitleLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -617,9 +574,8 @@
             <button id="btnNewPost" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalFormTitle">
                 Novo post
             </button>
-            
-            <script th:inline="javascript">
 
+            <script th:inline="javascript">
                 $('#btnSaveNewPost').click(function() {
                     var post = {
                         title : $('#post-title').val(),
@@ -666,9 +622,8 @@
                         }
                     });
                 }
-            </script>
-
-        </div> <!-- /.row -->
+            </script>  
+        </div>
 
     </body>
 
