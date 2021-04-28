@@ -15,21 +15,30 @@
                 <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
                     <li>
-                        <a class="nav-link" data-toggle="dropdown" href="#">
+                        <a class="nav-link" href="#">
                             <i class="far fa-envelope"></i>
                             <span class="badge badge-danger navbar-badge" th:text="${numberContactsFalse}"></span>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" data-toggle="dropdown" href="#">
+                        <a class="nav-link" href="#">
                             <i class="far fa-comments"></i>
                             <span class="badge badge-warning navbar-badge" th:text="${numberCommentsNotApproved}"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">
+                            <i id="btnLogout" class="fa fa-sign-out-alt fa-2x"></i>
                         </a>
                     </li>
                 </ul>
             </nav>
             <!-- /.navbar -->
-
+            <script th:inline="javascript">
+                $('#btnLogout').click(function() { 
+                    window.location.href="/logout";
+                });
+            </script>
         </div> <!-- end fragment -->
 
         <div th:fragment="main-sidebar">

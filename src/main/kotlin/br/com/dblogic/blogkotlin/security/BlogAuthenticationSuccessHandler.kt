@@ -27,31 +27,33 @@ class BlogAuthenticationSuccessHandler : SavedRequestAwareAuthenticationSuccessH
 		override fun onAuthenticationSuccess(request: HttpServletRequest,
                               				 response: HttpServletResponse,
 											 authentication: Authentication) {
- 		
-		if(checkEmail(authentication)) {
-			
-			val adminRole = SimpleGrantedAuthority("ROLE_ADMIN")
-			val oldAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-			val updateAuthorities = mutableListOf<GrantedAuthority>()
-			updateAuthorities.add(adminRole)
-			updateAuthorities.addAll(oldAuthorities)
-			
-			SecurityContextHolder.getContext().setAuthentication(UsernamePasswordAuthenticationToken(authentication.getPrincipal(),
-																									 authentication.getCredentials(),
-																									 updateAuthorities))
+			log.info("Autenticado!")
+			log.info("checkEmail: " + checkEmail(authentication))
+
+			if(checkEmail(authentication)) {
+
+				val adminRole = SimpleGrantedAuthority("ROLE_ADMIN")
+				val oldAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+				val updateAuthorities = mutableListOf<GrantedAuthority>()
+				updateAuthorities.add(adminRole)
+				updateAuthorities.addAll(oldAuthorities)
+
+				SecurityContextHolder.getContext().setAuthentication(UsernamePasswordAuthenticationToken(authentication.getPrincipal(),
+																									 	 authentication.getCredentials(),
+																									 	 updateAuthorities))
 		}
 		
-/*		log.info("authentication.getCredentials() : " + authentication.getCredentials())
+		log.info("authentication.getCredentials() : " + authentication.getCredentials())
 		log.info("authentication.getName()		  : " + authentication.getName())
 		log.info("authentication.getPrincipal()   : " + authentication.getPrincipal())
 		log.info("authentication.getDetails() 	  : " + authentication.getDetails())
 		
-		val session = request.getSession()
+		/*val session = request.getSession()
 			
 		for(attribute in session.getAttributeNames()) {
 			log.info("attribute: " + attribute + " -> " + session.getAttribute(attribute))
-		}
-*/
+		}*/
+
 		super.onAuthenticationSuccess(request, response, authentication)
 	}
 	
@@ -60,6 +62,9 @@ class BlogAuthenticationSuccessHandler : SavedRequestAwareAuthenticationSuccessH
 		if(authentication?.principal.toString().isNotBlank()) {
 			
 			val email = extractEmailFromPrincipal(authentication?.principal.toString())
+
+			log.info("email: $email")
+			log.info("admin: $admin")
 
 			if(admin.equals(email, ignoreCase = true)) {
 				return true
@@ -71,7 +76,7 @@ class BlogAuthenticationSuccessHandler : SavedRequestAwareAuthenticationSuccessH
 	private fun extractEmailFromPrincipal(principal : String) : String {
 		for(data in principal.split(",")) {
 			if(data.trim().startsWith("email=")) {
-				return data.substringAfter("=").substringBefore("]")
+				return data.substringAfter("=").substringBefore("}]")
 			}
 		}
 		return ""
