@@ -60,15 +60,8 @@ class PostService {
     @Value("\${blog.all.pagesize}")
     var pagesizeAll: Int = 0
 
-    @Value("\${blog.text.length}")
-    var textLength: Int = 0
-
     fun findAll(): List<Post> {
         return postRepository.findAll()
-    }
-
-    fun returnAllFacades(): List<PostFacade> {
-        return postToFacade(postRepository.findAll())
     }
 
     fun findById(id: Long): Post {
@@ -120,10 +113,6 @@ class PostService {
     }
 
     fun deleteById(id: Long) {
-        postRepository.deleteById(id)
-    }
-
-    fun delete(id: Long) {
         try {
             postRepository.deleteById(id)
         } catch (e: Exception) {

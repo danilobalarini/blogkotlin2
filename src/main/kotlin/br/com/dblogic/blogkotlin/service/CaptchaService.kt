@@ -39,19 +39,19 @@ class CaptchaService : AbstractCaptchaService() {
     fun processResponse(response: String?, captchaEvent: CaptchaEvent): GoogleResponse {
 
         securityCheck(response)
-        LOGGER.info("passou no securityCheck")
+        log.info("passou no securityCheck")
 
-        val verifyUri = URI.create(java.lang.String.format(RECAPTCHA_URL_TEMPLATE, keysecret, response, getClientIP()))
-        LOGGER.info("verifyUri: $verifyUri")
+        val verifyUri = URI.create(java.lang.String.format(recaptchaUrlTemplate, keysecret, response, getClientIP()))
+        log.info("verifyUri: $verifyUri")
 
         var googleResponse = GoogleResponse();
 
         try {
             googleResponse = restTemplate.getForObject(verifyUri, GoogleResponse::class.java)!!
-            LOGGER.info("googleResponse: $googleResponse")
+            log.info("googleResponse: $googleResponse")
 
-            LOGGER.info("googleResponse.action: ${googleResponse.action}")
-            LOGGER.info("captchaEvent.name: ${captchaEvent.name}")
+            log.info("googleResponse.action: ${googleResponse.action}")
+            log.info("captchaEvent.name: ${captchaEvent.name}")
 
             if (!googleResponse.success || googleResponse.action != captchaEvent.name || googleResponse.score < threshold.toFloat()) {
                 if (googleResponse.hasClientError()) {
@@ -64,7 +64,7 @@ class CaptchaService : AbstractCaptchaService() {
         } catch (rce: RestClientException) {
             // TODO
             //throw ReCaptchaUnavailableException("Registration unavailable at this time.  Please try again later.", rce)
-            LOGGER.info(rce.toString())
+            log.info(rce.toString())
         }
 
         reCaptchaAttemptService?.reCaptchaSucceeded(getClientIP())

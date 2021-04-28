@@ -38,10 +38,10 @@ class BlogUtils {
     }
 
     fun stripAccents(s: String): String {
-        var s = s
-        s = Normalizer.normalize(s, Normalizer.Form.NFD)
-        s = s.replace(onlyUnicode, "")
-        return s
+        var s1 = s
+        s1 = Normalizer.normalize(s1, Normalizer.Form.NFD)
+        s1 = s1.replace(onlyUnicode, "")
+        return s1
     }
 
     fun getTitle(id: Long, blogtitle: String, createdAt: Instant): String {

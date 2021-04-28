@@ -46,8 +46,7 @@ data class GoogleResponse(@JsonProperty("success")
 
     @JsonIgnore
     fun hasClientError(): Boolean {
-        val errors = errorCodes ?: return false
-        for (error in errors) {
+        for (error in errorCodes) {
             when (error) {
                 ErrorCode.InvalidResponse, ErrorCode.MissingResponse, ErrorCode.BadRequest -> return true
                 else -> {
@@ -58,7 +57,6 @@ data class GoogleResponse(@JsonProperty("success")
     }
 
     override fun toString(): String {
-        //return "GoogleResponse{" + "success=" + success + ", challengeTs='" + challengeTs + '\'' + ", hostname='" + hostname + '\'' + ", score='" + score + '\'' + ", action='" + action + '\'' + ", errorCodes=" + Arrays.toString(errorCodes) + '}'
         return "GoogleResponse{success=$success, challengeTs='$challengeTs', hostname='$hostname', score='$score', action='$action'}"
     }
 }

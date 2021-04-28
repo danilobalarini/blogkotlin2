@@ -17,50 +17,43 @@ import javax.servlet.http.HttpServletResponse
 @Component
 class BlogAuthenticationSuccessHandler : SavedRequestAwareAuthenticationSuccessHandler() {
 
-		// @Value("#{'${blog.admin.list}'.split(',')}") será que tem que colocar a barra?
-		@Value("\${blog.admin}")
-		lateinit var admin: String
-		
-		private val log = LoggerFactory.getLogger(BlogAuthenticationSuccessHandler::class.java)
-		
-		@Throws(ServletException::class, IOException::class)
-		override fun onAuthenticationSuccess(request: HttpServletRequest,
-                              				 response: HttpServletResponse,
-											 authentication: Authentication) {
-			log.info("Autenticado!")
-			log.info("checkEmail: " + checkEmail(authentication))
+	@Value("\${blog.admin}")
+	lateinit var admin: String
 
-			if(checkEmail(authentication)) {
+	private val log = LoggerFactory.getLogger(BlogAuthenticationSuccessHandler::class.java)
 
-				val adminRole = SimpleGrantedAuthority("ROLE_ADMIN")
-				val oldAuthorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-				val updateAuthorities = mutableListOf<GrantedAuthority>()
-				updateAuthorities.add(adminRole)
-				updateAuthorities.addAll(oldAuthorities)
+	@Throws(ServletException::class, IOException::class)
+	override fun onAuthenticationSuccess(request: HttpServletRequest,
+										 response: HttpServletResponse,
+										 authentication: Authentication) {
+		log.info("Autenticado!")
+		log.info("checkEmail: " + checkEmail(authentication))
 
-				SecurityContextHolder.getContext().setAuthentication(UsernamePasswordAuthenticationToken(authentication.getPrincipal(),
-																									 	 authentication.getCredentials(),
-																									 	 updateAuthorities))
+		if(checkEmail(authentication)) {
+
+			val adminRole = SimpleGrantedAuthority("ROLE_ADMIN")
+			val oldAuthorities = SecurityContextHolder.getContext().authentication.authorities
+			val updateAuthorities = mutableListOf<GrantedAuthority>()
+			updateAuthorities.add(adminRole)
+			updateAuthorities.addAll(oldAuthorities)
+
+			SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(authentication.principal,
+																									authentication.credentials,
+																									updateAuthorities)
 		}
-		
-		log.info("authentication.getCredentials() : " + authentication.getCredentials())
-		log.info("authentication.getName()		  : " + authentication.getName())
-		log.info("authentication.getPrincipal()   : " + authentication.getPrincipal())
-		log.info("authentication.getDetails() 	  : " + authentication.getDetails())
-		
-		/*val session = request.getSession()
-			
-		for(attribute in session.getAttributeNames()) {
-			log.info("attribute: " + attribute + " -> " + session.getAttribute(attribute))
-		}*/
+
+		log.info("authentication.getCredentials() : " + authentication.credentials)
+		log.info("authentication.getName()		  : " + authentication.name)
+		log.info("authentication.getPrincipal()   : " + authentication.principal)
+		log.info("authentication.getDetails() 	  : " + authentication.details)
 
 		super.onAuthenticationSuccess(request, response, authentication)
 	}
-	
+
 	private fun checkEmail(authentication: Authentication?) : Boolean {
-		
+
 		if(authentication?.principal.toString().isNotBlank()) {
-			
+
 			val email = extractEmailFromPrincipal(authentication?.principal.toString())
 
 			log.info("email: $email")
@@ -72,7 +65,7 @@ class BlogAuthenticationSuccessHandler : SavedRequestAwareAuthenticationSuccessH
 		}
 		return false
 	}
-	
+
 	private fun extractEmailFromPrincipal(principal : String) : String {
 		for(data in principal.split(",")) {
 			if(data.trim().startsWith("email=")) {
@@ -81,5 +74,5 @@ class BlogAuthenticationSuccessHandler : SavedRequestAwareAuthenticationSuccessH
 		}
 		return ""
 	}
-	
+
 }
