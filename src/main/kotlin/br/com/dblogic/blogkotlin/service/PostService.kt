@@ -60,15 +60,8 @@ class PostService {
     @Value("\${blog.all.pagesize}")
     var pagesizeAll: Int = 0
 
-    @Value("\${blog.text.length}")
-    var textLength: Int = 0
-
     fun findAll(): List<Post> {
         return postRepository.findAll()
-    }
-
-    fun returnAllFacades(): List<PostFacade> {
-        return postToFacade(postRepository.findAll())
     }
 
     fun findById(id: Long): Post {
@@ -120,10 +113,6 @@ class PostService {
     }
 
     fun deleteById(id: Long) {
-        postRepository.deleteById(id)
-    }
-
-    fun delete(id: Long) {
         try {
             postRepository.deleteById(id)
         } catch (e: Exception) {
@@ -150,7 +139,7 @@ class PostService {
                     FrontPageFacade(facade, mutableListOf<PostFacade>())
                } else {
                     FrontPageFacade(postToFacade(posts.first()),
-                        postToFacade(posts.drop(1)))
+                                    postToFacade(posts.drop(1)))
                }
     }
 
@@ -290,19 +279,10 @@ class PostService {
                     .toList()
     }
 
-    private fun safeTruncate(text: String): String {
-        val words = text.split(" ")
-        var safetrunc = ""
-        for(element in words) {
-            safetrunc = safetrunc.plus(" $element")
-        }
-        return safetrunc
-    }
-
     private fun toFacade(p: Post): PostFacade {
         return PostFacade(p.id,
                           p.title,
-                          safeTruncate(p.review),
+                          p.review,
                           p.isDraft,
                           p.createdAt,
                           p.comments.size,

@@ -14,28 +14,28 @@ abstract class AbstractCaptchaService {
     @Autowired
     protected var reCaptchaAttemptService: ReCaptchaAttemptService? = null
 
-    val LOGGER: Logger = LoggerFactory.getLogger(AbstractCaptchaService::class.java)
-    val RESPONSE_PATTERN: Pattern = Pattern.compile("[A-Za-z0-9_-]+")
-    val RECAPTCHA_URL_TEMPLATE = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s"
+    val log: Logger = LoggerFactory.getLogger(AbstractCaptchaService::class.java)
+    private val responsePattern: Pattern = Pattern.compile("[A-Za-z0-9_-]+")
+    val recaptchaUrlTemplate = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s"
 
     fun securityCheck(response: String?) {
-        LOGGER.info("Attempting to validate response {}", response)
+        log.info("Attempting to validate response {}", response)
         if (reCaptchaAttemptService?.isBlocked(getClientIP())!!) {
-            LOGGER.info("ReCaptchaInvalidException")
+            log.info("ReCaptchaInvalidException")
             throw ReCaptchaInvalidException("Client exceeded maximum number of failed attempts")
         }
         if (!responseSanityCheck(response)) {
-            LOGGER.info("error in responseSanityCheck")
+            log.info("error in responseSanityCheck")
             throw ReCaptchaInvalidException("Response contains invalid characters")
         }
     }
 
     private fun responseSanityCheck(response: String?): Boolean {
-        LOGGER.info("responseSanityCheck: " + response?.isNotBlank())
-        LOGGER.info("responseSanityCheck: " + RESPONSE_PATTERN.matcher(response).matches())
+        log.info("responseSanityCheck: " + response?.isNotBlank())
+        log.info("responseSanityCheck: " + responsePattern.matcher(response).matches())
 
         return if (response != null) {
-            response.isNotEmpty() && RESPONSE_PATTERN.matcher(response).matches()
+            response.isNotEmpty() && responsePattern.matcher(response).matches()
         } else {
             false
         }

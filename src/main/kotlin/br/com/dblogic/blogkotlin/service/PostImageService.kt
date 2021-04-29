@@ -33,9 +33,6 @@ class PostImageService {
     @Autowired
     lateinit var postImageRepository: PostImageRepository
 
-    @Value("\${blog.directory.name}")
-    lateinit var blogDirectoryName: String
-
     @Value("\${server.port}")
     lateinit var port: String
 
@@ -131,6 +128,5 @@ class PostImageService {
         }
         return ""
     }
-
 
 }

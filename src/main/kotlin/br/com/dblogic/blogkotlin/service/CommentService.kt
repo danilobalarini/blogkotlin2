@@ -66,7 +66,7 @@ class CommentService {
 
 	fun toFacade(comment: Comment) : CommentFacade {
 		return CommentFacade(comment.id,
-							 comment.post!!.id,
+							 comment.post.id,
 							 comment.name,
 							 comment.email,
 							 comment.text,
