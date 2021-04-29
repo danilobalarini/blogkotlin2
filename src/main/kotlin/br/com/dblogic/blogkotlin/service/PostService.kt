@@ -139,7 +139,7 @@ class PostService {
                     FrontPageFacade(facade, mutableListOf<PostFacade>())
                } else {
                     FrontPageFacade(postToFacade(posts.first()),
-                        postToFacade(posts.drop(1)))
+                                    postToFacade(posts.drop(1)))
                }
     }
 
@@ -279,19 +279,10 @@ class PostService {
                     .toList()
     }
 
-    private fun safeTruncate(text: String): String {
-        val words = text.split(" ")
-        var safetrunc = ""
-        for(element in words) {
-            safetrunc = safetrunc.plus(" $element")
-        }
-        return safetrunc
-    }
-
     private fun toFacade(p: Post): PostFacade {
         return PostFacade(p.id,
                           p.title,
-                          safeTruncate(p.review),
+                          p.review,
                           p.isDraft,
                           p.createdAt,
                           p.comments.size,

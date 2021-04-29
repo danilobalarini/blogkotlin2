@@ -24,11 +24,11 @@
 			<div class="grey-rule"></div>
 			<div class="body-copy w-richtext">
 				<div class="post-summary-wrapper">
-					<p class="post-summary" th:text="${frontPageFacade.postFacade.review}"></p>
+					<p class="post-summary" th:text="${#strings.abbreviate(frontPageFacade.postFacade.review, 300)}"></p>
 				</div>
 				<br/>
-				<a class="read-more-link" th:href="'/postid/' + ${frontPageFacade.postFacade.id}">Saiba mais...</a>
 			</div>
+			<a class="read-more-link" th:href="'/postid/' + ${frontPageFacade.postFacade.id}">Saiba mais...</a>
 		</div>
 	</div>
 	
@@ -64,8 +64,7 @@
 						</div>
 						
 						<div class="post-summary-wrapper">
-							<p class="post-summary" th:if="${#strings.length(fpp.review) >= 130}" th:text="${#strings.substring(fpp.review, 0, 130)}"></p>
-							<p class="post-summary" th:unless="${#strings.length(fpp.review) >= 130}" th:text="${#strings.substring(fpp.review, 0, #strings.length(fpp.review))}"></p>
+							<p class="post-summary" th:text="${#strings.abbreviate(fpp.review, 130)}"></p>
 							<a class="read-more-link" th:href="'/postid/' + ${fpp.id}">Saiba mais...</a>
 						</div>
 					</div>
@@ -106,8 +105,7 @@
 						</div>
 						
 						<div class="post-summary-wrapper">
-							<p class="post-summary" th:if="${#strings.length(post.review) >= 130}" th:text="${#strings.substring(post.review, 0, 130)}"></p>
-							<p class="post-summary" th:unless="${#strings.length(post.review) >= 130}" th:text="${#strings.substring(post.review, 0, #strings.length(post.review))}"></p>
+							<p class="post-summary" th:text="${#strings.abbreviate(fpp.review, 130)}"></p>
 							<a class="read-more-link" th:href="'/postid/' + ${post.id}">Saiba mais...</a>
 						</div>
 					</div>
@@ -148,8 +146,7 @@
 						</div>
 						
 						<div class="post-summary-wrapper">
-							<p class="post-summary" th:if="${#strings.length(post.review) >= 130}" th:text="${#strings.substring(post.review, 0, 130)}"></p>
-							<p class="post-summary" th:unless="${#strings.length(post.review) >= 130}" th:text="${#strings.substring(post.review, 0, #strings.length(post.review))}"></p>
+							<p class="post-summary" th:text="${#strings.abbreviate(fpp.review, 130)}"></p>
 							<a class="read-more-link" th:href="'/postid/' + ${post.id}">Saiba mais...</a>
 						</div>
 					</div>
@@ -197,8 +194,7 @@
 						</div>
 						
 						<div class="post-summary-wrapper">
-							<p class="post-summary" th:if="${#strings.length(post.review) >= 130}" th:text="${#strings.substring(post.review, 0, 130)}"></p>
-							<p class="post-summary" th:unless="${#strings.length(post.review) >= 130}" th:text="${#strings.substring(post.review, 0, #strings.length(post.review))}"></p>
+							<p class="post-summary" th:text="${#strings.abbreviate(fpp.review, 130)}"></p>
 							<a class="read-more-link" th:href="'/postid/' + ${post.id}">Saiba mais...</a>
 						</div>
 					</div>
