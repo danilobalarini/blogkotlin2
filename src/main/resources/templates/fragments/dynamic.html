@@ -146,8 +146,8 @@
 						</div>
 						
 						<div class="post-summary-wrapper">
-							<p class="post-summary" th:text="${#strings.abbreviate(fpp.review, 130)}"></p>
-							<a class="read-more-link" th:href="'/postid/' + ${post.id}">Saiba mais...</a>
+							<p class="post-summary" th:text="${#strings.abbreviate(post.review, 130)}"></p>
+							<p><a class="read-more-link" th:href="'/postid/' + ${post.id}">Saiba mais...</a></p>
 						</div>
 					</div>
 				</div>
