@@ -89,7 +89,7 @@ class PostService {
                                 all.isFirst,
                                 all.isLast,
                                 all.totalPages,
-                                postToFacade(all) as MutableList<PostFacade>)
+                                postToFacadeCleanHtml(all) as MutableList<PostFacade>)
     }
 
     fun findAllCreatedAt(postSearchFacade: PostSearchFacade): PostSearchFacade {
@@ -105,7 +105,7 @@ class PostService {
                                 all.isFirst,
                                 all.isLast,
                                 all.totalPages,
-                                postToFacade(all) as MutableList<PostFacade>)
+                                postToFacadeCleanHtml(all) as MutableList<PostFacade>)
     }
 
     fun save(post: Post): Post {
@@ -259,30 +259,48 @@ class PostService {
 
     fun postToFacade(posts: List<Post>): List<PostFacade> {
         return posts
-                .stream()
-                .map { p -> toFacade(p) }
-                .collect(Collectors.toList())
+            .stream()
+            .map { p -> toFacade(p) }
+            .collect(Collectors.toList())
+    }
+
+    fun postToFacadeCleanHtml(posts: Page<Post>): List<PostFacade> {
+        return posts
+            .stream()
+            .map { p -> toFacadeCleanHtml(p) }
+            .collect(Collectors.toList())
     }
 
     private fun postToFacade(posts: Page<Post>): List<PostFacade> {
         return posts
                 .stream()
-                .map { p -> toFacade(p) }
-                .collect(Collectors.toList())
+                    .map { p -> toFacade(p) }
+                    .collect(Collectors.toList())
     }
 
     private fun cleanHtml(posts: List<Post>): List<Post> {
         return posts
                 .stream()
-                .asSequence()
+                    .asSequence()
                     .onEach { p -> p.review = Jsoup.parse(p.review).text() }
                     .toList()
     }
 
     private fun toFacade(p: Post): PostFacade {
         return PostFacade(p.id,
+            p.title,
+            p.review,
+            p.isDraft,
+            p.createdAt,
+            p.comments.size,
+            tagService.toSetFacade(p.tags),
+            createCoverImage(p))
+    }
+
+    private fun toFacadeCleanHtml(p: Post): PostFacade {
+        return PostFacade(p.id,
                           p.title,
-                          p.review,
+                          Jsoup.parse(p.review).text(),
                           p.isDraft,
                           p.createdAt,
                           p.comments.size,
