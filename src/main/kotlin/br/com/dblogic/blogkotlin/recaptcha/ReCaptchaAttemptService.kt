@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 @Service
 class ReCaptchaAttemptService {
 
-    val max_attempt = 4
+    val maxAttempt = 4
     val attemptsCache: LoadingCache<String, Int> = CacheBuilder.newBuilder().expireAfterWrite(4, TimeUnit.HOURS).build(object : CacheLoader<String, Int>() {
         override fun load(key: String): Int {
             return 0
@@ -27,7 +27,7 @@ class ReCaptchaAttemptService {
     }
 
     fun isBlocked(key: String): Boolean {
-        return attemptsCache.getUnchecked(key) >= max_attempt
+        return attemptsCache.getUnchecked(key) >= maxAttempt
     }
 
 }
