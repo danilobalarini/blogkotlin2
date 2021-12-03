@@ -6,12 +6,18 @@ import br.com.dblogic.blogkotlin.model.facade.PostSearchFacade
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+import java.awt.Color
+import java.awt.Font
+import java.awt.Graphics2D
+import java.awt.image.BufferedImage
+import java.io.ByteArrayOutputStream
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.text.Normalizer
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import javax.imageio.ImageIO
 
 @Component
 class BlogUtils {
@@ -73,6 +79,26 @@ class BlogUtils {
     fun getDirectoryPathFromPost(p: Post): Path {
         val dir = appendToBlogDir(getDirectoryNameFromPost(p))
         return Paths.get("$dir")
+    }
+
+    fun defaultCoverImage(text: String): ByteArray {
+
+        val image = BufferedImage(1300, 860, BufferedImage.TYPE_INT_RGB)
+        val g2d: Graphics2D = image.createGraphics()
+        g2d.color = Color.WHITE
+        g2d.fillRect(0, 0, 1300, 860)
+
+        g2d.color = Color.BLACK
+        g2d.font = Font("Georgia", Font.BOLD, 36)
+        g2d.drawString(text, 200, 200)
+
+        val baos = ByteArrayOutputStream()
+        ImageIO.write(image, "jpg", baos)
+        baos.flush()
+        val imageBA = baos.toByteArray()
+        baos.close()
+
+        return imageBA
     }
 
     fun postSearchFacadeWithoutList(facade: PostSearchFacade): PostSearchFacade {

@@ -146,7 +146,7 @@ class InitialConfiguration {
 
 			logger.info("Creating file ${x+1}-image.jpg for cover image")
 
-			val postImage = PostImage("${x+1}-coverimage.jpg", "", postImageService.defaultCoverImage("${x+1}: $title"), true, post)
+			val postImage = PostImage("${x+1}-coverimage.jpg", "", blogUtils.defaultCoverImage("${x+1}: $title"), true, post)
 			post.addPostImage(postImage)
 
 			postService.save(post)
