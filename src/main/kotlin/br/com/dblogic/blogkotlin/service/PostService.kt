@@ -147,7 +147,7 @@ class PostService {
         var post = postRepository.save(Post(title))
         val postImage = PostImage("${post.id}-coverimage.jpg",
             "default cover image",
-            postImageService.defaultCoverImage(post.title),
+            blogUtils.defaultCoverImage(post.title),
             true, post)
         post.addPostImage(postImage)
 
@@ -177,9 +177,24 @@ class PostService {
         return url
     }
 
-    fun createImageURL(post: Post, imageName: String): String {
-        val directoryName = blogUtils.getDirectoryNameFromPost(post)
-        return "$rootFolder/$directoryName/$imageName"
+    fun updateCoverImage(post: Post, postImage: PostImage, deleteImage: PostImage) : String {
+
+        val deleteFilename = deleteImage.filename
+        logger.info("deleteFilename: $deleteFilename")
+
+        post.addPostImage(postImage)
+        post.removePostImage(deleteImage)
+        save(post)
+
+        val title = blogUtils.getTitle(post.id, post.title, post.createdAt)
+        val imagepath = Paths.get(blogUtils.appendToBlogDir("$title/${postImage.filename}"))
+        val imagepathdelete = Paths.get(blogUtils.appendToBlogDir("$title/${deleteFilename}"))
+        logger.info("### imagepath: $imagepath")
+        logger.info("### imagepathdelete: $imagepathdelete")
+        Files.write(imagepath, postImage.image, StandardOpenOption.CREATE)
+        Files.delete(imagepathdelete)
+
+        return "../${createCoverImage(post)}"
     }
 
     fun updateComposer(p: PostFacade): PostFacade {
@@ -288,13 +303,13 @@ class PostService {
 
     private fun toFacade(p: Post): PostFacade {
         return PostFacade(p.id,
-            p.title,
-            p.review,
-            p.isDraft,
-            p.createdAt,
-            p.comments.size,
-            tagService.toSetFacade(p.tags),
-            createCoverImage(p))
+                          p.title,
+                          p.review,
+                          p.isDraft,
+                          p.createdAt,
+                          p.comments.size,
+                          tagService.toSetFacade(p.tags),
+                          createCoverImage(p))
     }
 
     private fun toFacadeCleanHtml(p: Post): PostFacade {
