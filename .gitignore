@@ -1,5 +1,5 @@
 ## Application
-src/main/resources/static/blog/*
+src/main/resources/blog/*
 
 ## Maven
 /target/
@@ -28,6 +28,7 @@ lib/*
 /dist/
 /nbdist/
 /.nb-gradle/
+nb-configuration.xml
 
 ## Microsoft VSCode
 .vscode/*
