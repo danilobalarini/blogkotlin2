@@ -49,11 +49,13 @@ class InitialConfiguration {
 	lateinit var ddlauto: String
 
 	@Bean
-	fun initDatabase() = CommandLineRunner {
+	fun init() = CommandLineRunner {
 
 		if(ddlauto == "create" || ddlauto == "create-drop") {
 			createTags()
 			createLanguages()
+
+			resolveDirectories()
 
 			createEverything()
 		} else {
@@ -65,6 +67,10 @@ class InitialConfiguration {
 		checkPosts()
 
 		logger.info("Comment Count: " + commentService.count())
+	}
+
+	private fun resolveDirectories() {
+		Files.createDirectories(blogUtils.getBlogDir())
 	}
 
 	private fun createTags() {
