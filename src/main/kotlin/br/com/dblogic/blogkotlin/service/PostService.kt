@@ -70,7 +70,8 @@ class PostService {
 
     fun findByTag(tagname: String): List<PostFacade> {
         val tag = tagService.findByName(tagname)
-        return postToFacade(postRepository.findAllByTags(tag))
+        val posts = postRepository.findAllByTags(tag)
+        return postToFacade(cleanHtml(posts))
     }
 
     fun findByTitleOrReviewOrderByCreatedAt(postSearchFacade: PostSearchFacade): PostSearchFacade {
