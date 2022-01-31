@@ -100,6 +100,7 @@ class BlogController {
 	fun findByTag(@PathVariable tag: String, model: Model) : String {
 		model.addAttribute("posts", postService.findByTag(tag))
 		model.addAttribute("mostvisited", postService.mostVisitedPosts())
+
 		return "showbytag"
 	}
 

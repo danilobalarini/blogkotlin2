@@ -24,9 +24,6 @@ class BlogUtils {
 
     private val logger = LoggerFactory.getLogger(BlogUtils::class.java)
 
-    @Value("\${blog.directory.name}")
-    lateinit var blogDirName: String
-
     @Value("\${blog.root.folder}")
     lateinit var blogFolderName: String
 
