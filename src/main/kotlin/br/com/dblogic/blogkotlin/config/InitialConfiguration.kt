@@ -63,11 +63,21 @@ class InitialConfiguration {
 	}
 
 	private fun createTags() {
-		val java = Tag("Java")
-		val kotlin = Tag("Kotlin")
-
-		tagService.save(java)
-		tagService.save(kotlin)
+		val tags = mutableListOf<Tag>(Tag("Java"),
+								 	  Tag("Kotlin"),
+									  Tag("Linux"),
+									  Tag("ASP"),
+									  Tag("Turbo Pascal"),
+									  Tag("Visual Basic"),
+									  Tag("Oracle"),
+  									  Tag("SQL Server"),
+									  Tag("PostgreSQL"),
+									  Tag("Apache Kafka"),
+									  Tag("Go"),
+									  Tag("Flutter"))
+		for(tag in tags) {
+			tagService.save(tag)
+		}
 	}
 
 	private fun clearBlogDirectory() {
