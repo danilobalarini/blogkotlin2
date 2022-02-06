@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Component
-class RssFeedView : AbstractRssFeedView() {
+class RssConfiguration : AbstractRssFeedView() {
 
     @Autowired
     lateinit var postService: PostService
