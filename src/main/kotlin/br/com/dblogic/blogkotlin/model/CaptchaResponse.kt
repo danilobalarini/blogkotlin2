@@ -24,5 +24,5 @@ data class CaptchaResponse(@Id
                            @Enumerated(EnumType.STRING)
                            val eventType: CaptchaEvent = CaptchaEvent.NONE,
 
-                           val eventId: Long = 0) {
+                           val eventId: Long = 0) : DateAudit() {
 }
