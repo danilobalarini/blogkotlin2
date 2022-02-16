@@ -1,7 +1,6 @@
 package br.com.dblogic.blogkotlin.controller
 
-import br.com.dblogic.blogkotlin.model.facade.UploadForm
-import br.com.dblogic.blogkotlin.service.BlogService
+import br.com.dblogic.blogkotlin.model.facade.UploadFormFacade
 import br.com.dblogic.blogkotlin.service.PostImageService
 import br.com.dblogic.blogkotlin.service.PostService
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,7 +21,7 @@ class PostImageController {
 
     @ResponseBody
     @PostMapping("/updateCoverImage")
-    fun updateCoverImage(@ModelAttribute form: UploadForm) : ResponseEntity<String> {
+    fun updateCoverImage(@ModelAttribute form: UploadFormFacade) : ResponseEntity<String> {
         val post = postService.findById(form.id)
         val deleteImage = postImageService.findCoverImage(post)
         val postImage = postImageService.updateCoverImage2(post, form.coverImage[0])

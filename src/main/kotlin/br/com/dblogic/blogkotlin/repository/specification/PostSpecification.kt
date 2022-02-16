@@ -4,6 +4,7 @@ import br.com.dblogic.blogkotlin.model.Post
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Component
 import java.time.Instant
+import java.util.*
 import javax.persistence.criteria.Predicate
 
 @Component
@@ -20,10 +21,10 @@ class PostSpecification {
 
 			if(post != null) {
 				if(post.title.isNotBlank()) {
-					predicates.add(cb.like(title, "%${post.title.toUpperCase()}%"))
+					predicates.add(cb.like(title, "%${post.title.uppercase(Locale.getDefault())}%"))
 				}
 				if(post.review.isNotBlank()) {
-					predicates.add(cb.like(review, "%${post.review.toUpperCase()}%"))
+					predicates.add(cb.like(review, "%${post.review.uppercase(Locale.getDefault())}%"))
 				}
 			}
 

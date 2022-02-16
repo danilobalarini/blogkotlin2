@@ -35,12 +35,6 @@ data class Post(@Id
 						   inverseJoinColumns = [JoinColumn(name = "tag_id")])
 				var tags: MutableSet<Tag> = mutableSetOf<Tag>(),
 
-				@OneToOne
-				@JoinColumn(name = "language_id")
-				var language: Language = Language(1L),
-
-				val postgroup: UUID = UUID.randomUUID(),
-
 				@Column(name = "parent_id", nullable = false)
 				val parentId: Long = 0L,
 
@@ -63,13 +57,6 @@ data class Post(@Id
 		this.createdAt = createdAt
 	}
 
-	constructor(title: String, review: String, createdAt: Instant, language: Language): this() {
-		this.title = title
-		this.review = review
-		this.createdAt = createdAt
-		this.language = language
-	}
-
 	fun addPostImage(postImage: PostImage) {
 		postImages.add(postImage)
 		postImage.post = this
@@ -83,11 +70,6 @@ data class Post(@Id
 		comments.add(comment)
 		comment.post = this
 	}
-	
-//	fun removeComment(comment: Comment) {
-//		comments.remove(comment)
-//		comment.post = null
-//	}
 
 	fun addTag(tag: Tag) {
 		tags.add(tag)
