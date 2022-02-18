@@ -1,10 +1,8 @@
 package br.com.dblogic.blogkotlin.controller
 
-import br.com.dblogic.blogkotlin.config.RssFeedView
 import com.rometools.rome.feed.rss.*
 import com.rometools.rome.io.SyndFeedInput
 import com.rometools.rome.io.XmlReader
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import java.net.URL
@@ -12,9 +10,6 @@ import java.util.*
 
 @RestController
 class RssFeedController {
-
-    @Autowired
-    lateinit var view: RssFeedView
 
     @GetMapping(path = ["/rss"])
     fun rss(): Channel {
